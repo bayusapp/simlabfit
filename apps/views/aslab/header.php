@@ -212,29 +212,29 @@
           </a>
           </li>
           <?php
-          if (uri('1') == 'Finance') {
-            echo '<li class="active">';
-          } else {
-            echo '<li>';
-          }
+          // if (uri('1') == 'Finance') {
+          //   echo '<li class="active">';
+          // } else {
+          //   echo '<li>';
+          // }
           ?>
-          <a href="<?= base_url('Finance/Honor') ?>">
+          <!-- <a href="<?= base_url('Finance/Honor') ?>">
             <i class="fa fa-money"></i>
             <span class="nav-label">Salary</span>
           </a>
-          </li>
+          </li> -->
           <?php
-          if (uri('2') == 'Report') {
-            echo '<li class="active">';
-          } else {
-            echo '<li>';
-          }
+          // if (uri('2') == 'Report') {
+          //   echo '<li class="active">';
+          // } else {
+          //   echo '<li>';
+          // }
           ?>
-          <a href="<?= base_url('LaboratoryAssistant/Report') ?>">
+          <!-- <a href="<?= base_url('LaboratoryAssistant/Report') ?>">
             <i class="fa fa-file-o"></i>
             <span class="nav-label">Report</span>
           </a>
-          </li>
+          </li> -->
           <?php
           if (uri('1') == 'Setting') {
             echo '<li class="active">';
