@@ -252,6 +252,7 @@ class LaboratoryAssistant extends CI_Controller
 
   public function Report()
   {
+    redirect(base_url());
     set_rules('lab', 'Laboratory', 'required|trim');
     if (validation_run() == false) {
       $data           = $this->data;
