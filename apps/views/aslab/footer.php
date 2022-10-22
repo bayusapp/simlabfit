@@ -25,7 +25,7 @@
 <script src="<?= base_url('assets/inspinia/') ?>js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="<?= base_url('assets/inspinia/') ?>js/plugins/toastr/toastr.min.js"></script>
 <?php
-if ($cek_aslab->norek == null && $cek_aslab->nama_rekening == null && $cek_aslab->linkaja == null) {
+if ($cek_aslab->norek == null && $cek_aslab->nama_rekening == null) {
 ?>
   <script>
     $(function() {
