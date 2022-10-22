@@ -46,24 +46,17 @@
                               </td>
                             </tr>
                             <tr>
-                              <td>Bank Mandiri Account</td>
+                              <td>Bank Account Number</td>
                               <td>:</td>
                               <td style="padding-bottom: 5px">
                                 <input type="text" name="norek" id="norek" class="form-control" value="<?= $profil_aslab->norek ?>">
                               </td>
                             </tr>
                             <tr>
-                              <td>Account Name</td>
+                              <td>Bank Account Name</td>
                               <td>:</td>
                               <td style="padding-bottom: 5px">
                                 <input type="text" name="nama_rekening" id="nama_rekening" class="form-control" value="<?= $profil_aslab->nama_rekening ?>">
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>LinkAja</td>
-                              <td>:</td>
-                              <td style="padding-bottom: 5px">
-                                <input type="text" name="linkaja" id="linkaja" class="form-control" value="<?= $profil_aslab->linkaja ?>">
                               </td>
                             </tr>
                             <tr>
