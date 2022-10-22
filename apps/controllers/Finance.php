@@ -48,6 +48,7 @@ class Finance extends CI_Controller
       view('laboran/honor', $data);
       view('laboran/footer');
     } elseif (userdata('login') == 'aslab') {
+      redirect(base_url());
       $data['data'] = $this->m->daftarHonorAslab(userdata('id_aslab'))->result();
       $data['proses'] = $this->m->honorAslabProses(userdata('id_aslab'))->result();
       $data['selesai'] = $this->m->honorAslabSelesai(userdata('id_aslab'))->result();
