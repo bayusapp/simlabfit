@@ -13,8 +13,8 @@
                     <thead>
                       <tr>
                         <th>No</th>
-                        <th>Time</th>
-                        <th>IP</th>
+                        <th>Time Login</th>
+                        <th>IP Address</th>
                         <th>Browser</th>
                         <th>Platform</th>
                       </tr>
