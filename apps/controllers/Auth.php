@@ -41,18 +41,21 @@ class Auth extends CI_Controller
         $password = sha1(input('password_user'));
         $where    = array('username' => $username, 'password' => $password);
         $cekData  = $this->auth->cekUser($where)->row();
-        // $geolocation  = $this->geolocation('114.142.169.36');
-        $geolocation  = $this->geolocation($this->cekIP());
+        $geolocation  = $this->geolocation('103.233.100.236');
+        //$geolocation  = $this->geolocation($this->cekIP());
         if ($cekData) {
           if ($cekData->status == '1') {
             $history = array(
-              'ip'            => $this->cekIP(),
+              //'ip'            => $this->cekIP(),
+              'ip'            => $geolocation['ip'],
               'browser'       => $this->cekUserAgent(),
               'platform'      => $this->agent->platform(),
               'username'      => $username,
               'tanggal_login' => date('Y-m-d H:i:s'),
               'kota'          => $geolocation['city'],
-              'provinsi'      => $geolocation['region']
+              'provinsi'      => $geolocation['region'],
+              'organisasi'    => $this->splitOrg($geolocation['org']),
+              'hostname'      => $geolocation['hostname']
             );
             $this->auth->insertData('history_login', $history);
             if ($cekData->jenisAkses == 'laboran') {
@@ -132,7 +135,7 @@ class Auth extends CI_Controller
     set_rules('password_user', 'Password', 'required|trim');
     if (validation_run() == false) {
       $data['title']  = 'Laboratory Assistant | SIM Laboratorium';
-      $data['data']   = $this->auth->daftarAslab('2019/2020')->result();
+      $data['data']   = $this->auth->daftarAslab('2022/2023')->result();
       view('auth/register_aslab', $data);
     } else {
       $nim_user       = input('nim_user');
@@ -558,6 +561,20 @@ class Auth extends CI_Controller
     $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
     $details = json_decode($json, true);
     return $details;
+  }
+
+  private function splitOrg($organization)
+  {
+    $tmp = explode(' ', $organization);
+    $org  = '';
+    for ($i = 1; $i < count($tmp); $i++) {
+      if ($i < (count($tmp) - 1)) {
+        $org .= $tmp[$i] . ' ';
+      } else {
+        $org .= $tmp[$i];
+      }
+    }
+    return $org;
   }
 
   public function Logout()
