@@ -45,6 +45,9 @@ if ($cek_aslab->norek == null && $cek_aslab->nama_rekening == null && $cek_aslab
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
       }
+      toastr.options.onclick = function() {
+        window.location.href = '<?= base_url('Setting') ?>'
+      }
       toastr.warning("Please complete your personal information in Setting Menu");
     });
   </script>
