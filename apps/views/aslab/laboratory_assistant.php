@@ -10,11 +10,12 @@
               <div class="col-md-4 offset-md-4" style="margin-bottom: 5px">
                 <select class="form-control periode_aslab" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                   <option></option>
-                  <option value="<?= base_url('LaboratoryAssistant/index/2016/2017') ?>">2016/2017</option>
-                  <option value="<?= base_url('LaboratoryAssistant/index/2017/2018') ?>">2017/2018</option>
-                  <option value="<?= base_url('LaboratoryAssistant/index/2018/2019') ?>">2018/2019</option>
-                  <option value="<?= base_url('LaboratoryAssistant/index/2019/2020') ?>">2019/2020</option>
-                  <option value="<?= base_url('LaboratoryAssistant/index/2020/2021') ?>">2020/2021</option>
+                  <?php
+                  $year = date('Y');
+                  for ($i = 2016; $i <= $year; $i++) {
+                    echo '<option value="' . base_url('LaboratoryAssistant/index/' . $i . '/' . ($i + 1)) . '">' . $i . '/' . ($i + 1) . '</option>';
+                  }
+                  ?>
                 </select>
               </div>
             </div>
