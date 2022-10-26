@@ -79,12 +79,18 @@ class Auth extends CI_Controller
               set_userdata($session);
               redirect('Dashboard');
             } elseif ($cekData->jenisAkses == 'aslab') {
+              $data_aslab = $this->m->profilAslab($cekData->idAslab)->row();
+              if ($cekData->jabatan == null) {
+                $jabatan = $data_aslab->jabatan;
+              } else {
+                $jabatan = $cekData->jabatan;
+              }
               $session = array(
                 'login'     => $cekData->jenisAkses,
                 'id'        => $cekData->idUser,
                 'username'  => $cekData->username,
                 'id_aslab'  => $cekData->idAslab,
-                'jabatan'   => $cekData->jabatan
+                'jabatan'   => $jabatan
               );
               set_userdata($session);
               redirect('Dashboard');
@@ -522,6 +528,38 @@ class Auth extends CI_Controller
     } else {
       echo 'Message has been sent';
     }
+  }
+
+  public function sendWA()
+  {
+    $data = [
+      'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+      'sender'  => '6285158779991',
+      'number'  => '6281339999741',
+      'message' => 'Uji Coba',
+      'footer'  => 'Unit Laboratorium Fakultas Ilmu Terapan, Telkom University'
+    ];
+
+    $curl = curl_init();
+    curl_setopt_array(
+      $curl,
+      array(
+        CURLOPT_URL => "https://waps.bayusapp.com/app/api/send-message",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($data)
+      )
+    );
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    echo $response;
   }
 
   public function cekView()
