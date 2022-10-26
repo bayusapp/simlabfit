@@ -48,6 +48,7 @@ class Setting extends CI_Controller
         $data['title']  = 'Setting | SIM Laboratorium';
         $data['profil_aslab'] = $this->m->profilAslab(userdata('id_aslab'))->row();
         $data['akun']         = $this->m->akunAslab(userdata('id_aslab'))->row();
+        $data['bank']         = $this->m->bank()->result();
         view('aslab/header', $data);
         view('aslab/setting', $data);
         view('aslab/footer');
@@ -55,16 +56,18 @@ class Setting extends CI_Controller
         $nim_aslab  = input('nim_aslab');
         $nama_aslab = input('nama_aslab');
         $no_telp    = input('no_telp');
+        $bank       = input('bank');
         $norek      = input('norek');
         $nama_rekening  = input('nama_rekening');
-        $linkaja        = input('linkaja');
+        // $linkaja        = input('linkaja');
         $input          = array(
           'nim'           => $nim_aslab,
           'namaLengkap'   => $nama_aslab,
           'noTelp'        => $no_telp,
+          'bank'          => $bank,
           'norek'         => $norek,
-          'nama_rekening' => $nama_rekening,
-          'linkaja'       => $linkaja
+          'nama_rekening' => $nama_rekening
+          // 'linkaja'       => $linkaja
         );
         $this->m->updateData('aslab', $input, 'idAslab', userdata('id_aslab'));
         $username         = input('username');
