@@ -275,7 +275,8 @@ class M_Model extends CI_Model
     $this->db->from('jurnalaslab');
     $this->db->where('substring(sha1(idAslab), 7, 4) = "' . $id . '"');
     $this->db->where('date_format(aslabMasuk, "%Y-%m-%d") = "' . date('Y-m-d') . '"');
-    $this->db->order_by('idJurnal', 'desc');
+    $this->db->where('aslabKeluar IS NULL');
+    $this->db->order_by('idJurnal', 'DESC');
     return $this->db->get();
   }
 
