@@ -105,6 +105,23 @@ class LaboratoryAssistant extends CI_Controller
       view('laboran/profile_assistant', $data);
       view('laboran/footer');
     } elseif (userdata('login') == 'aslab') {
+      $org = check_org_ip();
+      if ($org == 'TELKOM UNIVERSITY') {
+        $cek_kehadiran = $this->m->cekKehadrianPerLimaMenit($id_aslab)->row();
+        if ($cek_kehadiran) {
+          $diff = strtotime(date('Y-m-d H:i:s')) - strtotime($cek_kehadiran->aslabMasuk);
+          $time = date('i', $diff);
+          if ($time >= 5) {
+            $data['button'] = 'out';
+          } else {
+            $data['button'] = 'disable';
+          }
+        } else {
+          $data['button'] = 'enable';
+        }
+      } else {
+        $data['button'] = 'disable';
+      }
       view('aslab/header', $data);
       view('aslab/profile_assistant', $data);
       view('aslab/footer');
@@ -288,6 +305,61 @@ class LaboratoryAssistant extends CI_Controller
       $this->db->insert('laporan_aslab', $input);
       set_flashdata('msg', '<div class="alert alert-success msg">Your laboratory report successfully submited</div>');
       redirect('LaboratoryAssistant/Report');
+    }
+  }
+
+  public function start()
+  {
+    $org = check_org_ip();
+    $id_aslab = substr(sha1(userdata('id_aslab')), 6, 4);
+    if ($org == 'TELKOM UNIVERSITY') {
+      $cek_kehadiran = $this->m->cekKehadrianPerLimaMenit($id_aslab)->row();
+      if ($cek_kehadiran) {
+        set_flashdata('msg', '<div class="alert alert-danger" style="margin-bottom: 5px">Your presence has been previously saved</div>');
+        redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
+      } else {
+        $input = array(
+          'aslabMasuk'  => date('Y-m-d H:i:s'),
+          'idAslab'     => userdata('id_aslab')
+        );
+        $this->m->insertData('jurnalaslab', $input);
+        set_flashdata('msg', '<div class="alert alert-success" style="margin-bottom: 5px">Your presence has been saved</div>');
+        redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
+      }
+    } else {
+      $id_aslab = substr(sha1(userdata('id_aslab')), 6, 4);
+      set_flashdata('msg', '<div class="alert alert-danger" style="margin-bottom: 5px">Sorry you are not connected to TUNE network</div>');
+      redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
+    }
+  }
+
+  public function end()
+  {
+    $org = check_org_ip();
+    $id_aslab = substr(sha1(userdata('id_aslab')), 6, 4);
+    if ($org == 'TELKOM UNIVERSITY') {
+      $cek_kehadiran = $this->m->cekKehadrianPerLimaMenit($id_aslab)->row();
+      if ($cek_kehadiran) {
+        $diff = strtotime(date('Y-m-d H:i:s')) - strtotime($cek_kehadiran->aslabMasuk);
+        $time = date('i', $diff);
+        if ($time >= 5) {
+          $input = array(
+            'aslabKeluar'  => date('Y-m-d H:i:s')
+          );
+          $this->m->updateData('jurnalaslab', $input, 'idJurnal', $cek_kehadiran->idJurnal);
+          set_flashdata('msg', '<div class="alert alert-success" style="margin-bottom: 5px">Your presence has been saved</div>');
+          redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
+        } else {
+          set_flashdata('msg', '<div class="alert alert-danger" style="margin-bottom: 5px">Sorry your presence cannot save</div>');
+          redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
+        }
+      } else {
+        redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
+      }
+    } else {
+      $id_aslab = substr(sha1(userdata('id_aslab')), 6, 4);
+      set_flashdata('msg', '<div class="alert alert-danger" style="margin-bottom: 5px">Sorry you are not connected to TUNE network</div>');
+      redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
     }
   }
 }
