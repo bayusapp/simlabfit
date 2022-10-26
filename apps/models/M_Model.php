@@ -628,4 +628,9 @@ class M_Model extends CI_Model
     $this->db->order_by('honor_aslab.id_honor_aslab', 'asc');
     return $this->db->get();
   }
+
+  function bank()
+  {
+    return $this->db->get('bank');
+  }
 }
