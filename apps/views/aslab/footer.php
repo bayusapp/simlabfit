@@ -216,6 +216,10 @@ if ($cek_aslab->norek == null && $cek_aslab->nama_rekening == null) {
       placeholder: "Select a Periode of Journal",
     });
 
+    $(".bank").select2({
+      placeholder: "Select Bank Name",
+    });
+
     $('.dataTables').DataTable({
       pageLength: 10,
       responsive: true,
