@@ -269,6 +269,16 @@ class M_Model extends CI_Model
     return $this->db->get();
   }
 
+  function cekKehadrianPerLimaMenit($id)
+  {
+    $this->db->select('*');
+    $this->db->from('jurnalaslab');
+    $this->db->where('substring(sha1(idAslab), 7, 4) = "' . $id . '"');
+    $this->db->where('date_format(aslabMasuk, "%Y-%m-%d") = "' . date('Y-m-d') . '"');
+    $this->db->order_by('idJurnal', 'desc');
+    return $this->db->get();
+  }
+
   function kegiatanAslab($id)
   {
     $this->db->select('idJurnal, date_format(aslabMasuk, "%Y-%m-%d") aslabMasuk, date_format(aslabMasuk, "%H:%i") masuk, if (aslabKeluar, date_format(aslabKeluar, "%H:%i"), "-") keluar, jurnal');
