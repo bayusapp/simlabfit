@@ -43,7 +43,25 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4 offset-md-4" style="margin-bottom: 5px">
+          <div class="col-md-12">
+            <?php
+            if (flashdata('msg')) {
+              echo flashdata('msg');
+            }
+            ?>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <?php
+            if ($button == 'enable') {
+              echo '<a href="' . base_url('LaboratoryAssistant/start') . '"><button class="btn btn-primary btn-sm">Start</button></a>';
+            } elseif ($button == 'out') {
+              echo '<a href="' . base_url('LaboratoryAssistant/end') . '"><button class="btn btn-warning btn-sm">End</button></a>';
+            }
+            ?>
+          </div>
+          <div class="col-md-4 offset-md-2" style="margin-bottom: 5px">
             <select class="form-control periode" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
               <option></option>
               <option value="<?= base_url('LaboratoryAssistant/ProfileAssistant/' . uri('3')) ?>">All Periode</option>
@@ -64,11 +82,6 @@
         </div>
         <div class="row">
           <div class="col-md-12 col-sm-12">
-            <?php
-            if (flashdata('msg')) {
-              echo flashdata('msg');
-            }
-            ?>
             <div class="ibox">
               <div class="ibox-content">
                 <div class="table-responsive">
