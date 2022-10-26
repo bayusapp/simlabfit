@@ -17,6 +17,8 @@
                         <th>IP Address</th>
                         <th>Browser</th>
                         <th>Platform</th>
+                        <th>Location</th>
+                        <th>ISP</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -28,10 +30,12 @@
                       ?>
                         <tr>
                           <td><?= $no++ ?></td>
-                          <td><?= tanggalInggris($tanggal) . ' ' . $tmp[1] ?></td>
+                          <td><?= tanggal_inggris2($tanggal) . ' ' . $tmp[1] ?></td>
                           <td><?= $d->ip ?></td>
                           <td><?= $d->browser ?></td>
                           <td><?= $d->platform ?></td>
+                          <td><?= $d->kota . ', ' . $d->provinsi ?></td>
+                          <td><?= $d->organisasi ?></td>
                         </tr>
                       <?php
                       }
