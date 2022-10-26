@@ -107,17 +107,22 @@ class LaboratoryAssistant extends CI_Controller
     } elseif (userdata('login') == 'aslab') {
       $org = check_org_ip();
       if ($org == 'TELKOM UNIVERSITY') {
-        $cek_kehadiran = $this->m->cekKehadrianPerLimaMenit($id_aslab)->row();
-        if ($cek_kehadiran) {
-          $diff = strtotime(date('Y-m-d H:i:s')) - strtotime($cek_kehadiran->aslabMasuk);
-          $time = date('i', $diff);
-          if ($time >= 5) {
-            $data['button'] = 'out';
+        $idAslab = substr(sha1(userdata('id_aslab')), 6, 4);
+        if ($idAslab == $id_aslab) {
+          $cek_kehadiran = $this->m->cekKehadrianPerLimaMenit($idAslab)->row();
+          if ($cek_kehadiran) {
+            $diff = strtotime(date('Y-m-d H:i:s')) - strtotime($cek_kehadiran->aslabMasuk);
+            $time = date('i', $diff);
+            if ($time >= 5) {
+              $data['button'] = 'out';
+            } else {
+              $data['button'] = 'disable';
+            }
           } else {
-            $data['button'] = 'disable';
+            $data['button'] = 'enable';
           }
         } else {
-          $data['button'] = 'enable';
+          $data['button'] = 'disable';
         }
       } else {
         $data['button'] = 'disable';
