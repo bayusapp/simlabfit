@@ -285,6 +285,7 @@ class M_Model extends CI_Model
     $this->db->select('idJurnal, date_format(aslabMasuk, "%Y-%m-%d") aslabMasuk, date_format(aslabMasuk, "%H:%i") masuk, if (aslabKeluar, date_format(aslabKeluar, "%H:%i"), "-") keluar, jurnal');
     $this->db->from('jurnalaslab');
     $this->db->where('substring(sha1(idAslab), 7, 4) = "' . $id . '"');
+    $this->db->order_by('idJurnal', 'desc');
     $this->db->order_by('aslabMasuk', 'desc');
     return $this->db->get();
   }
@@ -295,6 +296,7 @@ class M_Model extends CI_Model
     $this->db->from('jurnalaslab');
     $this->db->where('substring(sha1(idAslab), 7, 4) = "' . $id . '"');
     $this->db->where($periode);
+    $this->db->order_by('idJurnal', 'desc');
     $this->db->order_by('aslabMasuk', 'desc');
     return $this->db->get();
   }
