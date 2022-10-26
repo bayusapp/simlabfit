@@ -61,6 +61,12 @@ if ($cek_aslab->norek == null && $cek_aslab->nama_rekening == null) {
     });
   }, 3500);
 
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function() {
+      $(this).remove();
+    });
+  }, 5000);
+
   function hanya_angka(event) {
     var angka = (event.which) ? event.which : event.keyCode
     if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
