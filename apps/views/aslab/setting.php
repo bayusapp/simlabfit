@@ -46,6 +46,24 @@
                               </td>
                             </tr>
                             <tr>
+                              <td>Bank</td>
+                              <td>:</td>
+                              <td style="padding-bottom: 5px">
+                                <select class="form-control bank" name="bank">
+                                  <option></option>
+                                  <?php
+                                  foreach ($bank as $b) {
+                                    if ($profil_aslab->bank == $b->id_bank) {
+                                      echo '<option value="' . $b->id_bank . '" selected>' . $b->nama_bank . '</option>';
+                                    } else {
+                                      echo '<option value="' . $b->id_bank . '">' . $b->nama_bank . '</option>';
+                                    }
+                                  }
+                                  ?>
+                                </select>
+                              </td>
+                            </tr>
+                            <tr>
                               <td>Bank Account Number</td>
                               <td>:</td>
                               <td style="padding-bottom: 5px">
