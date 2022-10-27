@@ -42,7 +42,7 @@
             <h3 style="text-align: center; margin-bottom: 20px">Forgot Password</h3>
             <form class="m-t" role="form" method="post" action="<?= base_url('Auth/ForgotPassword') ?>">
               <div class="form-group">
-                <input type="text" name="email_user" id="email_user" class="form-control" placeholder="Your Email" required>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Your Username" required>
               </div>
               <button type="submit" name="submit" id="submit" class="btn btn-primary block full-width m-b">Send</button>
             </form>
