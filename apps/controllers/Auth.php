@@ -41,8 +41,9 @@ class Auth extends CI_Controller
         $password = sha1(input('password_user'));
         $where    = array('username' => $username, 'password' => $password);
         $cekData  = $this->auth->cekUser($where)->row();
-        $geolocation  = $this->geolocation('103.233.100.236');
-        //$geolocation  = $this->geolocation($this->cekIP());
+        //$geolocation  = $this->geolocation('103.233.100.236');
+        //$geolocation  = $this->geolocation('114.122.101.122');
+        $geolocation  = $this->geolocation($this->cekIP());
         if ($cekData) {
           if ($cekData->status == '1') {
             $history = array(
@@ -54,8 +55,8 @@ class Auth extends CI_Controller
               'tanggal_login' => date('Y-m-d H:i:s'),
               'kota'          => $geolocation['city'],
               'provinsi'      => $geolocation['region'],
-              'organisasi'    => $this->splitOrg($geolocation['org']),
-              'hostname'      => $geolocation['hostname']
+              'organisasi'    => $this->splitOrg($geolocation['org'])
+              // 'hostname'      => $geolocation['hostname']
             );
             $this->auth->insertData('history_login', $history);
             if ($cekData->jenisAkses == 'laboran') {
@@ -326,49 +327,93 @@ class Auth extends CI_Controller
 
   public function ForgotPassword()
   {
-    set_rules('email_user', 'Password', 'required|trim');
+    set_rules('username', 'Username', 'required|trim');
     if (validation_run() == false) {
       $data['title']  = 'Forgot Password | SIM Laboratorium';
       view('auth/forgot_password', $data);
     } else {
-      $email_user     = input('email_user');
+      // Using WhatsApp
+      $username       = input('username');
       $token          = base64_encode(random_bytes(32));
       $waktu          = date('Y-m-d H:i:s');
-      $data           = $this->db->get_where('users', array('email' => $email_user))->row();
+      $data           = $this->db->get_where('users', array('username' => $username))->row();
       $username_user  = $data->username;
       $nama_user      = '';
       if ($data) {
         if ($data->idAslab) {
           $id         = $data->idAslab;
           $nama_user  = $this->db->get_where('aslab', array('idAslab' => $id))->row()->namaLengkap;
-        }
-        if ($data->nimAsprak) {
-          $id         = $data->nimAsprak;
-          $nama_user  = $this->db->get_where('asprak', array('nim_asprak' => $id))->row()->nama_asprak;
-        }
-        if ($data->id_dosen) {
-          $id         = $data->id_dosen;
-          $nama_user  = $this->db->get_where('dosen', array('id_dosen' => $id))->row()->nama_dosen;
-        }
-        if ($data->id_laboran) {
-          $id         = $data->id_laboran;
-          $nama_user  = $this->db->get_where('laboran', array('id_laboran' => $id))->row()->nama_laboran;
+          $whatsapp   = $this->db->get_where('aslab', array('idAslab' => $id))->row()->noTelp;
+          $whatsapp   = ltrim($whatsapp, '0');
+          $whatsapp   = '62' . $whatsapp;
         }
         $input          = array(
-          'email'             => $email_user,
+          // 'email'             => $email_user,
           'username'          => $username_user,
           'nama_user'         => $nama_user,
           'token'             => $token,
           'tanggal_pengajuan' => $waktu
         );
         $this->auth->insertData('forgot_password', $input);
-        $this->email_reset_password($nama_user, $email_user, $username_user, $token);
-        set_flashdata('msg', '<div class="alert alert-success msg">Please check your email to reset your password</div>');
-        redirect('Auth/ForgotPassword');
-      } else {
-        set_flashdata('msg', '<div class="alert alert-danger msg">E-mail not registered</div>');
-        redirect('Auth/ForgotPassword');
+        $message = 'Dear ' . $nama_user . ',';
+        $message .= '
+        
+To reset your SIM Laboratorium password, please click on the following link.
+
+        ';
+        $message .= base_url('Auth/ResetPassword?username=' . $username . '&token=' . urlencode($token));
+        $message .= '
+        
+Best Regards,
+Unit Laboratorium, Fakultas Ilmu Terapan
+Gedung Selaru Lantai 1
+Jl. Telekomunikasi No. 1 Terusan Buah Batu
+Bandung, 40257';
+        $send = json_decode(sendWA($whatsapp, $message));
+        if ($send->status == '1') {
+          set_flashdata('msg', '<div class="alert alert-success msg">Please check your WhatsApp to reset your password</div>');
+          redirect('Auth/ForgotPassword');
+        }
       }
+      // Using Email
+      // $email_user     = input('email_user');
+      // $token          = base64_encode(random_bytes(32));
+      // $waktu          = date('Y-m-d H:i:s');
+      // $data           = $this->db->get_where('users', array('email' => $email_user))->row();
+      // $username_user  = $data->username;
+      // $nama_user      = '';
+      // if ($data) {
+      //   if ($data->idAslab) {
+      //     $id         = $data->idAslab;
+      //     $nama_user  = $this->db->get_where('aslab', array('idAslab' => $id))->row()->namaLengkap;
+      //   }
+      //   if ($data->nimAsprak) {
+      //     $id         = $data->nimAsprak;
+      //     $nama_user  = $this->db->get_where('asprak', array('nim_asprak' => $id))->row()->nama_asprak;
+      //   }
+      //   if ($data->id_dosen) {
+      //     $id         = $data->id_dosen;
+      //     $nama_user  = $this->db->get_where('dosen', array('id_dosen' => $id))->row()->nama_dosen;
+      //   }
+      //   if ($data->id_laboran) {
+      //     $id         = $data->id_laboran;
+      //     $nama_user  = $this->db->get_where('laboran', array('id_laboran' => $id))->row()->nama_laboran;
+      //   }
+      //   $input          = array(
+      //     'email'             => $email_user,
+      //     'username'          => $username_user,
+      //     'nama_user'         => $nama_user,
+      //     'token'             => $token,
+      //     'tanggal_pengajuan' => $waktu
+      //   );
+      //   $this->auth->insertData('forgot_password', $input);
+      //   $this->email_reset_password($nama_user, $email_user, $username_user, $token);
+      //   set_flashdata('msg', '<div class="alert alert-success msg">Please check your email to reset your password</div>');
+      //   redirect('Auth/ForgotPassword');
+      // } else {
+      //   set_flashdata('msg', '<div class="alert alert-danger msg">E-mail not registered</div>');
+      //   redirect('Auth/ForgotPassword');
+      // }
     }
   }
 
