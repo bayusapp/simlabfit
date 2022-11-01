@@ -37,7 +37,7 @@
           </center>
           <form class="m-t" role="form" method="post" action="<?= base_url('Auth') ?>">
             <div class="form-group">
-              <input type="text" name="username_user" id="username_user" class="form-control" placeholder="Username" required>
+              <input type="text" name="username_user" id="username_user" class="form-control" placeholder="Username" onkeypress="return /[a-zA-Z]/i.test(event.key)" required>
             </div>
             <div class="form-group">
               <input type="password" name="password_user" id="password_user" class="form-control" placeholder="Password" required>
