@@ -53,7 +53,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <input type="text" name="username_user" id="username_user" class="form-control" placeholder="Username" required onkeyup="cekUsername()">
+                <input type="text" name="username_user" id="username_user" class="form-control" placeholder="Username" required onkeyup="cekUsername()" onkeypress="return /[a-zA-Z]/i.test(event.key)">
                 <p id="status_username" style="text-align: center"></p>
               </div>
               <div class="form-group">
