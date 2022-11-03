@@ -322,6 +322,9 @@ class M_Model extends CI_Model
     $this->db->from('jadwal_lab');
     $this->db->join('matakuliah', 'jadwal_lab.id_mk = matakuliah.id_mk');
     $this->db->join('prodi', 'jadwal_lab.id_prodi = prodi.id_prodi');
+    $this->db->join('daftar_mk', 'matakuliah.kode_mk = daftar_mk.kode_mk');
+    $this->db->join('tahun_ajaran', 'daftar_mk.id_ta = tahun_ajaran.id_ta');
+    $this->db->where('tahun_ajaran.status', '1');
     return $this->db->get();
   }
 
@@ -331,6 +334,9 @@ class M_Model extends CI_Model
     $this->db->from('jadwal_lab');
     $this->db->join('matakuliah', 'jadwal_lab.id_mk = matakuliah.id_mk');
     $this->db->join('prodi', 'jadwal_lab.id_prodi = prodi.id_prodi');
+    $this->db->join('daftar_mk', 'matakuliah.kode_mk = daftar_mk.kode_mk');
+    $this->db->join('tahun_ajaran', 'daftar_mk.id_ta = tahun_ajaran.id_ta');
+    $this->db->where('tahun_ajaran.status', '1');
     $this->db->where('substring(sha1(jadwal_lab.id_lab), 7, 4) = "' . $id . '"');
     return $this->db->get();
   }
