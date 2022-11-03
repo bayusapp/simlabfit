@@ -70,7 +70,6 @@ class Auth extends CI_Controller
                   'login'     => $cekData->jenisAkses,
                   'id'        => $cekData->idUser,
                   'username'  => $cekData->username,
-                  'nama'      => $data_laboran->nama_laboran,
                   'jabatan'   => $cekData->jabatan
                 );
               }
