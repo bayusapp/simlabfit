@@ -41,13 +41,10 @@ class Auth extends CI_Controller
         $password = sha1(input('password_user'));
         $where    = array('username' => $username, 'password' => $password);
         $cekData  = $this->auth->cekUser($where)->row();
-        //$geolocation  = $this->geolocation('103.233.100.236');
-        //$geolocation  = $this->geolocation('114.122.101.122');
-        $geolocation  = $this->geolocation($this->cekIP());
+        $geolocation  = check_ip();
         if ($cekData) {
           if ($cekData->status == '1') {
             $history = array(
-              //'ip'            => $this->cekIP(),
               'ip'            => $geolocation['ip'],
               'browser'       => $this->cekUserAgent(),
               'platform'      => $this->agent->platform(),
@@ -55,12 +52,11 @@ class Auth extends CI_Controller
               'tanggal_login' => date('Y-m-d H:i:s'),
               'kota'          => $geolocation['city'],
               'provinsi'      => $geolocation['region'],
-              'organisasi'    => $this->splitOrg($geolocation['org'])
-              // 'hostname'      => $geolocation['hostname']
+              'organisasi'    => check_org_ip()
             );
             $this->auth->insertData('history_login', $history);
             if ($cekData->jenisAkses == 'laboran') {
-              if ($cekData->username == 'superadmin' || $cekData->username == 'edogawa') {
+              if ($cekData->username == 'superadmin') {
                 $session = array(
                   'login'     => $cekData->jenisAkses,
                   'id'        => $cekData->idUser,
@@ -74,6 +70,7 @@ class Auth extends CI_Controller
                   'login'     => $cekData->jenisAkses,
                   'id'        => $cekData->idUser,
                   'username'  => $cekData->username,
+                  'nama'      => $data_laboran->nama_laboran,
                   'jabatan'   => $cekData->jabatan
                 );
               }
