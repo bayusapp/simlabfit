@@ -33,28 +33,28 @@ class Laboran extends CI_Controller
     if (strtolower(end($ekstensi_file)) === 'csv' && $_FILES['file_csv']['size'] > 0) {
       $handle = fopen($file, 'r');
       $i = 0;
-      while (($row = fgetcsv($handle, 2048))) {
+      while (($row = fgetcsv($handle, 2048, ';'))) {
         $i++;
         if ($i == 1) {
           continue;
         }
         if ($row[0] == 'SENIN') {
-          $tanggal  = '2016-08-22';
+          $tanggal  = '2022-11-07';
           $hari     = 1;
         } elseif ($row[0] == 'SELASA') {
-          $tanggal = '2016-08-23';
+          $tanggal  = '2022-11-08';
           $hari     = 2;
         } elseif ($row[0] == 'RABU') {
-          $tanggal = '2016-08-24';
+          $tanggal  = '2022-11-09';
           $hari     = 3;
         } elseif ($row[0] == 'KAMIS') {
-          $tanggal = '2016-08-25';
+          $tanggal  = '2022-11-10';
           $hari     = 4;
         } elseif ($row[0] == 'JUMAT') {
-          $tanggal = '2016-08-26';
+          $tanggal  = '2022-11-11';
           $hari     = 5;
         } elseif ($row[0] == 'SABTU') {
-          $tanggal = '2016-08-27';
+          $tanggal  = '2022-11-12';
           $hari     = 6;
         }
         $shift        = explode(' - ', $row[1]);
@@ -76,7 +76,9 @@ class Laboran extends CI_Controller
             $id_lab = '-';
           }
         }
-        $kode_prodi = substr($row[4], 2, 2);
+        $kode_prodi = $row[5];
+        $tmp = explode('-', $kode_prodi);
+        $kode_prodi = substr($tmp[0], 2, 2);
         $prodi      = $this->db->get('prodi')->result();
         foreach ($prodi as $p) {
           if ($p->kode_prodi == $kode_prodi) {
@@ -87,14 +89,44 @@ class Laboran extends CI_Controller
         $input = array(
           'jam_masuk'   => $tanggal . ' ' . $jam_masuk,
           'jam_selesai' => $tanggal . ' ' . $jam_selesai,
-          'kelas'       => $row[4],
-          'kode_dosen'  => $row[5],
+          'kelas'       => $row[5],
+          'kode_dosen'  => $row[6],
           'hari_ke'     => $hari,
           'id_mk'       => $id_mk,
           'id_lab'      => $id_lab,
           'id_prodi'    => $id_prodi
         );
         $this->db->insert('jadwal_lab', $input);
+      }
+      fclose($handle);
+    }
+  }
+
+  public function uploadMatakuliah()
+  {
+    view('laboran/daftar_matakuliah_csv');
+  }
+
+  public function simpanMatakuliahCSV()
+  {
+    $file = $_FILES['file_csv']['tmp_name'];
+    $ekstensi_file  = explode('.', $_FILES['file_csv']['name']);
+    if (strtolower(end($ekstensi_file)) === 'csv' && $_FILES['file_csv']['size'] > 0) {
+      $handle = fopen($file, 'r');
+      $i = 0;
+      while (($row = fgetcsv($handle, 2048, ';'))) {
+        $i++;
+        if ($i == 1) {
+          continue;
+        }
+        $cek_data = $this->db->select('*')->from('matakuliah')->where('kode_mk', $row[3])->get()->row();
+        if (!$cek_data) {
+          $input  = array(
+            'kode_mk'     => $row[3],
+            'nama_mk'     => ucwords(strtolower($row[4]))
+          );
+          $this->db->insert('matakuliah', $input);
+        }
       }
       fclose($handle);
     }
@@ -112,24 +144,28 @@ class Laboran extends CI_Controller
     if (strtolower(end($ekstensi_file)) === 'csv' && $_FILES['file_csv']['size'] > 0) {
       $handle = fopen($file, 'r');
       $i = 0;
-      while (($row = fgetcsv($handle, 2048))) {
+      while (($row = fgetcsv($handle, 2048, ';'))) {
         $i++;
         if ($i == 1) {
           continue;
         }
-        $cek_data = $this->db->select('*')->from('daftar_mk')->where('kode_mk', $row[2])->get()->row();
+        $cek_data = $this->db->select('*')->from('daftar_mk')->where('kode_mk', $row[3])->get()->row();
+        $id_ta    = $this->db->select('*')->from('tahun_ajaran')->where('status', '1')->get()->row();
         if (!$cek_data) {
+          $kode_prodi = $row[5];
+          $tmp = explode('-', $kode_prodi);
+          $kode_prodi = substr($tmp[0], 2, 2);
           $input  = array(
-            'id_ta'       => $row[0],
-            'kode_prodi'  => $row[3],
-            'kode_mk'     => $row[2]
+            'id_ta'       => $id_ta->id_ta,
+            'kode_prodi'  => $kode_prodi,
+            'kode_mk'     => $row[3]
           );
           $this->db->insert('daftar_mk', $input);
         }
       }
       fclose($handle);
     }
-    redirect('Schedule');
+    //redirect('Schedule');
   }
 
   public function uploadJadwalAsprak()
