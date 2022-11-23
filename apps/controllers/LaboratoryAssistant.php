@@ -367,4 +367,45 @@ class LaboratoryAssistant extends CI_Controller
       redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
     }
   }
+
+  public function EditJournal()
+  {
+    set_rules('idJurnal', 'ID Jurnal', 'required|trim');
+    if (validation_run() == false) {
+      redirect('LaboratoryAssistant');
+    } else {
+      $id_jurnal = input('idJurnal');
+      $data = $this->db->get_where('jurnalaslab', array('idJurnal' => $id_jurnal))->row();
+      $id_aslab = substr(sha1($data->idAslab), 6, 4);
+      $tanggal = explode(' ', $data->aslabMasuk);
+      $aktivitas_aslab  = nl2br(htmlspecialchars_decode(input('aktivitas_aslab'), ENT_HTML5));
+      $input = array(
+        'aslabMasuk'  => $tanggal[0] . ' ' . input('jamMasuk'),
+        'aslabKeluar' => $tanggal[0] . ' ' . input('jamKeluar'),
+        'jurnal'      => $aktivitas_aslab
+      );
+      $this->m->updateData('jurnalaslab', $input, 'idJurnal', $id_jurnal);
+      set_flashdata('msg', '<div class="alert alert-success msg" style="margin-bottom: 5px">Data successfully updated</div>');
+      redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
+    }
+  }
+
+  public function DeleteJournal($id)
+  {
+    $data = $this->db->get_where('jurnalaslab', array('idJurnal' => $id))->row();
+    $id_aslab = substr(sha1($data->idAslab), 6, 4);
+    $this->m->deleteData('jurnalaslab', 'idJurnal', $id);
+    redirect(base_url('LaboratoryAssistant/ProfileAssistant/' . $id_aslab));
+  }
+
+  public function ajaxJurnal()
+  {
+    $hasil  = '';
+    $id     = input('id');
+    $cek    = $this->db->get_where('jurnalaslab', array('idJurnal' => $id))->row();
+    if ($cek == true) {
+      $hasil .= $cek->jurnal;
+    }
+    echo $hasil;
+  }
 }

@@ -64,6 +64,7 @@
   ?>
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
     <style>
       .select2-dropdown {
         z-index: 10060 !important;
@@ -72,6 +73,10 @@
 
       .select2 {
         width: 100% !important;
+      }
+
+      .clockpicker-popover {
+        z-index: 999999 !important;
       }
     </style>
   <?php

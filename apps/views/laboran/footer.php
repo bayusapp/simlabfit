@@ -492,6 +492,7 @@ if (uri('1') == 'LaboratoryAssistant') {
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/datatables.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/select2/select2.full.min.js"></script>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/clockpicker/clockpicker.js"></script>
   <script>
     $(document).ready(function() {
       $(".laboratorium").select2({
@@ -534,7 +535,41 @@ if (uri('1') == 'LaboratoryAssistant') {
         let fileName = $(this).val().split('\\').pop();
         $(this).next('.custom-file-label').addClass("selected").html(fileName);
       });
+
+      $('.clockpicker').clockpicker();
     });
+
+    function hapus_jurnal(id) {
+      $.ajax({
+        url: '<?= base_url('LaboratoryAssistant/ajaxJurnal') ?>',
+        method: 'post',
+        data: {
+          id: id
+        },
+        success: function(response) {
+          swal({
+            title: 'Are you sure?',
+            text: 'Do you want to delete activities "' + response + '"',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            closeOnConfirm: false
+          }, function() {
+            swal({
+              title: 'Deleted!',
+              text: 'Activities Laboratory Assistant has been deleted',
+              timer: 1500,
+              type: 'success',
+              showConfirmButton: false
+            }, function() {
+              window.location.href = '<?= base_url('LaboratoryAssistant/DeleteJournal/') ?>' + id;
+            });
+          });
+        }
+      });
+    }
   </script>
 <?php
 }

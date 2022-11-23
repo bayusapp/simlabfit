@@ -206,14 +206,15 @@
                                   <div class="modal-header">
                                     <h4 class="modal-title">Edit Journal Assistant</h4>
                                   </div>
-                                  <form method="post" action="<?= base_url('Laboratory/EditPracticumLaboratory') ?>">
+                                  <form method="post" action="<?= base_url('LaboratoryAssistant/EditJournal') ?>">
                                     <div class="modal-body">
                                       <div class="row">
                                         <div class="col-md-6 col-sm-12">
                                           <div class="form-group">
                                             <label class="font-bold">In</label>
+                                            <input type="text" name="idJurnal" value="<?= $k->idJurnal ?>" hidden>
                                             <div class="input-group clockpicker" data-autoclose="true">
-                                              <input type="text" class="form-control" value="<?= $k->masuk ?>">
+                                              <input type="text" name="jamMasuk" class="form-control" value="<?= $k->masuk ?>">
                                               <span class="input-group-addon">
                                                 <span class="fa fa-clock-o"></span>
                                               </span>
@@ -224,7 +225,7 @@
                                           <div class="form-group">
                                             <label class="font-bold">Out</label>
                                             <div class="input-group clockpicker" data-autoclose="true">
-                                              <input type="text" class="form-control" value="<?= $k->keluar ?>">
+                                              <input type="text" name="jamKeluar" class="form-control" value="<?= $k->keluar ?>">
                                               <span class="input-group-addon">
                                                 <span class="fa fa-clock-o"></span>
                                               </span>
@@ -236,7 +237,7 @@
                                         <div class="col-md-12 col-sm-12">
                                           <div class="form-group">
                                             <label class="font-bold">Activities</label>
-                                            <textarea class="form-control" rows="5"><?= $k->jurnal ?></textarea>
+                                            <textarea class="form-control" name="aktivitas_aslab" rows="5"><?= strip_tags($k->jurnal, '<br />') ?></textarea>
                                           </div>
                                         </div>
                                       </div>
