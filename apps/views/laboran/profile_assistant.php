@@ -43,8 +43,9 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-2 col-sm-2" style="margin-bottom: 5px">
+          <div class="col-md-3 col-sm-3" style="margin-bottom: 5px">
             <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editAslab"><i class="fa fa-edit"></i> Edit Profile</button>
+            <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print BAP</button>
             <div class="modal inmodal fade" id="editAslab" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -117,7 +118,7 @@
                         <div class="col-md-6 col-sm-12">
                           <div class="form-group">
                             <label class="font-bold">Specialist</label>
-                            <input type="text" name="spesialis_aslab" id="spesialis_aslab" class="form-control" placeholder="Input Specialist Assistant" value="<?= $profil_aslab->spesialisAslab ?>" required>
+                            <input type="text" name="spesialis_aslab" id="spesialis_aslab" class="form-control" placeholder="Input Specialist Assistant" value="<?= $profil_aslab->spesialisAslab ?>">
                           </div>
                         </div>
                       </div>
@@ -125,7 +126,7 @@
                         <div class="col-md-6 col-sm-12">
                           <div class="form-group">
                             <label class="font-bold">RFID Tag</label>
-                            <input type="text" name="rfid_aslab" id="rfid_aslab" class="form-control" placeholder="Input RFID Tag" value="<?= $profil_aslab->rfid ?>" required>
+                            <input type="text" name="rfid_aslab" id="rfid_aslab" class="form-control" placeholder="Input RFID Tag" value="<?= $profil_aslab->rfid ?>">
                           </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
@@ -145,7 +146,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 offset-md-2" style="margin-bottom: 5px">
+          <div class="col-md-4 offset-md-1" style="margin-bottom: 5px">
             <select class="form-control periode" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
               <option></option>
               <option value="<?= base_url('LaboratoryAssistant/ProfileAssistant/' . uri('3')) ?>">All Periode</option>
@@ -182,6 +183,7 @@
                         <th width="5%">In</th>
                         <th width="5%">Out</th>
                         <th>Activities</th>
+                        <th width="10%">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -195,6 +197,59 @@
                           <td style="text-align: center"><?= $k->masuk ?></td>
                           <td style="text-align: center"><?= $k->keluar ?></td>
                           <td><?= $k->jurnal ?></td>
+                          <td style="text-align: center;">
+                            <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editJurnal<?= $k->idJurnal ?>"><i class="fa fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="hapus_jurnal(<?= $k->idJurnal ?>)"><i class="fa fa-trash"></i></button>
+                            <div class="modal inmodal fade" id="editJurnal<?= $k->idJurnal ?>" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title">Edit Journal Assistant</h4>
+                                  </div>
+                                  <form method="post" action="<?= base_url('Laboratory/EditPracticumLaboratory') ?>">
+                                    <div class="modal-body">
+                                      <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                          <div class="form-group">
+                                            <label class="font-bold">In</label>
+                                            <div class="input-group clockpicker" data-autoclose="true">
+                                              <input type="text" class="form-control" value="<?= $k->masuk ?>">
+                                              <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                          <div class="form-group">
+                                            <label class="font-bold">Out</label>
+                                            <div class="input-group clockpicker" data-autoclose="true">
+                                              <input type="text" class="form-control" value="<?= $k->keluar ?>">
+                                              <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                          <div class="form-group">
+                                            <label class="font-bold">Activities</label>
+                                            <textarea class="form-control" rows="5"><?= $k->jurnal ?></textarea>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                      <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
                         </tr>
                       <?php
                       }
