@@ -59,7 +59,7 @@
                   $foto = base_url($data_aslab->fotoAslab);
                 }
               ?>
-                <img alt="image" class="rounded-circle" src="<?= $foto ?>" height="48px" width="48px" />
+                <img alt="image" class="rounded-circle" src="<?= $foto ?>" height="48px" width="48px" style="background-color: white;" />
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                   <span class="block m-t-xs font-bold"><?= $data_aslab->namaLengkap ?></span>
                   <span class="text-muted text-xs block"><?= userdata('jabatan') ?></span>
