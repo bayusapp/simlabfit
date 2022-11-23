@@ -71,7 +71,7 @@
                             <div class="col-md-6 col-sm-12">
                               <div class="form-group">
                                 <label class="font-bold">Specialist</label>
-                                <input type="text" name="spesialis_aslab" id="spesialis_aslab" class="form-control" placeholder="Input Specialist Assistant" required>
+                                <input type="text" name="spesialis_aslab" id="spesialis_aslab" class="form-control" placeholder="Input Specialist Assistant">
                               </div>
                             </div>
                           </div>
@@ -79,7 +79,7 @@
                             <div class="col-md-6 col-sm-12">
                               <div class="form-group">
                                 <label class="font-bold">RFID Tag</label>
-                                <input type="text" name="rfid_aslab" id="rfid_aslab" class="form-control" placeholder="Input RFID Tag" required>
+                                <input type="text" name="rfid_aslab" id="rfid_aslab" class="form-control" placeholder="Input RFID Tag">
                               </div>
                             </div>
                           </div>
