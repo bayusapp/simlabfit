@@ -20,7 +20,7 @@
                 }
               }
               ?>
-              <img src="<?= $foto ?>" class="rounded-circle circle-border m-b-md" alt="profile">
+              <img src="<?= $foto ?>" class="rounded-circle circle-border m-b-md" alt="profile" style="background-color: white;">
             </div>
             <div class="profile-info">
               <div>
