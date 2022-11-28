@@ -161,7 +161,6 @@ class Auth extends CI_Controller
   {
     set_rules('nim_user', 'NIM', 'required|trim');
     set_rules('username_user', 'Username', 'required|trim');
-    set_rules('email_user', 'E-mail', 'required|trim');
     set_rules('password_user', 'Password', 'required|trim');
     if (validation_run() == false) {
       $data['title']  = 'Register Practicum Assistant | SIM Laboratorium';
@@ -170,11 +169,9 @@ class Auth extends CI_Controller
     } else {
       $nim_user       = input('nim_user');
       $username_user  = input('username_user');
-      $email_user     = input('email_user');
       $password_user  = sha1(input('password_user'));
       $input          = array(
         'username'    => $username_user,
-        'email'       => $email_user,
         'password'    => $password_user,
         'nimAsprak'   => $nim_user,
         'jenisAkses'  => 'asprak',
@@ -192,8 +189,6 @@ class Auth extends CI_Controller
           redirect('Auth/RegisterAsprak');
         } else {
           $this->auth->insertData('users', $input);
-          $input  = array('email_asprak' => $email_user);
-          $this->db->where('nim_asprak', $nim_user)->update('asprak', $input);
           set_flashdata('msg', '<div class="alert alert-success msg">Thank you for register. Now you can login using your account.</div>');
           redirect();
         }
@@ -493,18 +488,6 @@ Bandung, 40257';
       $cek_username = $this->auth->cekUsername($_POST['username'])->row()->jumlah;
       if ($cek_username > 0) {
         echo 'Username <b>' . $_POST['username'] . '</b> already exist';
-      } else {
-        echo 'null';
-      }
-    }
-  }
-
-  public function ajaxCekEmail()
-  {
-    if (!empty($_POST['email'])) {
-      $cek_email  = $this->auth->cekEmail($_POST['email'])->row()->jumlah;
-      if ($cek_email > 0) {
-        echo 'E-mail <b>' . $_POST['email'] . '</b> already used';
       } else {
         echo 'null';
       }
