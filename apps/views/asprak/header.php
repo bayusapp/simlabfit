@@ -187,42 +187,6 @@
           </a>
           </li>
           <?php
-          if (uri('2') == 'Salary') {
-            echo '<li class="active">';
-          } else {
-            echo '<li>';
-          }
-          ?>
-          <a href="<?= base_url('Asprak/Salary') ?>">
-            <i class="fa fa-money"></i>
-            <span class="nav-label">Salary</span>
-          </a>
-          </li>
-          <?php
-          if (uri('2') == 'Certificate') {
-            echo '<li class="active">';
-          } else {
-            echo '<li>';
-          }
-          ?>
-          <a href="<?= base_url('Asprak/Certificate') ?>">
-            <i class="fa fa-certificate"></i>
-            <span class="nav-label">Certificate</span>
-          </a>
-          </li>
-          <?php
-          if (uri('2') == 'PracticumReport') {
-            echo '<li class="active">';
-          } else {
-            echo '<li>';
-          }
-          ?>
-          <a href="<?= base_url('Asprak/PracticumReport') ?>">
-            <i class="fa fa-file-text-o"></i>
-            <span class="nav-label">LPJ Asprak</span>
-          </a>
-          </li>
-          <?php
           if (uri('2') == 'Setting') {
             echo '<li class="active">';
           } else {
