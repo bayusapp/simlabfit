@@ -355,96 +355,35 @@ if (uri('2') == 'Setting') {
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/digital-signature/json2.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/jasny/jasny-bootstrap.min.js"></script>
   <script>
-    function isi_bank() {
-      var norek = document.getElementById('norek_asprak').value;
-      if (norek == '' || norek == null) {
-        document.getElementById('nama_rekening').value = '';
-        document.getElementById('nama_rekening').disabled = true;
-      } else {
-        document.getElementById('nama_rekening').disabled = false;
-      }
-    }
-
-    function isi_linkaja() {
-      var linkaja = document.getElementById('linkaja_asprak').value;
-      if (linkaja == '' || linkaja == null) {
-        document.getElementById('nama_linkaja').value = '';
-        document.getElementById('nama_linkaja').disabled = true;
-      } else {
-        document.getElementById('nama_linkaja').disabled = false;
-      }
-    }
     window.setTimeout(function() {
       $(".msg").fadeTo(500, 0).slideUp(500, function() {
         $(this).remove();
       });
     }, 3500);
 
-    $('#send_data').click(function() {
-      var nim_asprak = $('#nim_asprak').val();
-      var nama_asprak = $('#nama_asprak').val();
-      var kontak_asprak = $('#kontak_asprak').val();
-      var norek_asprak = $('#norek_asprak').val();
-      var nama_rekening = $('#nama_rekening').val();
-      var linkaja_asprak = $('#linkaja_asprak').val();
-      var nama_linkaja = $('#nama_linkaja').val();
-      var username_asprak = $('#username_asprak').val();
-      var password_lama = $('#password_lama').val();
-      var password_baru = $('#password_baru').val();
-      var konfirm_password = $('#konfirm_password').val();
-      html2canvas([document.getElementById('sign-pad')], {
-        onrendered: function(canvas) {
-          var canvas_img_data = canvas.toDataURL('image/png');
-          var img_data = canvas_img_data.replace(/^data:image\/(png|jpg);base64,/, "");
-          var nim_asprak = document.getElementById('nim_asprak').value;
-          $.ajax({
-            type: 'post',
-            dataType: 'json',
-            url: '<?= base_url('Asprak/SaveSignature') ?>',
-            data: {
-              img_data: img_data,
-              nim_asprak: nim_asprak
-            }
-          });
-        }
-      });
-      $.ajax({
-        type: 'post',
-        url: '<?= base_url('Asprak/cobaSubmitAjax') ?>',
-        data: {
-          nim_asprak: nim_asprak,
-          nama_asprak: nama_asprak,
-          kontak_asprak: kontak_asprak,
-          norek_asprak: norek_asprak,
-          nama_rekening: nama_rekening,
-          linkaja_asprak: linkaja_asprak,
-          nama_linkaja: nama_linkaja,
-          username_asprak: username_asprak,
-          password_lama: password_lama,
-          password_baru: password_baru,
-          konfirm_password: konfirm_password
-        },
-        success: function(response) {
-          if (response == 'true') {
-            swal({
-              title: 'Success!',
-              text: 'Data successfully updated',
-              timer: 1500,
-              type: 'success',
-              showConfirmButton: false
-            }, function() {
-              window.location.reload();
-            });
-          } else if (response == 'false1') {
-            swal("Error!", "New password and confirm password not match. Please try again", "error");
-          } else if (response == 'false2') {
-            swal("Error!", "Old password not match. Please try again", "error");
-          }
-        }
-      });
-    });
+    function opsi_ttd() {
+      if (document.getElementById('draw').checked) {
+        document.getElementById('tampil_field_draw').style.display = 'block';
+        document.getElementById('tampil_field_upload').style.display = 'none';
+      } else {
+        document.getElementById('tampil_field_draw').style.display = 'none';
+        document.getElementById('tampil_field_upload').style.display = 'block';
+      }
+    }
+
+    function norek(event) {
+      var angka = (event.which) ? event.which : event.keyCode
+      if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
+        return false;
+      return true;
+    }
 
     $(document).ready(function() {
+      $('.custom-file-input').on('change', function() {
+        let fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+      });
+
       $(".nama_bank").select2({
         placeholder: "Select a Bank Name",
       });
@@ -466,63 +405,21 @@ if (uri('2') == 'Setting') {
           var canvas_img_data = canvas.toDataURL('image/png');
           var img_data = canvas_img_data.replace(/^data:image\/(png|jpg);base64,/, "");
           var nim_asprak = document.getElementById('nim_asprak').value;
-          swal({
-            title: 'Success!',
-            text: 'Your signature successfully saved',
-            timer: 1500,
-            type: 'success',
-            showConfirmButton: false
-          }, function() {
-            $.ajax({
-              url: '<?= base_url('Asprak/SaveSignature') ?>',
-              data: {
-                img_data: img_data,
-                nim_asprak: nim_asprak
-              },
-              type: 'post',
-              dataType: 'json',
-              success: function(response) {
-                window.location.reload();
-              }
-            });
-          });
-        }
-      });
-    });
-
-    function hapus_ttd() {
-      var nim_asprak = document.getElementById('nim_asprak').value;
-      swal({
-        title: 'Are you sure?',
-        text: 'Do you want to delete your signature',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#DD6B55',
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        closeOnConfirm: false
-      }, function() {
-        swal({
-          title: 'Deleted!',
-          text: 'Your signature has been deleted',
-          timer: 1500,
-          type: 'success',
-          showConfirmButton: false
-        }, function() {
           $.ajax({
-            url: '<?= base_url('Asprak/DeleteSignature') ?>',
+            url: '<?= base_url('Asprak/SaveSignature') ?>',
             data: {
+              img_data: img_data,
               nim_asprak: nim_asprak
             },
             type: 'post',
             dataType: 'json',
             success: function(response) {
-              window.location.reload();
+              window.location.href = "<?= base_url('Asprak/SaveSign') ?>";
             }
           });
-        });
+        }
       });
-    }
+    });
   </script>
 <?php
 }
