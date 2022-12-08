@@ -73,6 +73,18 @@ if (!function_exists('tanggal_inggris')) {
   }
 }
 
+if (!function_exists('tanggal_inggris_pendek')) {
+  function tanggal_inggris_pendek($tanggal)
+  {
+    $nama_hari      = date('D', strtotime($tanggal));
+    $pecah_tanggal  = explode('-', $tanggal);
+    $tanggal        = $pecah_tanggal[2];
+    $bulan          = bulanPendek($pecah_tanggal[1]);
+    $tahun          = $pecah_tanggal[0];
+    return $nama_hari . ', ' . $tanggal . ' ' . $bulan . ' ' . $tahun;
+  }
+}
+
 if (!function_exists('tanggal_inggris2')) {
   function tanggal_inggris2($tanggal)
   {
@@ -222,6 +234,18 @@ if (!function_exists('tanggal_indonesia')) {
   }
 }
 
+if (!function_exists('tanggal_indonesia_pendek')) {
+  function tanggal_indonesia_pendek($tanggal)
+  {
+    $ubahTanggal = gmdate($tanggal, time() + 60 * 60 * 8);
+    $pecahTanggal = explode('-', $ubahTanggal);
+    $tanggal = $pecahTanggal[2];
+    $bulan = bulan_pendek($pecahTanggal[1]);
+    $tahun = $pecahTanggal[0];
+    return $tanggal . ' ' . $bulan . ' ' . $tahun;
+  }
+}
+
 if (!function_exists('bulan_panjang')) {
   function bulan_panjang($bulan)
   {
@@ -261,6 +285,50 @@ if (!function_exists('bulan_panjang')) {
         break;
       case 12:
         return 'Desember';
+        break;
+    }
+  }
+}
+
+if (!function_exists('bulan_pendek')) {
+  function bulan_pendek($bulan)
+  {
+    switch ($bulan) {
+      case 1:
+        return 'Jan';
+        break;
+      case 2:
+        return 'Feb';
+        break;
+      case 3:
+        return 'Mar';
+        break;
+      case 4:
+        return 'Apr';
+        break;
+      case 5:
+        return 'Mei';
+        break;
+      case 6:
+        return 'Jun';
+        break;
+      case 7:
+        return 'Jul';
+        break;
+      case 8:
+        return 'Agu';
+        break;
+      case 9:
+        return 'Sep';
+        break;
+      case 10:
+        return 'Okt';
+        break;
+      case 11:
+        return 'Nov';
+        break;
+      case 12:
+        return 'Des';
         break;
     }
   }
@@ -308,12 +376,12 @@ if (!function_exists('check_ip')) {
       $ip_address = $_SERVER['REMOTE_ADDR'];
     }
     // IP TUNE
-    // $json = file_get_contents("http://ipinfo.io/103.233.100.236/geo");
+    $json = file_get_contents("http://ipinfo.io/103.233.100.236/geo");
     // IP ITB
-    //$json = file_get_contents("http://ipinfo.io/167.205.22.106/geo");
+    // $json = file_get_contents("http://ipinfo.io/167.205.22.106/geo");
     // IP Non TUNE
     // $json = file_get_contents("http://ipinfo.io/114.122.100.20/geo");
-    $json = file_get_contents("http://ipinfo.io/{$ip_address}/geo");
+    //$json = file_get_contents("http://ipinfo.io/{$ip_address}/geo");
     $details = json_decode($json, true);
     return $details;
   }
@@ -330,12 +398,12 @@ if (!function_exists('check_org_ip')) {
       $ip_address = $_SERVER['REMOTE_ADDR'];
     }
     // IP TUNE
-    // $json = file_get_contents("http://ipinfo.io/103.233.100.236/geo");
+    $json = file_get_contents("http://ipinfo.io/103.233.100.236/geo");
     // IP ITB
-    //$json = file_get_contents("http://ipinfo.io/167.205.22.106/geo");
+    // $json = file_get_contents("http://ipinfo.io/167.205.22.106/geo");
     // IP Non TUNE
     // $json = file_get_contents("http://ipinfo.io/114.122.100.20/geo");
-    $json = file_get_contents("http://ipinfo.io/{$ip_address}/geo");
+    //$json = file_get_contents("http://ipinfo.io/{$ip_address}/geo");
     $details = json_decode($json, true);
     $tmp = explode(' ', $details['org']);
     $org  = '';
