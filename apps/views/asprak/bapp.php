@@ -52,7 +52,9 @@
                             <a href="<?= base_url('Asprak/ViewBAPP/' . $id_bapp) ?>" target="_blank">
                               <button class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
                             </a>
-                            <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
+                            <a href="<?= base_url('Asprak/EditBAPP/' . $id_bapp) ?>">
+                              <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
+                            </a>
                           </td>
                         </tr>
                       <?php

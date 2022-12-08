@@ -1,6 +1,6 @@
       <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-12">
-          <h2 style="text-align: center">Add BAPP</h2>
+          <h2 style="text-align: center">Edit BAPP</h2>
         </div>
       </div>
       <div class="wrapper wrapper-content animated fadeInRight">
@@ -13,12 +13,12 @@
             ?>
             <div class="ibox">
               <div class="ibox-content">
-                <form method="post" action="<?= base_url('Asprak/AddBAPP') ?>" id="form">
+                <form method="post" action="<?= base_url('Asprak/EditBAPP') ?>" id="form">
                   <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
                       <div class="form-group">
                         <label class="font-bold">Modul</label>
-                        <input type="text" name="modul" id="modul" class="form-control" placeholder="Example: Modul 1: Pengenalan Algoritma dan Pemrograman">
+                        <input type="text" name="modul" id="modul" class="form-control" placeholder="Example: Modul 1: Pengenalan Algoritma dan Pemrograman" value="<?=$data->modul?>">
                       </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
@@ -28,7 +28,11 @@
                           <option></option>
                           <?php
                           foreach ($prodi as $p) {
-                            echo '<option value ="' . $p->id_prodi . '">' . $p->strata . ' ' . $p->nama_prodi . '</option>';
+                            if ($p->id_prodi == $data->id_prodi) {
+                              echo '<option value ="' . $p->id_prodi . '" selected>' . $p->strata . ' ' . $p->nama_prodi . '</option>';
+                            } else {
+                              echo '<option value ="' . $p->id_prodi . '">' . $p->strata . ' ' . $p->nama_prodi . '</option>';
+                            }
                           }
                           ?>
                         </select>
@@ -43,7 +47,11 @@
                           <option></option>
                           <?php
                           foreach ($mk as $m) {
-                            echo '<option value="' . $m->id_mk . '">' . $m->kode_mk . ' - ' . $m->nama_mk . '</option>';
+                            if ($m->id_mk == $data->id_mk) {
+                              echo '<option value="' . $m->id_mk . '" selected>' . $m->kode_mk . ' - ' . $m->nama_mk . '</option>';
+                            } else {
+                              echo '<option value="' . $m->id_mk . '">' . $m->kode_mk . ' - ' . $m->nama_mk . '</option>';
+                            }
                           }
                           ?>
                         </select>
@@ -125,15 +133,17 @@
                         <label class="font-bold">Lecturer is Present/Not</label>
                         <div class="row">
                           <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="radio">
-                              <input type="radio" name="dosen_hadir" id="dosen_hadir" value="1" onclick="opsi_kehadiran()">
-                              <label for="dosen_hadir">Present</label>
+                            <div class="i-checks">
+                              <label>
+                                <input type="radio" name="dosen_hadir" id="dosen_hadir" value="1"> <i></i> Present
+                              </label>
                             </div>
                           </div>
                           <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="radio">
-                              <input type="radio" name="dosen_hadir" id="dosen_tidak_hadir" value="0" onclick="opsi_kehadiran()">
-                              <label for="dosen_tidak_hadir">Not Present</label>
+                            <div class="i-checks">
+                              <label>
+                                <input type="radio" name="dosen_hadir" id="dosen_hadir" value="0"> <i></i> Not Present
+                              </label>
                             </div>
                           </div>
                         </div>
@@ -179,6 +189,9 @@
                     <div class="col-sm-12 col-md-4 col-lg-4">
                       <div class="form-group">
                         <label class="font-bold">KM Signature</label>
+                        <?php
+                        if ($data->ttd_km == null) {
+                        ?>
                         <span class="tag-ingo">Put signature below,</span>
                         <div id="signArea">
                           <div class="sig sigWrapper" style="height:auto;">
@@ -190,6 +203,11 @@
                           <button type="button" class="btn btn-warning btn-sm btnClearSign" id="btnClearSign">Clear Sign</button>
                         </div>
                         <input type="text" name="tmp_sign" id="tmp_sign" hidden>
+                        <?php
+                        } else {
+                          echo '<img src="'.base_url($data->ttd_km).'" style="max-height: 100px">';
+                        }
+                        ?>
                       </div>
                     </div>
                   </div>
@@ -219,22 +237,8 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
                       <div class="form-group">
-                        <label class="font-bold">Have a Complaint(s) about Room/Laboratory</label>
-                        <div class="row">
-                          <div class="col-sm-3 col-md-3 col-lg-3">
-                            <div class="radio">
-                              <input type="radio" name="keluhan" id="ya_ada" value="1" onclick="komplainScript()">
-                              <label for="ya_ada">Yes</label>
-                            </div>
-                          </div>
-                          <div class="col-sm-3 col-md-3 col-lg-3">
-                            <div class="radio">
-                              <input type="radio" name="keluhan" id="tidak_ada" value="0" onclick="komplainScript()">
-                              <label for="tidak_ada">No</label>
-                            </div>
-                          </div>
-                        </div>
-                        <textarea name="komplain" id="catatan_komplain" class="form-control" rows="3"></textarea>
+                        <label class="font-bold">Complaint(s) about Room/Laboratory</label>
+                        <textarea name="komplain" id="komplain" class="form-control" rows="5"></textarea>
                       </div>
                     </div>
                   </div>

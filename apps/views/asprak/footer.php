@@ -337,7 +337,7 @@ if (uri('2') == 'BAPP') {
   </script>
 <?php
 }
-if (uri('2') == 'AddBAPP') {
+if (uri('2') == 'AddBAPP' || uri('2') == 'EditBAPP') {
 ?>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/iCheck/icheck.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/validate/jquery.validate.min.js"></script>
@@ -358,6 +358,24 @@ if (uri('2') == 'AddBAPP') {
       return true;
     }
 
+    function komplainScript() {
+      if (document.getElementById('tidak_ada').checked) {
+        document.getElementById('catatan_komplain').disabled = true;
+      } else {
+        document.getElementById('catatan_komplain').disabled = false;
+      }
+    }
+
+    function opsi_kehadiran() {
+      if (document.getElementById('dosen_tidak_hadir').checked) {
+        document.getElementById('jam_datang').disabled = true;
+        document.getElementById('jam_pulang').disabled = true;
+      } else {
+        document.getElementById('jam_datang').disabled = false;
+        document.getElementById('jam_pulang').disabled = false;
+      }
+    }
+
     // var tanggal_sekarang = new Date();
     // tanggal_sekarang.setDate(tanggal_sekarang.getDate());
 
@@ -372,11 +390,6 @@ if (uri('2') == 'AddBAPP') {
         // autoclose: true,
         // startDate: tanggal_sekarang
         autoclose: true
-      });
-
-      $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green',
       });
 
       $('.clockpicker').clockpicker();

@@ -627,6 +627,114 @@ class Asprak extends CI_Controller
       $nama_km            = input('nama_km');
       $ttd_km             = input('tmp_sign');
       $catatan_praktikum  = nl2br(htmlspecialchars_decode(input('catatan_praktikum'), ENT_HTML5));
+      $keluhan            = input('keluhan');
+      $komplain           = nl2br(htmlspecialchars_decode(input('komplain'), ENT_HTML5));
+      $image_data         = base64_decode($ttd_km);
+      $convert            = substr(sha1(date('Y-m-d H:i:s')), 5, 9);
+      $file_name          = $nim_km . '_' . $convert;
+      $save_file          = 'assets/signature/km/' . $file_name . '.png';
+      file_put_contents($save_file, $image_data);
+      if ($dosen_hadir == 0) {
+        $jam_datang = null;
+        $jam_pulang = null;
+      }
+      $input              = array(
+        'tanggal_bapp'      => $tanggal,
+        'modul'             => $modul,
+        'id_prodi'          => $prodi,
+        'id_mk'             => $mk,
+        'kelas'             => $kelas,
+        'id_dosen'          => $dosen,
+        'id_lab'            => $lab,
+        'jumlah_mahasiswa'  => $jumlah_mhs,
+        'daftar_absen_mhs'  => $nim_absen,
+        'mahasiswa_absen'   => $absen_mhs,
+        'kehadiran_dosen'   => $dosen_hadir,
+        'dosen_datang'      => $jam_datang,
+        'dosen_pulang'      => $jam_pulang,
+        'nim_km'            => $nim_km,
+        'nama_km'           => $nama_km,
+        'ttd_km'            => $save_file,
+        'catatan_praktikum' => $catatan_praktikum
+      );
+      $this->db->insert('bapp', $input);
+      $ambil_id_bapp = $this->db->get_where('bapp', $input)->row();
+      print_r($ambil_id_bapp);
+      foreach (input('asprak') as $a) {
+        echo $a . ' ';
+        $input = array(
+          'nim_asprak'  => $a,
+          'id_bapp'     => $ambil_id_bapp->id_bapp
+        );
+        $this->db->insert('bapp_asprak', $input);
+      }
+      if ($keluhan == '1') {
+        $kirim_komplain = array(
+          'tglKomplain'     => $tanggal,
+          'namaInforman'    => $nama_km,
+          'jenisInforman'   => 'Student',
+          'catatanKomplain' => $komplain,
+          'statusKomplain'  => '0',
+          'idLab'           => $lab
+        );
+        $this->db->insert('komplain', $kirim_komplain);
+      }
+      set_flashdata('msg', '<div class="alert alert-success msg">Your BAPP successfully saved</div>');
+      redirect('Asprak/BAPP');
+    }
+  }
+
+  public function EditBAPP($id)
+  {
+    set_rules('modul', 'Modul', 'required|trim');
+    // set_rules('prodi', 'Prodi', 'required|trim');
+    // set_rules('mk', 'MK', 'required|trim');
+    // set_rules('lab', 'Lab', 'required|trim');
+    // set_rules('kelas', 'Kelas', 'required|trim');
+    // set_rules('dosen', 'Dosen', 'required|trim');
+    // set_rules('tanggal', 'Tanggal', 'required|trim');
+    // set_rules('jumlah_mhs', 'Jumlah Mahasiswa', 'required|trim');
+    // set_rules('absen_mhs', 'Jumlah Mahasiswa Absen', 'required|trim');
+    // set_rules('nim_absen', 'NIM Mahasiswa Absen', 'required|trim');
+    // set_rules('dosen_hadir', 'Kehadiran Dosen', 'required|trim');
+    // set_rules('jam_datang', 'Jam Datang', 'required|trim');
+    // set_rules('jam_pulang', 'Jam Pulang', 'required|trim');
+    // set_rules('nim_km', 'NIM KM', 'required|trim');
+    // set_rules('nama_km', 'Nama KM', 'required|trim');
+    // set_rules('tmp_asprak', 'asprak', 'required|trim');
+    if (validation_run() == false) {
+      $data           = $this->data;
+      $data['title']  = 'Add BAPP | SIM Laboratorium';
+      $data['prodi']  = $this->a->daftarProdi()->result();
+      $data['dosen']  = $this->a->daftarDosen()->result();
+      $data['mk']     = $this->a->daftarMK()->result();
+      $data['lab']    = $this->a->daftarLaboratorium()->result();
+      $data['asprak'] = $this->a->daftarSeluruhAsprak()->result();
+      $data['data']   = $this->a->detailBAPP($id)->row();
+      view('asprak/header', $data);
+      view('asprak/edit_bapp', $data);
+      view('asprak/footer');
+    } else {
+      $modul              = input('modul');
+      $prodi              = input('prodi');
+      $mk                 = input('mk');
+      $lab                = input('lab');
+      $kelas              = input('kelas');
+      $dosen              = input('dosen');
+      $tanggal            = input('tanggal');
+      $pisah_tanggal      = explode('/', $tanggal);
+      $urut_tanggal       = array($pisah_tanggal[2], $pisah_tanggal[0], $pisah_tanggal[1]);
+      $tanggal            = implode('-', $urut_tanggal);
+      $jumlah_mhs         = input('jumlah_mhs');
+      $absen_mhs          = input('absen_mhs');
+      $nim_absen          = input('nim_absen');
+      $dosen_hadir        = input('dosen_hadir');
+      $jam_datang         = input('jam_datang');
+      $jam_pulang         = input('jam_pulang');
+      $nim_km             = input('nim_km');
+      $nama_km            = input('nama_km');
+      $ttd_km             = input('tmp_sign');
+      $catatan_praktikum  = nl2br(htmlspecialchars_decode(input('catatan_praktikum'), ENT_HTML5));
       $komplain           = nl2br(htmlspecialchars_decode(input('komplain'), ENT_HTML5));
       $image_data         = base64_decode($ttd_km);
       $convert            = substr(sha1(date('Y-m-d H:i:s')), 5, 9);

@@ -108,10 +108,23 @@
           <td>:</td>
           <td><?= $data->mahasiswa_absen ?> orang</td>
         </tr>
-        <tr>
+        <tr style="vertical-align: top;">
           <td>(tuliskan NIM)</td>
           <td></td>
-          <td><?= $data->daftar_absen_mhs ?></td>
+          <td>
+            <?php
+            $tmp = explode(',', $data->daftar_absen_mhs);
+            for ($i = 0; $i < count($tmp); $i++) {
+              echo $tmp[$i];
+              if (($i + 1) == count($tmp)) {
+                echo '';
+              } else {
+                echo ', ';
+              }
+            }
+            ?>
+            <!-- <?= $data->daftar_absen_mhs ?> -->
+          </td>
         </tr>
       </table>
       <br>
@@ -140,12 +153,12 @@
         <tr>
           <?php
           if ($data->dosen_datang == null) {
-            $datang = '&emsp;&emsp;&emsp;&emsp;&emsp;';
+            $datang = '&emsp;&emsp;-&emsp;&emsp;';
           } else {
             $datang = '&emsp;' . $data->dosen_datang . '&emsp;';
           }
           if ($data->dosen_pulang == null) {
-            $pulang = '&emsp;&emsp;&emsp;&emsp;&emsp;';
+            $pulang = '&emsp;&emsp;-&emsp;&emsp;';
           } else {
             $pulang = '&emsp;' . $data->dosen_pulang . '&emsp;';
           }

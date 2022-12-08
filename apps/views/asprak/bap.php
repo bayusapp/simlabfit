@@ -33,7 +33,17 @@
                   <div class="col-md-3 col-sm-3" style="margin-bottom: 5px">
                     <select name="bulan" id="bulan" class="periode_bap form-control">
                       <option></option>
-                      <option value="'<?= date('Y') - 1 ?>-12-06' and '<?= date('Y') ?>-01-05'|1|Januari">January</option>
+                      <?php
+                      if (date('m') == 12 && date('d') >= 6) {
+                      ?>
+                        <option value="'<?= date('Y') ?>-12-06' and '<?= date('Y', strtotime('+1 years')) ?>-01-05'|1|Januari">January</option>
+                      <?php
+                      } elseif (date('m') == 1 && date('d') <= 5) {
+                      ?>
+                        <option value="'<?= date('Y', strtotime('-1 years')) ?>-12-06' and '<?= date('Y') ?>-01-05'|1|Januari">January</option>
+                      <?php
+                      }
+                      ?>
                       <option value="'<?= date('Y') ?>-01-06' and '<?= date('Y') ?>-02-05'|2|Februari">February</option>
                       <option value="'<?= date('Y') ?>-02-06' and '<?= date('Y') ?>-03-05'|3|Maret">March</option>
                       <option value="'<?= date('Y') ?>-03-06' and '<?= date('Y') ?>-04-05'|4|April">April</option>

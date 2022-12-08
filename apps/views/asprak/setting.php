@@ -97,7 +97,7 @@
                             <input type="text" name="nama_rekening" id="nama_rekening" class="form-control" value="<?= $profil->nama_rekening ?>" placeholder="Example: Lorem Ipsum">
                           </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                           <td>Capture Mobile Banking</td>
                           <td>:</td>
                           <td colspan="5" style="padding-bottom: 5px">
@@ -110,7 +110,7 @@
                           <td colspan="5" style="padding-bottom: 5px">
                             <input type="text" name="nama_rekening" id="nama_rekening" class="form-control" value="<?= $profil->nama_rekening ?>" placeholder="Example: Lorem Ipsum">
                           </td>
-                        </tr>
+                        </tr> -->
                         <tr>
                           <td colspan="7">
                             <p style="margin-top: 20px">

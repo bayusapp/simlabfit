@@ -302,7 +302,7 @@ class M_Asprak extends CI_Model
 
   function detailBAPP($id)
   {
-    $this->db->select('bapp.id_bapp, bapp.tanggal_bapp, bapp.kelas, bapp.nama_km, bapp.nim_km, bapp.ttd_km, bapp.jumlah_mahasiswa, bapp.mahasiswa_absen, bapp.daftar_absen_mhs, bapp.kehadiran_dosen, bapp.dosen_datang, bapp.dosen_pulang, bapp.id_mk, bapp.catatan_praktikum, matakuliah.kode_mk, matakuliah.nama_mk, dosen.kode_dosen, bapp.modul, prodi.strata, prodi.nama_prodi, laboratorium.kodeRuang');
+    $this->db->select('bapp.id_bapp, bapp.tanggal_bapp, bapp.kelas, bapp.nama_km, bapp.nim_km, bapp.ttd_km, bapp.jumlah_mahasiswa, bapp.mahasiswa_absen, bapp.daftar_absen_mhs, bapp.kehadiran_dosen, bapp.dosen_datang, bapp.dosen_pulang, bapp.id_mk, bapp.catatan_praktikum, bapp.id_prodi, matakuliah.kode_mk, matakuliah.nama_mk, dosen.kode_dosen, bapp.modul, prodi.strata, prodi.nama_prodi, laboratorium.kodeRuang');
     $this->db->from('bapp');
     $this->db->join('bapp_asprak', 'bapp.id_bapp = bapp_asprak.id_bapp');
     $this->db->join('matakuliah', 'bapp.id_mk = matakuliah.id_mk');

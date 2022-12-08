@@ -64,9 +64,9 @@
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/dataTables/datatables.min.css" rel="stylesheet">
   <?php
   }
-  if (uri('2') == 'AddBAPP') {
+  if (uri('2') == 'AddBAPP' || uri('2') == 'EditBAPP') {
   ?>
-    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/digital-signature/jquery.signaturepad.css" rel="stylesheet">
@@ -213,7 +213,7 @@
           </a>
           </li>
           <?php
-          if (uri('2') == 'BAPP' || uri('2') == 'AddBAPP') {
+          if (uri('2') == 'BAPP' || uri('2') == 'AddBAPP' || uri('2') == 'EditBAPP') {
             echo '<li class="active">';
           } else {
             echo '<li>';
