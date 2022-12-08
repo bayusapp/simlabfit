@@ -59,6 +59,32 @@
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/select2/select2.min.css" rel="stylesheet">
   <?php
   }
+  if (uri('2') == 'BAPP') {
+  ?>
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+  <?php
+  }
+  if (uri('2') == 'AddBAPP') {
+  ?>
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/digital-signature/jquery.signaturepad.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/select2/select2.min.css" rel="stylesheet">
+    <style>
+      #signArea {
+        width: 304px;
+      }
+
+      .tag-ingo {
+        font-family: cursive;
+        font-size: 12px;
+        text-align: left;
+        font-style: oblique;
+      }
+    </style>
+  <?php
+  }
   if (uri('2') == 'Salary') {
   ?>
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/dataTables/datatables.min.css" rel="stylesheet">
@@ -182,8 +208,20 @@
           }
           ?>
           <a href="<?= base_url('Asprak/BAP') ?>">
-            <i class="fa fa-print"></i>
+            <i class="fa fa-file-text"></i>
             <span class="nav-label">BAP</span>
+          </a>
+          </li>
+          <?php
+          if (uri('2') == 'BAPP' || uri('2') == 'AddBAPP') {
+            echo '<li class="active">';
+          } else {
+            echo '<li>';
+          }
+          ?>
+          <a href="<?= base_url('Asprak/BAPP') ?>">
+            <i class="fa fa-files-o"></i>
+            <span class="nav-label">BAPP</span>
           </a>
           </li>
           <?php

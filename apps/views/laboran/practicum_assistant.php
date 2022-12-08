@@ -13,22 +13,73 @@
             ?>
             <div class="row">
               <div class="col-md-2 col-sm-2" style="margin-bottom: 5px">
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahAsprakCSV"><i class="fa fa-cloud-upload"></i> Add via CSV</button>
-                <div class="modal inmodal fade" id="tambahAsprakCSV" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addAsprak"><i class="fa fa-plus"></i> Add Practicum Assistant</button>
+                <div class="modal inmodal fade" id="addAsprak" tabindex="-1" role="dialog" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Add Practicum Assistant Via CSV</h4>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Add Practicum Assistant</h4>
                       </div>
-                      <form method="post" action="<?= base_url('Practicum/AddAsprakCSV') ?>" enctype="multipart/form-data">
+                      <form action="<?= base_url('Practicum/AddPracticumAssistant') ?>" method="post">
                         <div class="modal-body">
                           <div class="row">
-                            <div class="col-md-6 col-sm-12">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
                               <div class="form-group">
-                                <label class="font-bold">File CSV</label>
-                                <div class="custom-file">
-                                  <input type="file" name="file" id="file" class="custom-file-input">
-                                  <label for="file" class="custom-file-label">Choose file...</label>
+                                <label class="font-bold">NIM Practicum Assistant</label>
+                                <input type="text" name="nim_asprak" id="nim_asprak" class="form-control" placeholder="Example: 6701140001" onkeypress="return nim(event)">
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                              <div class="form-group">
+                                <label class="font-bold">Name Practicum Assistant</label>
+                                <input type="text" name="nama_asprak" id="nama_asprak" class="form-control" placeholder="Example: Budi Santoso">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12 col-md-5 col-lg-5">
+                              <div class="form-group">
+                                <label class="font-bold">Courses</label>
+                                <select class="daftar_mk form-control" name="matkul">
+                                  <option></option>
+                                  <?php
+                                  foreach ($mk as $m) {
+                                    echo '<option value="' . $m->kode_mk . '">' . $m->kode_mk . ' - ' . $m->nama_mk . '</option>';
+                                  }
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-3 col-lg-3">
+                              <div class="form-group">
+                                <label class="font-bold">Period</label>
+                                <select class="periode form-control" name="periode">
+                                  <option></option>
+                                  <?php
+                                  foreach ($periode as $p) {
+                                    echo '<option value="' . $p->id_ta . '">' . $p->ta . '</option>';
+                                  }
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-4">
+                              <div class="form-group">
+                                <label class="font-bold">Position</label>
+                                <div class="row" style="margin-top: -10px;">
+                                  <div class="col-sm-6">
+                                    <div class="radio">
+                                      <input type="radio" name="posisi" id="koordinator" class="form-control" value="1">
+                                      <label for="koordinator">Coordinator</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <div class="radio">
+                                      <input type="radio" name="posisi" id="anggota" class="form-control" value="0">
+                                      <label for="anggota">Member</label>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -44,74 +95,86 @@
                 </div>
               </div>
             </div>
-            <div class="ibox">
-              <div class="ibox-content">
-                <div class="table-responsive">
-                  <table class="table table-striped table-bordered table-hover asprak" width="100%">
-                    <thead>
-                      <tr>
-                        <th width="7%">No</th>
-                        <th width="15%">NIM</th>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Courses</th>
-                        <th width="10%">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      $no = 1;
-                      foreach ($data as $d) {
-                      ?>
-                        <tr>
-                          <td><?= $no++ ?></td>
-                          <td><?= $d->nim_asprak ?></td>
-                          <td><?= $d->kontak_asprak ?></td>
-                          <td><?= $d->nama_asprak ?></td>
-                          <td><?= $d->kode_mk . ' - ' . $d->nama_mk ?></td>
-                          <td style="text-align: center">
-                            <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editAsprak<?= $d->nim_asprak ?>"><i class="fa fa-edit"></i></button>
-                            <button class="btn btn-danger btn-sm" onclick="hapus_asprak(<?= $d->nim_asprak ?>)"><i class="fa fa-trash"></i></button>
-                          </td>
-                        </tr>
-                        <div class="modal inmodal fade" id="editAsprak<?= $d->nim_asprak ?>" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                          <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h4 class="modal-title">Edit Courses</h4>
-                              </div>
-                              <form method="post" action="<?= base_url('Practicum/EditCourses') ?>">
-                                <div class="modal-body">
-                                  <div class="row">
-                                    <div class="col-md-6 col-sm-12">
-                                      <div class="form-group">
-                                        <label class="font-bold">Courses Code</label>
-                                        <input type="text" name="id_mk" id="id_mk" value="<?= $d->nim_asprak ?>" style="display: none">
-                                        <input type="text" name="kode_mk" id="kode_mk" class="form-control" placeholder="Example: DAH1A1, DCH1A3, DPH1E4" value="<?= $d->nim_asprak ?>" required>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                      <div class="form-group">
-                                        <label class="font-bold">Courses Name</label>
-                                        <input type="text" name="nama_mk" id="nama_mk" class="form-control" placeholder="Input Courses Name" value="<?= $d->nama_asprak ?>" required>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                                  <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </tbody>
-                  </table>
-                </div>
+
+            <div class="tabs-container">
+              <ul class="nav nav-tabs" role="tablist">
+                <?php
+                $no = 1;
+                foreach ($ta as $t) {
+                  if ($no == 1) {
+                    $status = 'active';
+                  } else {
+                    $status = '';
+                  }
+                ?>
+                  <li><a class="nav-link <?= $status ?>" data-toggle="tab" href="#<?= $t->id_ta ?>"><?= $t->ta ?></a></li>
+                <?php
+                  $no++;
+                }
+                ?>
+              </ul>
+              <div class="tab-content">
+                <?php
+                $no = 1;
+                foreach ($ta as $t) {
+                  if ($no == 1) {
+                    $status = 'active';
+                  } else {
+                    $status = '';
+                  }
+                ?>
+                  <div role="tabpanel" id="<?= $t->id_ta ?>" class="tab-pane <?= $status ?>">
+                    <div class="panel-body">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover asprak" style="width: 100% !important;">
+                          <thead>
+                            <tr>
+                              <th width="7%">No</th>
+                              <th width="13%">NIM</th>
+                              <th width="25%">Name</th>
+                              <th width="15%">Contact</th>
+                              <th>Courses</th>
+                              <th width="10%">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php
+                            $data = $this->m->daftarAsprak($t->id_ta)->result();
+                            $no = 1;
+                            foreach ($data as $d) {
+                            ?>
+                              <tr>
+                                <td><?= $no ?></td>
+                                <td><?= $d->nim_asprak ?></td>
+                                <td><?= $d->nama_asprak ?></td>
+                                <td>
+                                  <?php
+                                  if ($d->kontak_asprak) {
+                                    echo '<a href="https://wa.me/' . $d->kontak_asprak . '" target=_blank style="color: #676a6c">' . $d->kontak_asprak . '</a>';
+                                  } else {
+                                    echo '<center>-</center>';
+                                  }
+                                  ?>
+                                </td>
+                                <td><?= $d->kode_mk . ' - ' . $d->nama_mk ?></td>
+                                <td style="text-align: center;">
+                                  <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
+                                  <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                </td>
+                              </tr>
+                            <?php
+                              $no++;
+                            }
+                            ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                <?php
+                  $no++;
+                }
+                ?>
               </div>
             </div>
           </div>

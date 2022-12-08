@@ -93,12 +93,51 @@ class Practicum extends CI_Controller
 
   public function PracticumAssistant()
   {
-    $data           = $this->data;
-    $data['title']  = 'Practicum Assistant | SIM Laboratorium';
-    $data['data']   = $this->m->daftarAsprak()->result();
+    $data             = $this->data;
+    $data['title']    = 'Practicum Assistant | SIM Laboratorium';
+    // $data['data']   = $this->m->daftarAsprak()->result();
+    $data['ta']       = $this->m->taAsprak()->result();
+    $data['periode']  = $this->m->daftarPeriode()->result();
+    $data['mk']       = $this->m->daftarMataKuliah()->result();
     view('laboran/header', $data);
     view('laboran/practicum_assistant', $data);
     view('laboran/footer');
+  }
+
+  public function AddPracticumAssistant()
+  {
+    set_rules('nim_asprak', 'NIM', 'required|trim');
+    set_rules('nama_asprak', 'Name', 'required|trim');
+    if (validation_run() == true) {
+      $nim_asprak   = input('nim_asprak');
+      $nama_asprak  = input('nama_asprak');
+      $matkul       = input('matkul');
+      $periode      = input('periode');
+      $posisi       = input('posisi');
+      $cek          = $this->db->get_where('asprak', array('nim_asprak' => $nim_asprak))->row();
+      if ($cek) {
+        set_flashdata('msg', '<div class="alert alert-danger msg">NIM Already Registered</div>');
+        redirect('Practicum/PracticumAssistant');
+      } else {
+        $input  = array(
+          'nim_asprak'  => $nim_asprak,
+          'nama_asprak' => $nama_asprak
+        );
+        $this->m->insertData('asprak', $input);
+      }
+      $id_daftar_mk = $this->db->get_where('daftar_mk', array('kode_mk' => $matkul))->row()->id_daftar_mk;
+      $input = array(
+        'nim_asprak'    => $nim_asprak,
+        'id_daftar_mk'  => $id_daftar_mk,
+        'posisi'        => $posisi,
+        'id_ta'         => $periode
+      );
+      $this->m->insertData('daftarasprak', $input);
+      set_flashdata('msg', '<div class="alert alert-success msg">Data Successfully Saved</div>');
+      redirect('Practicum/PracticumAssistant');
+    } else {
+      redirect('Practicum/PracticumAssistant');
+    }
   }
 
   public function PresenceAsprak()

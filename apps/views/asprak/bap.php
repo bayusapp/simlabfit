@@ -12,11 +12,11 @@
             }
             ?>
             <?php
-            if ($profil->kontak_asprak == null && $profil->ttd_asprak == null && $profil->norek_asprak == null) {
+            if ($profil->kontak_asprak == null || $profil->email_asprak == null || $profil->ttd_asprak == null || $profil->id_bank == null || $profil->norek_asprak == null || $profil->nama_rekening == null) {
               echo '<div class="alert alert-danger">Please complete your personal information in <b>Setting Menu before submit BAP</b></div>';
             } else {
             ?>
-              <form method="post" action="<?= base_url('Asprak/BAP') ?>">
+              <form method="post" action="<?= base_url('Asprak/PrintBAP') ?>" target="_blank">
                 <div class="row">
                   <div class="col-md-5 offset-md-1 col-sm-5" style="margin-bottom: 5px">
                     <select name="matapraktikum" id="matapraktikum" class="matapraktikum form-control">
@@ -33,22 +33,22 @@
                   <div class="col-md-3 col-sm-3" style="margin-bottom: 5px">
                     <select name="bulan" id="bulan" class="periode_bap form-control">
                       <option></option>
-                      <option value="'<?= date('Y') ?>-01-01' and '<?= date('Y') ?>-01-20'|1|Januari">January</option>
-                      <option value="'<?= date('Y') ?>-01-21' and '<?= date('Y') ?>-02-20'|2|Februari">February</option>
-                      <option value="'<?= date('Y') ?>-02-21' and '<?= date('Y') ?>-03-20'|3|Maret">March</option>
-                      <option value="'<?= date('Y') ?>-03-21' and '<?= date('Y') ?>-04-20'|4|April">April</option>
-                      <option value="'<?= date('Y') ?>-04-21' and '<?= date('Y') ?>-05-20'|5|Mei">May</option>
-                      <option value="'<?= date('Y') ?>-05-21' and '<?= date('Y') ?>-06-20'|6|Juni">June</option>
-                      <option value="'<?= date('Y') ?>-06-21' and '<?= date('Y') ?>-07-20'|7|Juli">July</option>
-                      <option value="'<?= date('Y') ?>-07-21' and '<?= date('Y') ?>-08-20'|8|Agustus">August</option>
-                      <option value="'<?= date('Y') ?>-08-21' and '<?= date('Y') ?>-09-20'|9|September">September</option>
-                      <option value="'<?= date('Y') ?>-09-21' and '<?= date('Y') ?>-10-20'|10|Oktober">October</option>
-                      <option value="'<?= date('Y') ?>-10-21' and '<?= date('Y') ?>-11-20'|11|November">November</option>
-                      <option value="'<?= date('Y') ?>-11-21' and '<?= date('Y') ?>-12-20'|12|Desember">December</option>
+                      <option value="'<?= date('Y') - 1 ?>-12-06' and '<?= date('Y') ?>-01-05'|1|Januari">January</option>
+                      <option value="'<?= date('Y') ?>-01-06' and '<?= date('Y') ?>-02-05'|2|Februari">February</option>
+                      <option value="'<?= date('Y') ?>-02-06' and '<?= date('Y') ?>-03-05'|3|Maret">March</option>
+                      <option value="'<?= date('Y') ?>-03-06' and '<?= date('Y') ?>-04-05'|4|April">April</option>
+                      <option value="'<?= date('Y') ?>-04-06' and '<?= date('Y') ?>-05-05'|5|Mei">May</option>
+                      <option value="'<?= date('Y') ?>-05-06' and '<?= date('Y') ?>-06-05'|6|Juni">June</option>
+                      <option value="'<?= date('Y') ?>-06-06' and '<?= date('Y') ?>-07-05'|7|Juli">July</option>
+                      <option value="'<?= date('Y') ?>-07-06' and '<?= date('Y') ?>-08-05'|8|Agustus">August</option>
+                      <option value="'<?= date('Y') ?>-08-06' and '<?= date('Y') ?>-09-05'|9|September">September</option>
+                      <option value="'<?= date('Y') ?>-09-06' and '<?= date('Y') ?>-10-05'|10|Oktober">October</option>
+                      <option value="'<?= date('Y') ?>-10-06' and '<?= date('Y') ?>-11-05'|11|November">November</option>
+                      <option value="'<?= date('Y') ?>-11-06' and '<?= date('Y') ?>-12-05'|12|Desember">December</option>
                     </select>
                   </div>
                   <div class="col-md-3 col-sm-3">
-                    <button class="btn btn-primary btn-sm" type="submit" name="print" id="print" disabled><i class="fa fa-print"></i> Submit BAP</button>
+                    <button class="btn btn-primary btn-sm" type="submit" name="print" id="print"><i class="fa fa-print"></i> Print BAP</button>
                   </div>
                 </div>
               </form>

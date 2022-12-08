@@ -30,7 +30,7 @@
                       ?>
                         <tr>
                           <td><?= $no++ ?></td>
-                          <td><?= tanggalInggris($tanggal) . ' ' . $tmp[1] ?></td>
+                          <td><?= tanggal_inggris_pendek($tanggal) . ' ' . $tmp[1] ?></td>
                           <td><?= $d->ip ?></td>
                           <td><?= $d->browser ?></td>
                           <td><?= $d->platform ?></td>

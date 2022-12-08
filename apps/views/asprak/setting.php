@@ -59,6 +59,13 @@
                           </td>
                         </tr>
                         <tr>
+                          <td>Email</td>
+                          <td>:</td>
+                          <td colspan="5" style="padding-bottom: 5px">
+                            <input type="text" name="email_asprak" id="email_asprak" class="form-control" value="<?= $profil->email_asprak ?>" placeholder="Example: lorem@mail.com">
+                          </td>
+                        </tr>
+                        <tr>
                           <td>Bank</td>
                           <td>:</td>
                           <td colspan="5" style="padding-bottom: 5px">
@@ -87,7 +94,21 @@
                           <td>Bank Account Name</td>
                           <td>:</td>
                           <td colspan="5" style="padding-bottom: 5px">
-                            <input type="text" name="nama_rekening" id="nama_rekening" class="form-control" value="<?= $profil->nama_rekening ?>" placeholder="Example: Budi Santoso">
+                            <input type="text" name="nama_rekening" id="nama_rekening" class="form-control" value="<?= $profil->nama_rekening ?>" placeholder="Example: Lorem Ipsum">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Capture Mobile Banking</td>
+                          <td>:</td>
+                          <td colspan="5" style="padding-bottom: 5px">
+                            <input type="text" name="nama_rekening" id="nama_rekening" class="form-control" value="<?= $profil->nama_rekening ?>" placeholder="Example: Lorem Ipsum">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Family Card <code>If Not Same<br>Between Your Name with<br>Bank Account Name</code></td>
+                          <td>:</td>
+                          <td colspan="5" style="padding-bottom: 5px">
+                            <input type="text" name="nama_rekening" id="nama_rekening" class="form-control" value="<?= $profil->nama_rekening ?>" placeholder="Example: Lorem Ipsum">
                           </td>
                         </tr>
                         <tr>

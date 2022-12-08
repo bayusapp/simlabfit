@@ -14,71 +14,21 @@
               echo flashdata('msg');
             }
             ?>
-            <div class="row">
-              <?php
-              // $target = '2020-05-20';
-              // if (date('Y-m-d') <= $target) {
-              $tanggal = '2020-07-06';
-              $jam_awal = '14:00';
-              $jam_selesai = '17:30';
-              if (date('Y-m-d') == $tanggal && (date('H:i') >= $jam_awal && date('H:i') <= $jam_selesai)) {
-              ?>
-                <div class="col-md-2 col-sm-2" style="margin-bottom: 5px">
-                  <a href="<?= base_url('Asprak/AddPresence') ?>">
-                    <button class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add Presence</button>
-                  </a>
-                </div>
-              <?php
-              } else {
-              ?>
-                <div class="offset-md-3"></div>
-              <?php
-              }
-              ?>
-              <div class="col-md-9">
-                <form method="post" action="<?= base_url('Asprak/Presence') ?>">
-                  <div class="row">
-                    <div class="col-md-2 col-sm-2 offset-md-4" style="margin-bottom: 5px;">
-                      <select name="ta" class="ta form-control">
-                        <option></option>
-                        <?php
-                        $ta = $this->db->get('tahun_ajaran')->result();
-                        foreach ($ta as $ta) {
-                          $belakang = substr($ta->ta, -1);
-                          $tahun    = substr($ta->ta, 0, 4);
-                          $tmp      = $tahun + 1;
-                          if ($belakang == '1') {
-                            $semester = 'Odd';
-                          } elseif ($belakang == '2') {
-                            $semester = 'Even';
-                          }
-                          echo '<option value="' . $ta->id_ta . '">' . $tahun . '/' . $tmp . ' ' . $semester . '</option>';
-                        }
-                        ?>
-                      </select>
-                    </div>
-                    <div class="col-md-2 col-sm-2">
-                      <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-filter"></i> Filter</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
             <div class="ibox">
               <div class="ibox-content">
                 <div class="table-responsive">
                   <table class="table table-striped table-bordered table-hover dataTables">
                     <thead>
                       <tr>
-                        <th width="7%">No</th>
-                        <th width="20%">Date</th>
+                        <th width="5%">No</th>
+                        <th width="13%">Date</th>
                         <th width="5%">Start</th>
                         <th width="5%">End</th>
-                        <th>Courses</th>
-                        <th width="10%">Class</th>
-                        <th>Lecturer Code</th>
+                        <th width="20%">Courses</th>
+                        <th width="9%">Class</th>
+                        <th width="9%">Lecturer Code</th>
                         <th>Modul</th>
-                        <th width="7%">Approval Status</th>
+                        <th width="7%">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -88,34 +38,88 @@
                       ?>
                         <tr>
                           <td><?= $no++ ?></td>
-                          <td><?= tanggal_inggris($d->tanggal) ?></td>
-                          <td><?= $d->masuk ?></td>
-                          <td><?= $d->selesai ?></td>
+                          <td><?= tanggal_inggris_pendek($d->tanggal) ?></td>
+                          <td style="text-align: center;"><?= $d->masuk ?></td>
+                          <td style="text-align: center;"><?= $d->selesai ?></td>
                           <td><?= $d->nama_mk ?></td>
-                          <td><?= $d->kelas ?></td>
-                          <td><?= $d->kode_dosen ?></td>
+                          <td style="text-align: center;"><?= $d->kelas ?></td>
+                          <td style="text-align: center;"><?= $d->kode_dosen ?></td>
                           <td><?= $d->modul ?></td>
                           <td style="text-align: center">
                             <div class="tooltip-demo">
-                              <?php
-                              if ($d->approve_absen == '1') {
-                              ?>
-                                <button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="bottom" title="Waiting approved by lecture"><i class="fa fa-ban"></i></button>
-                              <?php
-                              } elseif ($d->approve_absen == '2') {
-                              ?>
-                                <button class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="Your presence approved by lecture"><i class="fa fa-check"></i></button>
-                              <?php
-                              } elseif ($d->approve_absen == '0') {
-                              ?>
-                                <a href="<?= base_url('Asprak/EditPresence/' . substr(sha1($d->id_presensi_asprak), 7, 7)) ?>">
-                                  <button class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit your presence"><i class="fa fa-edit"></i></button>
-                                </a>
-                              <?php
-                              }
-                              ?>
+                              <span data-toggle="modal" data-target="#<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>">
+                                <button class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit your presence">
+                                  <i class="fa fa-edit"></i>
+                                </button>
+                              </span>
                             </div>
                           </td>
+                          <div class="modal inmodal fade" id="<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                  <h4 class="modal-title">Edit Presence <?= substr(sha1($d->id_presensi_asprak), 7, 7) ?></h4>
+                                </div>
+                                <form action="<?= base_url('Asprak/EditPresence/' . substr(sha1($d->id_presensi_asprak), 7, 7)) ?>" method="post">
+                                  <div class="modal-body">
+                                    <div class="row">
+                                      <div class="col-sm-12 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                          <label class="font-bold">Date</label>
+                                          <input type="text" class="form-control" value="<?= tanggal_inggris_pendek($d->tanggal) ?>" readonly>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                          <label class="font-bold">Start</label>
+                                          <input type="text" class="form-control" value="<?= $d->masuk ?>" readonly>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                          <label class="font-bold">Start</label>
+                                          <input type="text" class="form-control" value="<?= $d->selesai ?>" readonly>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-sm-12 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                          <label class="font-bold">Courses</label>
+                                          <input type="text" class="form-control" value="<?= $d->nama_mk ?>" readonly>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                          <label class="font-bold">Class</label>
+                                          <input type="text" class="form-control" value="<?= $d->kelas ?>" readonly>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                          <label class="font-bold">Lecturer Code</label>
+                                          <input type="text" class="form-control" value="<?= $d->kode_dosen ?>" readonly>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                          <label class="font-bold">Modul</label>
+                                          <input type="text" name="modul" id="modul" class="form-control" value="<?= $d->modul ?>">
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
                         </tr>
                       <?php
                       }

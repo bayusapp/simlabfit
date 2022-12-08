@@ -350,6 +350,19 @@ if (uri('1') == 'Practicum') {
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/select2/select2.full.min.js"></script>
   <script>
+    function nim(event) {
+      var angka = (event.which) ? event.which : event.keyCode
+      if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
+        return false;
+      return true;
+    }
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+      $($.fn.dataTable.tables(true)).DataTable()
+        .columns.adjust()
+        .responsive.recalc();
+    });
+
     function hanya_angka(event) {
       var angka = (event.which) ? event.which : event.keyCode
       if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
@@ -466,10 +479,12 @@ if (uri('1') == 'Practicum') {
 
       $(".daftar_mk").select2({
         placeholder: "Select Courses",
+        dropdownParent: $("#addAsprak")
       });
 
       $(".periode").select2({
         placeholder: "Select Periode",
+        dropdownParent: $("#addAsprak")
       });
 
       $(".ta").select2({
