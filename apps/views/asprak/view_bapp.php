@@ -61,10 +61,10 @@
           <td colspan="6" style="font-weight: bold; font-size: 21px;">BERITA ACARA PELAKSANAAN PRAKTIKUM (diisi oleh ketua kelas)</td>
         </tr>
         <tr style="vertical-align: top;">
-          <td style="font-weight: bold;" width="19%">MODUL</td>
+          <td style="font-weight: bold;" width="15%">MODUL</td>
           <td width="1%">:</td>
           <td width="30%"><?= $data->modul ?></td>
-          <td style="font-weight: bold;" width="19%">PRODI</td>
+          <td style="font-weight: bold;" width="7%">PRODI</td>
           <td width="1%">:</td>
           <td width="30%"><?= $data->strata . ' ' . $data->nama_prodi ?></td>
         </tr>
