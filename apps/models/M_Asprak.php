@@ -251,6 +251,7 @@ class M_Asprak extends CI_Model
     $this->db->join('asprak b', 'a.nim_asprak = b.nim_asprak');
     $this->db->where('a.id_ta', $id_ta);
     $this->db->where('a.id_daftar_mk', $id_mk);
+    $this->db->order_by('b.nama_asprak', 'asc');
     return $this->db->get();
   }
 
