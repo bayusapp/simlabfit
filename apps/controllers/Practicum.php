@@ -116,8 +116,8 @@ class Practicum extends CI_Controller
       $posisi       = input('posisi');
       $cek          = $this->db->get_where('asprak', array('nim_asprak' => $nim_asprak))->row();
       if ($cek) {
-        set_flashdata('msg', '<div class="alert alert-danger msg">NIM Already Registered</div>');
-        redirect('Practicum/PracticumAssistant');
+        // set_flashdata('msg', '<div class="alert alert-danger msg">NIM Already Registered</div>');
+        // redirect('Practicum/PracticumAssistant');
       } else {
         $input  = array(
           'nim_asprak'  => $nim_asprak,
