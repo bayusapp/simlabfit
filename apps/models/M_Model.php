@@ -200,7 +200,7 @@ class M_Model extends CI_Model
     return $this->db->order_by('kode_mk')->get('matakuliah');
   }
 
-  function daftarAsprak($id, $kode_prodi)
+  function daftarAsprak($id, $kode_prodi, $kode_mk)
   {
     // return $this->db->get('asprak');
     $this->db->select('asprak.nim_asprak, asprak.nama_asprak, asprak.kontak_asprak, matakuliah.kode_mk, matakuliah.nama_mk');
@@ -210,6 +210,7 @@ class M_Model extends CI_Model
     $this->db->join('matakuliah', 'daftar_mk.kode_mk = matakuliah.kode_mk');
     $this->db->where('daftarasprak.id_ta', $id);
     $this->db->where('daftar_mk.kode_prodi', $kode_prodi);
+    $this->db->where('matakuliah.kode_mk', $kode_mk);
     $this->db->order_by('matakuliah.kode_mk', 'asc');
     $this->db->order_by('asprak.nama_asprak', 'asc');
     return $this->db->get();

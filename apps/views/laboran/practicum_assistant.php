@@ -95,7 +95,6 @@
                 </div>
               </div>
             </div>
-
             <div class="tabs-container">
               <ul class="nav nav-tabs" role="tablist">
                 <?php
@@ -132,7 +131,6 @@
                           foreach ($ambil_prodi_mk as $a) {
                           ?>
                             <li><a class="nav-link" data-toggle="tab" href="#<?= $a->kode_prodi ?>"><?= $a->kode_prodi ?></a></li>
-
                           <?php
                           }
                           ?>
@@ -144,49 +142,72 @@
                           ?>
                             <div role="tabpanel" id="<?= $a->kode_prodi ?>" class="tab-pane">
                               <div class="panel-body">
-                                <div class="table-responsive">
-                                  <table class="table table-striped table-bordered table-hover asprak" style="width: 100% !important;">
-                                    <thead>
-                                      <tr>
-                                        <th width="7%">No</th>
-                                        <th width="13%">NIM</th>
-                                        <th width="25%">Name</th>
-                                        <th width="15%">Contact</th>
-                                        <th>Courses</th>
-                                        <th width="10%">Action</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <?php
-                                      $data = $this->m->daftarAsprak($t->id_ta, $a->kode_prodi)->result();
-                                      $no = 1;
-                                      foreach ($data as $d) {
-                                      ?>
-                                        <tr>
-                                          <td><?= $no ?></td>
-                                          <td><?= $d->nim_asprak ?></td>
-                                          <td><?= $d->nama_asprak ?></td>
-                                          <td>
-                                            <?php
-                                            if ($d->kontak_asprak) {
-                                              echo '<a href="https://wa.me/' . $d->kontak_asprak . '" target=_blank style="color: #676a6c">' . $d->kontak_asprak . '</a>';
-                                            } else {
-                                              echo '<center>-</center>';
-                                            }
-                                            ?>
-                                          </td>
-                                          <td><?= $d->kode_mk . ' - ' . $d->nama_mk ?></td>
-                                          <td style="text-align: center;">
-                                            <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                          </td>
-                                        </tr>
-                                      <?php
-                                        $no++;
-                                      }
-                                      ?>
-                                    </tbody>
-                                  </table>
+                                <div class="tabs-container">
+                                  <ul class="nav nav-tabs" role="tablist">
+                                    <?php
+                                    $ambil_daftar_mk = $this->db->query('select distinct matakuliah.kode_mk, matakuliah.nama_mk from matakuliah join daftar_mk on matakuliah.kode_mk = daftar_mk.kode_mk join daftarasprak on daftar_mk.id_daftar_mk = daftarasprak.id_daftar_mk where daftar_mk.id_ta = "' . $t->id_ta . '" and daftar_mk.kode_prodi = "' . $a->kode_prodi . '" order by matakuliah.kode_mk asc')->result();
+                                    foreach ($ambil_daftar_mk as $m) {
+                                      echo '<li><a class="nav-link" data-toggle="tab" href="#' . $t->id_ta . '_' . $m->kode_mk . '">' . $m->kode_mk . '</a></li>';
+                                    }
+                                    ?>
+                                  </ul>
+                                  <div class="tab-content">
+                                    <?php
+                                    $ambil_daftar_mk = $this->db->query('select distinct matakuliah.kode_mk, matakuliah.nama_mk from matakuliah join daftar_mk on matakuliah.kode_mk = daftar_mk.kode_mk join daftarasprak on daftar_mk.id_daftar_mk = daftarasprak.id_daftar_mk where daftar_mk.id_ta = "' . $t->id_ta . '" and daftar_mk.kode_prodi = "' . $a->kode_prodi . '" order by matakuliah.kode_mk asc')->result();
+                                    foreach ($ambil_daftar_mk as $m) {
+                                    ?>
+                                      <div role="tabpanel" id="<?= $t->id_ta . '_' . $m->kode_mk ?>" class="tab-pane">
+                                        <div class="panel-body">
+                                          <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover asprak" style="width: 100% !important;">
+                                              <thead>
+                                                <tr>
+                                                  <th width="7%">No</th>
+                                                  <th width="13%">NIM</th>
+                                                  <th width="25%">Name</th>
+                                                  <th width="15%">Contact</th>
+                                                  <th>Courses</th>
+                                                  <th width="10%">Action</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <?php
+                                                $data = $this->m->daftarAsprak($t->id_ta, $a->kode_prodi, $m->kode_mk)->result();
+                                                $no = 1;
+                                                foreach ($data as $d) {
+                                                ?>
+                                                  <tr>
+                                                    <td><?= $no ?></td>
+                                                    <td><?= $d->nim_asprak ?></td>
+                                                    <td><?= $d->nama_asprak ?></td>
+                                                    <td>
+                                                      <?php
+                                                      if ($d->kontak_asprak) {
+                                                        echo '<a href="https://wa.me/' . $d->kontak_asprak . '" target=_blank style="color: #676a6c">' . $d->kontak_asprak . '</a>';
+                                                      } else {
+                                                        echo '<center>-</center>';
+                                                      }
+                                                      ?>
+                                                    </td>
+                                                    <td><?= $d->kode_mk . ' - ' . $d->nama_mk ?></td>
+                                                    <td style="text-align: center;">
+                                                      <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
+                                                      <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                                    </td>
+                                                  </tr>
+                                                <?php
+                                                  $no++;
+                                                }
+                                                ?>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <?php
+                                    }
+                                    ?>
+                                  </div>
                                 </div>
                               </div>
                             </div>
