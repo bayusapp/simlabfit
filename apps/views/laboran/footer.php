@@ -514,6 +514,10 @@ if (uri('1') == 'LaboratoryAssistant') {
         placeholder: "Select Laboratory",
       });
 
+      $(".laboran").select2({
+        placeholder: "Select Laboran",
+      });
+
       $(".periode").select2({
         placeholder: "Select Periode of Journal",
       });

@@ -28,13 +28,13 @@
                   <h2 class="no-margins"><?= $profil_aslab->namaLengkap ?></h2>
                   <h4><?= $profil_aslab->nim ?> | <i class="fa fa-phone-square"></i> <?= $profil_aslab->noTelp ?></h4>
                   <table>
-                    <tr>
+                    <tr style="vertical-align: top;">
                       <td style="padding-right: 20px" width="50%"><small>Aslab in Charge:</small></td>
-                      <td><small>Specialist:</small></td>
+                      <td><small>Laboran:</small></td>
                     </tr>
-                    <tr>
+                    <tr style="vertical-align: top;">
                       <td style="padding-right: 20px" width="50%"><small><?= $laboratorium ?></small></td>
-                      <td valign="top"><small><?= $profil_aslab->spesialisAslab ?></small></td>
+                      <td><small><?= $profil_aslab->nama_laboran ?></small></td>
                     </tr>
                   </table>
                 </div>
@@ -125,8 +125,19 @@
                       <div class="row">
                         <div class="col-md-6 col-sm-12">
                           <div class="form-group">
-                            <label class="font-bold">RFID Tag</label>
-                            <input type="text" name="rfid_aslab" id="rfid_aslab" class="form-control" placeholder="Input RFID Tag" value="<?= $profil_aslab->rfid ?>">
+                            <label class="font-bold">Laboran</label>
+                            <select name="laboran" id="laboran" class="form-control laboran">
+                              <option></option>
+                              <?php
+                              foreach ($laboran as $l) {
+                                if ($l->id_laboran == $profil_aslab->id_laboran) {
+                                  echo '<option value="' . $l->id_laboran . '" selected>' . $l->nama_laboran . '</option>';
+                                } else {
+                                  echo '<option value="' . $l->id_laboran . '">' . $l->nama_laboran . '</option>';
+                                }
+                              }
+                              ?>
+                            </select>
                           </div>
                         </div>
                         <div class="col-md-6 col-sm-12">

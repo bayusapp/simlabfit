@@ -101,6 +101,7 @@ class LaboratoryAssistant extends CI_Controller
     $data['lab']          = $this->m->daftarLabPraktikum()->result();
     $data['title']        = $data['profil_aslab']->namaLengkap . "'s Profile | SIM Laboratorium";
     if (userdata('login') == 'laboran') {
+      $data['laboran']    = $this->m->daftarLaboran()->result();
       view('laboran/header', $data);
       view('laboran/profile_assistant', $data);
       view('laboran/footer');
@@ -190,15 +191,15 @@ class LaboratoryAssistant extends CI_Controller
       $nim_aslab        = input('nim_aslab');
       $telp_aslab       = input('telp_aslab');
       $spesialis_aslab  = input('spesialis_aslab');
-      $rfid_aslab       = input('rfid_aslab');
       $pj_lab           = input('pj_lab');
+      $laboran          = input('laboran');
       $aslab_bulan      = input('aslab_bulan');
       $input            = array(
         'nim'             => $nim_aslab,
         'namaLengkap'     => $nama_aslab,
         'noTelp'          => $telp_aslab,
         'spesialisAslab'  => $spesialis_aslab,
-        'rfid'            => $rfid_aslab,
+        'id_laboran'      => $laboran,
         'aslabOfTheMonth' => $aslab_bulan
       );
       $nama_file = rand(10, 99) . '-' . str_replace(' ', '_', $_FILES['foto_aslab']['name']);

@@ -263,7 +263,13 @@ class M_Model extends CI_Model
 
   function daftarAslab($tahun)
   {
-    return $this->db->order_by('namaLengkap', 'asc')->get_where('aslab', array('tahunAjaran' => $tahun));
+    $this->db->select('*');
+    $this->db->from('aslab');
+    $this->db->join('laboran', 'aslab.id_laboran = laboran.id_laboran', 'left');
+    $this->db->where('aslab.tahunAjaran', $tahun);
+    $this->db->order_by('namaLengkap', 'asc');
+    return $this->db->get();
+    // return $this->db->order_by('namaLengkap', 'asc')->get_where('aslab', array('tahunAjaran' => $tahun));
   }
 
   function daftarPJAslab()
@@ -308,8 +314,11 @@ class M_Model extends CI_Model
 
   function detailAslab($id)
   {
-    $this->db->where('substring(sha1(idAslab), 7, 4) = "' . $id . '"');
-    return $this->db->get('aslab');
+    $this->db->select('*');
+    $this->db->from('aslab');
+    $this->db->join('laboran', 'aslab.id_laboran = laboran.id_laboran');
+    $this->db->where('substring(sha1(aslab.idAslab), 7, 4) = "' . $id . '"');
+    return $this->db->get();
   }
 
   function detailPJAslab($id)
@@ -569,7 +578,7 @@ class M_Model extends CI_Model
 
   function daftarLaboran()
   {
-    return $this->db->get('laboran');
+    return $this->db->order_by('nama_laboran', 'asc')->get('laboran');
   }
 
   function daftarPertanggungan()

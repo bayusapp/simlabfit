@@ -135,8 +135,8 @@
                       <address class="m-t-md">
                         <strong>Laboratory:</strong><br>
                         <?= $lab ?><br>
-                        <strong>Specialist:</strong><br>
-                        <?= $d->spesialisAslab ?>
+                        <strong>Laboran:</strong><br>
+                        <?= $d->nama_laboran ?>
                       </address>
                     </a>
                   </div>
