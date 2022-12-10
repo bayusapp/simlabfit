@@ -68,29 +68,29 @@ class LaboratoryAssistant extends CI_Controller
     $tahun          = explode('/', $periode_aslab);
     if ($bulan) {
       if ($bulan == 'January') {
-        $where  = 'aslabMasuk >= "' . $tahun[0] . '-12-06" and aslabMasuk <= "' . $tahun[1] . '-01-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[0] . '-12-21" and aslabMasuk <= "' . $tahun[1] . '-01-21"';
       } elseif ($bulan == 'February') {
-        $where  = 'aslabMasuk >= "' . $tahun[1] . '-01-06" and aslabMasuk <= "' . $tahun[1] . '-02-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[1] . '-01-21" and aslabMasuk <= "' . $tahun[1] . '-02-21"';
       } elseif ($bulan == 'March') {
-        $where  = 'aslabMasuk >= "' . $tahun[1] . '-02-06" and aslabMasuk <= "' . $tahun[1] . '-03-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[1] . '-02-21" and aslabMasuk <= "' . $tahun[1] . '-03-21"';
       } elseif ($bulan == 'April') {
-        $where  = 'aslabMasuk >= "' . $tahun[1] . '-03-06" and aslabMasuk <= "' . $tahun[1] . '-04-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[1] . '-03-21" and aslabMasuk <= "' . $tahun[1] . '-04-21"';
       } elseif ($bulan == 'May') {
-        $where  = 'aslabMasuk >= "' . $tahun[1] . '-04-06" and aslabMasuk <= "' . $tahun[1] . '-05-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[1] . '-04-21" and aslabMasuk <= "' . $tahun[1] . '-05-21"';
       } elseif ($bulan == 'June') {
-        $where  = 'aslabMasuk >= "' . $tahun[1] . '-05-06" and aslabMasuk <= "' . $tahun[1] . '-06-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[1] . '-05-21" and aslabMasuk <= "' . $tahun[1] . '-06-21"';
       } elseif ($bulan == 'July') {
-        $where  = 'aslabMasuk >= "' . $tahun[1] . '-06-06" and aslabMasuk <= "' . $tahun[1] . '-07-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[1] . '-06-21" and aslabMasuk <= "' . $tahun[1] . '-07-21"';
       } elseif ($bulan == 'August') {
-        $where  = 'aslabMasuk >= "' . $tahun[0] . '-07-06" and aslabMasuk <= "' . $tahun[0] . '-08-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[0] . '-07-21" and aslabMasuk <= "' . $tahun[0] . '-08-21"';
       } elseif ($bulan == 'September') {
-        $where  = 'aslabMasuk >= "' . $tahun[0] . '-08-06" and aslabMasuk <= "' . $tahun[0] . '-09-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[0] . '-08-21" and aslabMasuk <= "' . $tahun[0] . '-09-21"';
       } elseif ($bulan == 'October') {
-        $where  = 'aslabMasuk >= "' . $tahun[0] . '-09-06" and aslabMasuk <= "' . $tahun[0] . '-10-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[0] . '-09-21" and aslabMasuk <= "' . $tahun[0] . '-10-21"';
       } elseif ($bulan == 'November') {
-        $where  = 'aslabMasuk >= "' . $tahun[0] . '-10-06" and aslabMasuk <= "' . $tahun[0] . '-11-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[0] . '-10-21" and aslabMasuk <= "' . $tahun[0] . '-11-21"';
       } elseif ($bulan == 'December') {
-        $where  = 'aslabMasuk >= "' . $tahun[0] . '-11-06" and aslabMasuk <= "' . $tahun[0] . '-12-05"';
+        $where  = 'aslabMasuk >= "' . $tahun[0] . '-11-21" and aslabMasuk <= "' . $tahun[0] . '-12-21"';
       }
       $data['kegiatan'] = $this->m->kegiatanAslabBulan($id_aslab, $where)->result();
     } else {
