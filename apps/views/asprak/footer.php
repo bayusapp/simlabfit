@@ -253,10 +253,19 @@ if (uri('2') == 'BAP') {
       });
 
       $("#matapraktikum").change(function() {
+        <?php
+        if (date('m') == 12 && date('d') >= 6) {
+          $bulan = "'" . date('Y') . "-12-06' and '" . date('Y', strtotime('+1 years')) . "-01-05'|1|Januari";
+        } elseif (date('m') == 1 && date('d') <= 5) {
+          $bulan = "'" . date('Y', strtotime('-1 years')) . "-12-06' and '" . date('Y') . "-01-05'|1|Januari";
+        }
+        ?>
         var idMK = $(this).val();
         var bulan = document.getElementById('month').value;
         if (bulan != '') {
           bulan = bulan;
+        } else {
+          bulan = "<?= $bulan ?>";
         }
         document.getElementById('course').value = idMK;
         $.ajax({
