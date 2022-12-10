@@ -234,7 +234,7 @@
                             </div>
                           </div>
                         </div>
-                        <textarea name="komplain" id="catatan_komplain" class="form-control" rows="3"></textarea>
+                        <textarea name="komplain" id="catatan_komplain" class="form-control" rows="3" disabled></textarea>
                       </div>
                     </div>
                   </div>
