@@ -316,8 +316,8 @@ class M_Model extends CI_Model
   {
     $this->db->select('*');
     $this->db->from('aslab');
-    $this->db->join('laboran', 'aslab.id_laboran = laboran.id_laboran');
-    $this->db->where('substring(sha1(aslab.idAslab), 7, 4) = "' . $id . '"');
+    $this->db->join('laboran', 'aslab.id_laboran = laboran.id_laboran', 'left');
+    $this->db->where('substring(sha1(idAslab), 7, 4) = "' . $id . '"');
     return $this->db->get();
   }
 
