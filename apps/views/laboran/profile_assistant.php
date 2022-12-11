@@ -123,7 +123,7 @@
                 </div>
               </div>
             </div>
-            <div class="modal inmodal fade" id="editAslab" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal inmodal fade" id="editAslab" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
