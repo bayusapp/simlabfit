@@ -45,7 +45,84 @@
         <div class="row">
           <div class="col-md-3 col-sm-3" style="margin-bottom: 5px">
             <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editAslab"><i class="fa fa-edit"></i> Edit Profile</button>
-            <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print BAP</button>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#print"><i class="fa fa-print"></i> Print BAP</button>
+            <div class="modal inmodal fade" id="print" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Print BAP Laboratory Assistant</h4>
+                  </div>
+                  <form method="post" action="<?= base_url('LaboratoryAssistant/PrintBAP/' . uri('3')) ?>">
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                          <div class="form-group" id="date_picker">
+                            <label class="font-bold">Start</label>
+                            <div class="input-group date">
+                              <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                              </span>
+                              <input type="text" name="awal" id="awal" class="form-control" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                          <div class="form-group" id="date_picker">
+                            <label class="font-bold">End</label>
+                            <div class="input-group date">
+                              <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                              </span>
+                              <input type="text" name="akhir" id="akhir" class="form-control" required>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                          <div class="form-group">
+                            <label class="font-bold">Period</label>
+                            <select name="periode" id="periode" class="form-control bulan">
+                              <option></option>
+                              <option value="1">January</option>
+                              <option value="2">February</option>
+                              <option value="3">March</option>
+                              <option value="4">April</option>
+                              <option value="5">May</option>
+                              <option value="6">June</option>
+                              <option value="7">July</option>
+                              <option value="8">August</option>
+                              <option value="9">September</option>
+                              <option value="10">October</option>
+                              <option value="11">November</option>
+                              <option value="12">December</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                          <div class="form-group">
+                            <label class="font-bold">Majors</label>
+                            <select name="prodi" id="prodi" class="form-control prodi">
+                              <option></option>
+                              <?php
+                              foreach ($prodi as $p) {
+                                echo '<option value="' . $p->id_prodi . '">' . $p->nama_prodi . '</option>';
+                              }
+                              ?>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Print</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
             <div class="modal inmodal fade" id="editAslab" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -193,6 +270,7 @@
                         <th width="25%">Date</th>
                         <th width="5%">In</th>
                         <th width="5%">Out</th>
+                        <th>Duration</th>
                         <th>Activities</th>
                         <th width="10%">Action</th>
                       </tr>
@@ -201,12 +279,30 @@
                       <?php
                       $no = 1;
                       foreach ($kegiatan as $k) {
+                        $masuk = explode(':', $k->jamMasuk);
+                        $jam_masuk = $masuk[0] * 3600;
+                        $menit_masuk = $masuk[1] * 60;
+                        if ($k->jamKeluar == '0') {
+                          $kluar = '00:00';
+                        } else {
+                          $kluar = $k->jamKeluar;
+                        }
+                        $keluar = explode(':', $kluar);
+                        $jam_keluar = $keluar[0] * 3600;
+                        $menit_keluar = $keluar[1] * 60;
+                        $durasi = (($jam_keluar + $menit_keluar) - ($jam_masuk + $menit_masuk)) / 3600;
+                        if ($durasi < 0) {
+                          $durasi = '-';
+                        } else {
+                          $durasi = round($durasi);
+                        }
                       ?>
                         <tr>
                           <td><?= $no++ ?></td>
                           <td><?= tanggalInggris($k->aslabMasuk) ?></td>
                           <td style="text-align: center"><?= $k->masuk ?></td>
                           <td style="text-align: center"><?= $k->keluar ?></td>
+                          <td style="text-align: center"><?= $durasi ?></td>
                           <td><?= $k->jurnal ?></td>
                           <td style="text-align: center;">
                             <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editJurnal<?= $k->idJurnal ?>"><i class="fa fa-edit"></i></button>

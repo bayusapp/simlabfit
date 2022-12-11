@@ -512,12 +512,29 @@ if (uri('1') == 'Practicum') {
 }
 if (uri('1') == 'LaboratoryAssistant') {
 ?>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/datapicker/bootstrap-datepicker.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/datatables.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/select2/select2.full.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/clockpicker/clockpicker.js"></script>
   <script>
     $(document).ready(function() {
+      $('#date_picker .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+      });
+
+      $(".bulan").select2({
+        placeholder: "Select Periode",
+      });
+
+      $(".prodi").select2({
+        placeholder: "Select Majors",
+      });
+
       $(".laboratorium").select2({
         placeholder: "Select Laboratory",
       });

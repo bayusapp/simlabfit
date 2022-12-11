@@ -102,6 +102,7 @@ class LaboratoryAssistant extends CI_Controller
     $data['title']        = $data['profil_aslab']->namaLengkap . "'s Profile | SIM Laboratorium";
     if (userdata('login') == 'laboran') {
       $data['laboran']    = $this->m->daftarLaboran()->result();
+      $data['prodi']      = $this->m->daftarProdi()->result();
       view('laboran/header', $data);
       view('laboran/profile_assistant', $data);
       view('laboran/footer');
@@ -131,6 +132,34 @@ class LaboratoryAssistant extends CI_Controller
       view('aslab/header', $data);
       view('aslab/profile_assistant', $data);
       view('aslab/footer');
+    }
+  }
+
+  public function PrintBAP($id)
+  {
+    set_rules('awal', 'Start', 'required|trim');
+    set_rules('akhir', 'End', 'required|trim');
+    set_rules('periode', 'Period', 'required|trim');
+    if (validation_run() == false) {
+      redirect('LaboratoryAssistant/ProfileAssistant/' . $id);
+    } else {
+      $awal     = input('awal');
+      $tmp      = explode('/', $awal);
+      $urut     = array($tmp[2], $tmp[0], $tmp[1]);
+      $awal     = implode('-', $urut);
+      $akhir    = input('akhir');
+      $tmp      = explode('/', $akhir);
+      $urut     = array($tmp[2], $tmp[0], $tmp[1]);
+      $akhir    = implode('-', $urut);
+      $periode  = input('periode');
+      $prodi    = input('prodi');
+      $where    = 'aslabMasuk >= "' . $awal . '" and aslabMasuk <= "' . $akhir . '"';
+      $data['pj']           = $this->m->detailPJAslab($id)->result();
+      $data['profil_aslab'] = $this->m->detailAslab($id)->row();
+      $data['bulan']        = bulan_panjang($periode);
+      $data['kegiatan']     = $this->m->kegiatanAslabBulanBAP($id, $where)->result();
+      $data['prodi']        = $this->db->get_where('prodi', array('id_prodi' => $prodi))->row();
+      view('laboran/print_bap_aslab', $data);
     }
   }
 
