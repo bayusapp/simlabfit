@@ -71,41 +71,24 @@
                         <input type="text" name="modul_praktikum" id="modul_praktikum" class="form-control">
                       </div>
                     </div>
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-2 col-sm-2">
                       <div class="form-group">
-                        <label class="font-bold">Screenshot</label>
-                        <div class="custom-file">
-                          <input type="file" name="screenshot_praktikum" id="screenshot_praktikum" accept="image/*" class="custom-file-input" required>
-                          <label for="logo" class="custom-file-label">Choose file...</label>
-                        </div>
+                        <label>&nbsp;</label>
+                        <button type="submit" class="btn btn-primary btn-sm btn-block">Save</button>
                       </div>
                     </div>
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-2 col-sm-2">
                       <div class="form-group">
-                        <label class="font-bold">Video</label>
-                        <div class="custom-file">
-                          <input type="file" name="video_praktikum" id="video_praktikum" accept="video/*" class="custom-file-input" required>
-                          <label for="logo" class="custom-file-label">Choose file...</label>
-                        </div>
+                        <label>&nbsp;</label>
+                        <button type="reset" class="btn btn-warning btn-sm btn-block">Reset</button>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 offset-md-6 col-sm-6">
-                      <div class="form-group" style="margin-top: 30px">
-                        <div class="row">
-                          <div class="col-md-4 col-sm-4" style="margin-bottom: 5px">
-                            <button type="submit" class="btn btn-primary btn-sm btn-block">Save</button>
-                          </div>
-                          <div class="col-md-4 col-sm-4" style="margin-bottom: 5px">
-                            <button type="reset" class="btn btn-warning btn-sm btn-block">Reset</button>
-                          </div>
-                          <div class="col-md-4 col-sm-4" style="margin-bottom: 5px">
-                            <a href="<?= base_url('Asprak/Presence') ?>">
-                              <button type="button" class="btn btn-danger btn-sm btn-block">Cancel</button>
-                            </a>
-                          </div>
-                        </div>
+                    <div class="col-md-2 col-sm-2">
+                      <div class="form-group">
+                        <label>&nbsp;</label>
+                        <a href="<?= base_url('Asprak/Presence') ?>">
+                          <button type="button" class="btn btn-danger btn-sm btn-block">Cancel</button>
+                        </a>
                       </div>
                     </div>
                   </div>

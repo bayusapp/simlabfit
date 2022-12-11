@@ -498,6 +498,14 @@ if (uri('1') == 'Practicum') {
       $(".matkul").select2({
         placeholder: "Select Courses",
       });
+
+      $(".daftar_asprak").select2({
+        placeholder: "Select Practicum Assistant",
+      });
+
+      $(".jadwal_lab").select2({
+        placeholder: "Select Laboratory Schedule",
+      });
     });
   </script>
 <?php

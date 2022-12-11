@@ -342,6 +342,18 @@ class M_Model extends CI_Model
     return $this->db->get();
   }
 
+  function jadwalLabUntukAsprak()
+  {
+    $this->db->select('jadwal_lab.id_jadwal_lab, dayname(jadwal_lab.jam_masuk) hari, substring(jadwal_lab.jam_masuk, 12, 5) masuk, substring(jadwal_lab.jam_selesai, 12, 5) selesai, jadwal_lab.kelas, jadwal_lab.kode_dosen, laboratorium.kodeRuang, matakuliah.kode_mk, matakuliah.nama_mk');
+    $this->db->from('jadwal_lab');
+    $this->db->join('laboratorium', 'jadwal_lab.id_lab = laboratorium.idLab');
+    $this->db->join('matakuliah', 'jadwal_lab.id_mk = matakuliah.id_mk');
+    $this->db->join('daftar_mk', 'matakuliah.kode_mk = daftar_mk.kode_mk');
+    $this->db->join('tahun_ajaran', 'daftar_mk.id_ta = tahun_ajaran.id_ta');
+    $this->db->where('tahun_ajaran.status = "1"');
+    return $this->db->get();
+  }
+
   function jadwalPerLab($id)
   {
     $this->db->select('concat(matakuliah.kode_mk, "\n", matakuliah.nama_mk, "\n", jadwal_lab.kelas, " / ", jadwal_lab.kode_dosen) title, jadwal_lab.jam_masuk start, jadwal_lab.jam_selesai end, jadwal_lab.hari_ke, prodi.color');
@@ -661,5 +673,10 @@ class M_Model extends CI_Model
     $this->db->join('tahun_ajaran', 'daftarasprak.id_ta = tahun_ajaran.id_ta');
     $this->db->order_by('daftarasprak.id_ta', 'desc');
     return $this->db->get();
+  }
+
+  function daftarAsprakFull()
+  {
+    return $this->db->order_by('nama_asprak', 'asc')->get('asprak');
   }
 }

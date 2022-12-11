@@ -140,6 +140,40 @@ class Practicum extends CI_Controller
     }
   }
 
+  public function AsprakSchedule()
+  {
+    $data           = $this->data;
+    $data['title']  = 'Practicum Assistant Schedule | SIM Laboratorium';
+    $data['ta']       = $this->m->taAsprak()->result();
+    $data['periode']  = $this->m->daftarPeriode()->result();
+    $data['mk']       = $this->m->daftarMataKuliah()->result();
+    $data['asprak']   = $this->m->daftarAsprakFull()->result();
+    $data['jadwal_lab'] = $this->m->jadwalLabUntukAsprak()->result();
+    view('laboran/header', $data);
+    view('laboran/practicum_assistant_schedule', $data);
+    view('laboran/footer');
+  }
+
+  public function SaveAsprakSchedule()
+  {
+    set_rules('asprak', 'Asprak', 'required|trim');
+    if (validation_run() == false) {
+      redirect('Asprak/AsprakSchedule');
+    } else {
+      $asprak = input('asprak');
+      foreach (input('jadwal_lab') as $j) {
+        // echo $j . '<br>';
+        $input  = array(
+          'nim_asprak'  => $asprak,
+          'id_jadwal_lab' => $j
+        );
+        $this->m->insertData('jadwal_asprak', $input);
+      }
+      set_flashdata('msg', '<div class="alert alert-success msg">Practicum Assistant Schedule Successfully Saved</div>');
+      redirect('Practicum/AsprakSchedule');
+    }
+  }
+
   public function PresenceAsprak()
   {
     $data           = $this->data;
@@ -219,11 +253,6 @@ class Practicum extends CI_Controller
       $hasil .= $cek->kode_mk . ' ' . $cek->nama_mk;
     }
     echo $hasil;
-  }
-
-  public function AsprakSchedule()
-  {
-    #
   }
 
   public function BAP()
