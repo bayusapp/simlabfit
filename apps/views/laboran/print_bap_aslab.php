@@ -14,6 +14,7 @@
 
     .isi {
       font-size: 9pt;
+      vertical-align: top;
     }
 
     .table-isi {
@@ -33,7 +34,7 @@
 </head>
 
 <body>
-  <table width="100%">
+  <table width="100%" border="1">
     <tr>
       <td width="70%" valign="top" colspan="3">
         <div class="header">
@@ -45,17 +46,19 @@
       <td colspan="3">&nbsp;</td>
     </tr>
     <tr class="isi">
-      <td style="font-weight: bold;" width="8%">NAMA</td>
-      <td>: <?= strtoupper($profil_aslab->namaLengkap) ?></td>
+      <td style="font-weight: bold;" width="12%">NAMA</td>
+      <td width="1%">:</td>
+      <td><?= strtoupper($profil_aslab->namaLengkap) ?></td>
       <td style="text-align: right" width="30%" rowspan="3" valign="top">
         <div align="right">
-          <img src="https://simlabfit.com/assets/img/logo_tass.png" height="52px" style="padding-right: 30px;">
+          <img src="https://simlabfit.com/assets/img/logo_tass.png" height="52px">
         </div>
       </td>
     </tr>
     <tr class="isi">
       <td style="font-weight: bold;">NIM</td>
-      <td>: <?= $profil_aslab->nim ?></td>
+      <td>:</td>
+      <td><?= $profil_aslab->nim ?></td>
     </tr>
     <tr class="isi">
       <td style="font-weight: bold;">NAMA LAB</td>
@@ -75,26 +78,31 @@
         // }
       }
       ?>
-      <td>: <?= strtoupper($laboratorium) ?> LABORATORY</td>
+      <td>:</td>
+      <td><?= strtoupper($laboratorium) ?> LABORATORY</td>
     </tr>
     <tr class="isi">
       <td style="font-weight: bold;">PRODI</td>
-      <td>: <?= strtoupper($prodi->nama_prodi) ?></td>
+      <td>:</td>
+      <td><?= strtoupper($prodi->nama_prodi) ?></td>
     </tr>
     <tr class="isi">
       <td style="font-weight: bold;">BULAN</td>
-      <td>: <?= strtoupper($bulan) ?></td>
+      <td>:</td>
+      <td><?= strtoupper($bulan) ?></td>
       <td style="text-align: right; font-weight: bold;">
         Laboratorium
       </td>
     </tr>
     <tr class="isi">
       <td style="font-weight: bold;">TAHUN</td>
-      <td>: <?= date('Y') ?></td>
+      <td>:</td>
+      <td><?= date('Y') ?></td>
       <td style="text-align: right; font-weight: bold;">Fakultas Ilmu Terapan</td>
     </tr>
     <tr class="isi">
       <td style="font-weight: bold;">TOTAL JAM</td>
+      <td>:</td>
       <?php
       $total = 0;
       foreach ($kegiatan as $k) {
@@ -118,11 +126,12 @@
         $total = $total + $durasi;
       }
       ?>
-      <td>: <?= $total ?></td>
+      <td><?= $total ?></td>
     </tr>
     <tr class="isi">
       <td style="font-weight: bold;">LABORAN</td>
-      <td>: <?= strtoupper($profil_aslab->nama_laboran) ?></td>
+      <td>:</td>
+      <td><?= strtoupper($profil_aslab->nama_laboran) ?></td>
     </tr>
   </table>
   <br>
