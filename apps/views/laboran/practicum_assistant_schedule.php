@@ -132,14 +132,14 @@
                                                   <th width="7%">No</th>
                                                   <th width="13%">NIM</th>
                                                   <th width="25%">Name</th>
-                                                  <th width="15%">Contact</th>
                                                   <th>Courses</th>
+                                                  <th width="15%">Hour</th>
                                                   <th width="10%">Action</th>
                                                 </tr>
                                               </thead>
                                               <tbody>
                                                 <?php
-                                                $data = $this->m->daftarAsprak($t->id_ta, $a->kode_prodi, $m->kode_mk)->result();
+                                                $data = $this->m->daftarJadwalAsprak($t->id_ta, $a->kode_prodi, $m->kode_mk)->result();
                                                 $no = 1;
                                                 foreach ($data as $d) {
                                                 ?>
@@ -147,16 +147,8 @@
                                                     <td><?= $no ?></td>
                                                     <td><?= $d->nim_asprak ?></td>
                                                     <td><?= $d->nama_asprak ?></td>
-                                                    <td>
-                                                      <?php
-                                                      if ($d->kontak_asprak) {
-                                                        echo '<a href="https://wa.me/' . $d->kontak_asprak . '" target=_blank style="color: #676a6c">' . $d->kontak_asprak . '</a>';
-                                                      } else {
-                                                        echo '<center>-</center>';
-                                                      }
-                                                      ?>
-                                                    </td>
                                                     <td><?= $d->kode_mk . ' - ' . $d->nama_mk ?></td>
+                                                    <td><?= $d->masuk . ' - ' . $d->selesai ?></td>
                                                     <td style="text-align: center;">
                                                       <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
                                                       <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>

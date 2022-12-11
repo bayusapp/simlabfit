@@ -679,4 +679,19 @@ class M_Model extends CI_Model
   {
     return $this->db->order_by('nama_asprak', 'asc')->get('asprak');
   }
+
+  function daftarJadwalAsprak($id, $prodi, $kode_mk)
+  {
+    $this->db->select('asprak.nim_asprak, asprak.nama_asprak, matakuliah.kode_mk, matakuliah.nama_mk, substring(jadwal_lab.jam_masuk, 12, 5) masuk, substring(jadwal_lab.jam_selesai, 12, 5) selesai');
+    $this->db->from('jadwal_asprak');
+    $this->db->join('asprak', 'jadwal_asprak.nim_asprak = asprak.nim_asprak');
+    $this->db->join('daftarasprak', 'jadwal_asprak.nim_asprak = daftarasprak.nim_asprak');
+    $this->db->join('jadwal_lab', 'jadwal_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab');
+    $this->db->join('matakuliah', 'jadwal_lab.id_mk = matakuliah.id_mk');
+    $this->db->join('prodi', 'jadwal_lab.id_prodi = prodi.id_prodi');
+    $this->db->where('daftarasprak.id_ta', $id);
+    $this->db->where('prodi.kode_prodi', $prodi);
+    $this->db->where('matakuliah.kode_mk', $kode_mk);
+    return $this->db->get();
+  }
 }
