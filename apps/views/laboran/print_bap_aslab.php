@@ -34,7 +34,7 @@
 </head>
 
 <body>
-  <table width="100%" border="1">
+  <table width="100%">
     <tr>
       <td width="70%" valign="top" colspan="3">
         <div class="header">
