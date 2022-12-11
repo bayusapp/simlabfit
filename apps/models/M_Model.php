@@ -682,7 +682,6 @@ class M_Model extends CI_Model
 
   function daftarJadwalAsprak($id, $prodi, $kode_mk)
   {
-    $this->db->distinct();
     $this->db->select('asprak.nim_asprak, asprak.nama_asprak, matakuliah.kode_mk, matakuliah.nama_mk, substring(jadwal_lab.jam_masuk, 12, 5) masuk, substring(jadwal_lab.jam_selesai, 12, 5) selesai');
     $this->db->from('jadwal_asprak');
     $this->db->join('asprak', 'jadwal_asprak.nim_asprak = asprak.nim_asprak');
