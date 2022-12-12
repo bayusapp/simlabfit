@@ -173,7 +173,7 @@
           <td style="text-align: center;"><?= $k->jamMasuk ?></td>
           <td style="text-align: center;"><?= $k->jamKeluar ?></td>
           <td style="text-align: center;"><?= $durasi ?></td>
-          <td style="padding: 4px;"><?= $k->jurnal ?></td>
+          <td style="padding: 4px;"><?= ucfirst($k->jurnal) ?></td>
           <td></td>
           <td></td>
         </tr>
