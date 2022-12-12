@@ -53,7 +53,7 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title">Print BAP Laboratory Assistant</h4>
                   </div>
-                  <form method="post" action="<?= base_url('LaboratoryAssistant/PrintBAP/' . uri('3')) ?>">
+                  <form method="post" action="<?= base_url('LaboratoryAssistant/PrintBAP/' . uri('3')) ?>" target="_blank">
                     <div class="modal-body">
                       <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6">
