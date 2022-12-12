@@ -621,7 +621,7 @@ class Asprak extends CI_Controller
       );
       $this->db->insert('bapp', $input);
       $ambil_id_bapp = $this->db->get_where('bapp', $input)->row();
-      print_r($ambil_id_bapp);
+      // print_r($ambil_id_bapp);
       foreach (input('asprak') as $a) {
         echo $a . ' ';
         $input = array(
