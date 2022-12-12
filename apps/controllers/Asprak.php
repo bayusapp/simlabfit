@@ -282,24 +282,24 @@ class Asprak extends CI_Controller
         $honor          = $honor + ($honor_asprak / 2);
         $durasi         = $selisih_jam + 0.5;
       }
-      $cek_presensi     = $this->db->where('date_format(asprak_masuk, "%Y-%m-%d") = "' . $tanggal . '"')->where('id_jadwal_asprak', $jadwal_asprak)->where('nim_asprak', userdata('nim'))->get('presensi_asprak')->row();
-      if ($cek_presensi) {
-        set_flashdata('msg', '<div class="alert alert-danger">You already presence on that day</div>');
-        redirect('Asprak/Presence');
-      } else {
-        $input                = array(
-          'asprak_masuk'      => $tanggal . ' ' . $jam_masuk,
-          'asprak_selesai'    => $tanggal . ' ' . $jam_selesai,
-          'durasi'            => $durasi,
-          'honor'             => $honor,
-          'modul'             => $modul_praktikum,
-          'nim_asprak'        => userdata('nim'),
-          'id_jadwal_lab'     => $id_jadwal_lab
-        );
-        $this->m->insertData('presensi_asprak', $input);
-        set_flashdata('msg', '<div class="alert alert-success msg">Your presence successfully saved</div>');
-        redirect('Asprak/Presence');
-      }
+      // $cek_presensi     = $this->db->where('date_format(asprak_masuk, "%Y-%m-%d") = "' . $tanggal . '"')->where('id_jadwal_asprak', $jadwal_asprak)->where('nim_asprak', userdata('nim'))->get('presensi_asprak')->row();
+      // if ($cek_presensi) {
+      //   set_flashdata('msg', '<div class="alert alert-danger">You already presence on that day</div>');
+      //   redirect('Asprak/Presence');
+      // } else {
+      $input                = array(
+        'asprak_masuk'      => $tanggal . ' ' . $jam_masuk,
+        'asprak_selesai'    => $tanggal . ' ' . $jam_selesai,
+        'durasi'            => $durasi,
+        'honor'             => $honor,
+        'modul'             => $modul_praktikum,
+        'nim_asprak'        => userdata('nim'),
+        'id_jadwal_lab'     => $id_jadwal_lab
+      );
+      $this->m->insertData('presensi_asprak', $input);
+      set_flashdata('msg', '<div class="alert alert-success msg">Your presence successfully saved</div>');
+      redirect('Asprak/Presence');
+      //}
     }
   }
 
