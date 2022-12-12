@@ -176,8 +176,8 @@ class Asprak extends CI_Controller
       $tmp['start']           = $j->start;
       $tmp['end']             = $j->end;
       $tmp['dow']             = $j->hari_ke;
-      $tmp['backgroundColor'] = '#ff6b6b';
-      $tmp['borderColor']     = '#ff6b6b';
+      $tmp['backgroundColor'] = '#1ab394';
+      $tmp['borderColor']     = '#1ab394';
       array_push($hasil, $tmp);
     }
     $data = $this->a->jadwalAsprak(userdata('nim'))->result();
