@@ -623,7 +623,7 @@ class Asprak extends CI_Controller
       $ambil_id_bapp = $this->db->get_where('bapp', $input)->row();
       // print_r($ambil_id_bapp);
       foreach (input('asprak') as $a) {
-        echo $a . ' ';
+        // echo $a . ' ';
         $input = array(
           'nim_asprak'  => $a,
           'id_bapp'     => $ambil_id_bapp->id_bapp
