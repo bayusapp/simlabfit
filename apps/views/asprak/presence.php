@@ -49,13 +49,16 @@
                           <td style="text-align: center;"><?= $d->kode_dosen ?></td>
                           <td><?= $d->modul ?></td>
                           <td style="text-align: center">
-                            <div class="tooltip-demo">
+                            <span class="tooltip-demo">
                               <span data-toggle="modal" data-target="#<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>">
                                 <button class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit your presence">
                                   <i class="fa fa-edit"></i>
                                 </button>
                               </span>
-                            </div>
+                            </span>
+                            <span class="tooltip-demo">
+                              <button type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Remove your presence" onclick="hapus_presensi('<?=substr(sha1($d->id_presensi_asprak), 7, 7)?>')"><i class="fa fa-trash"></i></button>
+                            </span>
                           </td>
                           <div class="modal inmodal fade" id="<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -76,13 +79,13 @@
                                       <div class="col-sm-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                           <label class="font-bold">Start</label>
-                                          <input type="text" class="form-control" value="<?= $d->masuk ?>" readonly>
+                                          <input type="text" class="form-control" value="<?= $d->masuk ?>">
                                         </div>
                                       </div>
                                       <div class="col-sm-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                           <label class="font-bold">Start</label>
-                                          <input type="text" class="form-control" value="<?= $d->selesai ?>" readonly>
+                                          <input type="text" class="form-control" value="<?= $d->selesai ?>">
                                         </div>
                                       </div>
                                     </div>
@@ -96,7 +99,7 @@
                                       <div class="col-sm-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                           <label class="font-bold">Class</label>
-                                          <input type="text" class="form-control" value="<?= $d->kelas ?>" readonly>
+                                          <input type="text" class="form-control" value="<?= $d->kelas ?>">
                                         </div>
                                       </div>
                                       <div class="col-sm-12 col-md-4 col-lg-4">

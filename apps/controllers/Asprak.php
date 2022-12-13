@@ -315,6 +315,29 @@ class Asprak extends CI_Controller
     }
   }
 
+  public function AjaxPresence()
+  {
+    $hasil  = '';
+    $id     = input('id');
+    $cek    = $this->db->where('substring(sha1(id_presensi_asprak), 8, 7) = "' . $id . '"')->get('presensi_asprak')->row();
+    if ($cek == true) {
+      $hasil .= $cek->asprak_masuk;
+    } else {
+      $hasil .= 'kosong';
+    }
+    echo $hasil;
+  }
+
+  public function DeletePresence($id)
+  {
+    if (userdata('login') == 'asprak') {
+      $this->db->where('substring(sha1(id_presensi_asprak), 8, 7) = "' . $id . '"')->delete('presensi_asprak');
+      redirect('Asprak/Presence');
+    } else {
+      redirect('Asprak/Presence');
+    }
+  }
+
   public function BAP()
   {
     set_rules('matapraktikum', 'Courses', 'required|trim');

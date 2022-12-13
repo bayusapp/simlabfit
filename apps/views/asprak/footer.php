@@ -175,6 +175,7 @@ if (uri('2') == 'PracticumAssistant') {
 }
 if (uri('2') == 'Presence') {
 ?>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/sweetalert/sweetalert.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/datatables.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/select2/select2.full.min.js"></script>
@@ -184,6 +185,38 @@ if (uri('2') == 'Presence') {
         $(this).remove();
       });
     }, 3500);
+
+    function hapus_presensi(id) {
+      $.ajax({
+        url: '<?= base_url('Asprak/AjaxPresence') ?>',
+        method: 'post',
+        data: {
+          id: id
+        },
+        success: function(response) {
+          swal({
+            title: 'Are you sure?',
+            text: 'Do you want to delete your presence',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            closeOnConfirm: false
+          }, function() {
+            swal({
+              title: 'Deleted!',
+              text: 'Your presence has been deleted',
+              timer: 1500,
+              type: 'success',
+              showConfirmButton: false
+            }, function() {
+              window.location.href = '<?= base_url('Asprak/DeletePresence/') ?>' + id;
+            });
+          });
+        }
+      });
+    };
 
     $(document).ready(function() {
       $('.dataTables').DataTable({
