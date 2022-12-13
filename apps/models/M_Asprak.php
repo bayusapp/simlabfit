@@ -341,6 +341,9 @@ class M_Asprak extends CI_Model
     $this->db->from('jadwal_lab');
     $this->db->join('laboratorium', 'jadwal_lab.id_lab = laboratorium.idLab');
     $this->db->join('matakuliah', 'jadwal_lab.id_mk = matakuliah.id_mk');
+    $this->db->join('daftar_mk', 'matakuliah.kode_mk = daftar_mk.kode_mk');
+    $this->db->join('tahun_ajaran', 'daftar_mk.id_ta = tahun_ajaran.id_ta');
+    $this->db->where('tahun_ajaran.status = "1"');
     return $this->db->get();
   }
 }
