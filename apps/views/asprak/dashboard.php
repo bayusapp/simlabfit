@@ -10,13 +10,13 @@
         </div>
         <div class="row">
           <div class="col-sm-12 col-md-6 col-lg-6">
-            <?php
-            $jam_sekarang = date('H:i');
-            $org = check_org_ip();
-            if ($org == 'TELKOM UNIVERSITY') {
-              if ($jadwal_asprak == 'true') {
-                if ($tap_masuk == 'belumMasuk') {
-            ?>
+            <!-- <?php
+                  $jam_sekarang = date('H:i');
+                  $org = check_org_ip();
+                  if ($org == 'TELKOM UNIVERSITY') {
+                    if ($jadwal_asprak == 'true') {
+                      if ($tap_masuk == 'belumMasuk') {
+                  ?>
                   <a href="<?= base_url('Asprak/SubmitTapMasuk/' . $cek_jadwal->id_jadwal_asprak . '/' . $cek_jadwal->id_jadwal_lab) ?>">
                     <div class="widget style1 navy-bg">
                       <div class="row">
@@ -31,7 +31,7 @@
                     </div>
                   </a>
                 <?php
-                } elseif ($tap_masuk == 'sudahMasuk' && $tap_keluar == 'belumKeluar') {
+                      } elseif ($tap_masuk == 'sudahMasuk' && $tap_keluar == 'belumKeluar') {
                 ?>
                   <a href="<?= base_url('Asprak/SubmitTapKeluar/' . $cek_jadwal->id_jadwal_asprak . '/' . $cek_jadwal->id_jadwal_lab) ?>">
                     <div class="widget style1 navy-bg">
@@ -47,7 +47,7 @@
                     </div>
                   </a>
                 <?php
-                } elseif ($tap_masuk == 'sudahMasuk' && $tap_keluar == 'sudahKeluar') {
+                      } elseif ($tap_masuk == 'sudahMasuk' && $tap_keluar == 'sudahKeluar') {
                 ?>
                   <div class="widget style1 red-bg">
                     <div class="row">
@@ -61,10 +61,10 @@
                     </div>
                   </div>
                 <?php
-                }
+                      }
                 ?>
               <?php
-              } elseif ($jadwal_asprak == 'false') {
+                    } elseif ($jadwal_asprak == 'false') {
               ?>
                 <a href="<?= base_url('Asprak/Schedule') ?>">
                   <div class="widget style1 red-bg">
@@ -80,8 +80,8 @@
                   </div>
                 </a>
               <?php
-              }
-            } else {
+                    }
+                  } else {
               ?>
               <div class="widget style1 red-bg">
                 <div class="row">
@@ -95,8 +95,21 @@
                 </div>
               </div>
             <?php
-            }
-            ?>
+                  }
+            ?> -->
+            <a href="<?= base_url('Asprak/AddPresence') ?>">
+              <div class="widget style1 navy-bg">
+                <div class="row">
+                  <div class="col-sm-2">
+                    <i class="fa fa-calendar fa-3x"></i>
+                  </div>
+                  <div class="col-sm-10 text-right">
+                    <span>You Can Add Presence in Menu</span>
+                    <h4 class="font-bold">Presence</h4>
+                  </div>
+                </div>
+              </div>
+            </a>
           </div>
           <div class="col-sm-12 col-md-6 col-lg-6">
             <div class="widget style1 white-bg">

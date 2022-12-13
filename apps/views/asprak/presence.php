@@ -14,6 +14,9 @@
               echo flashdata('msg');
             }
             ?>
+            <a href="<?= base_url('Asprak/AddPresence') ?>">
+              <button class="btn btn-sm btn-primary" style="margin-bottom: 10px;"><i class="fa fa-plus"></i> Add Presence</button>
+            </a>
             <div class="ibox">
               <div class="ibox-content">
                 <div class="table-responsive">
@@ -59,7 +62,7 @@
                               <div class="modal-content">
                                 <div class="modal-header">
                                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                  <h4 class="modal-title">Edit Presence <?= substr(sha1($d->id_presensi_asprak), 7, 7) ?></h4>
+                                  <h4 class="modal-title">Edit Presence</h4>
                                 </div>
                                 <form action="<?= base_url('Asprak/EditPresence/' . substr(sha1($d->id_presensi_asprak), 7, 7)) ?>" method="post">
                                   <div class="modal-body">
