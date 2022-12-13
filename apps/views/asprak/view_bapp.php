@@ -221,15 +221,21 @@
           <td>
             <?php
             $koor = $this->a->ambilKoorBAPP($data->kode_mk)->row();
-            if ($koor->ttd_asprak == null) {
-              $ttd_koor = '<br><br><br><br><br>';
+            if ($koor) {
+              if ($koor->ttd_asprak == null) {
+                $ttd_koor = '<br><br><br><br><br>';
+              } else {
+                $ttd_koor = '<img src="' . base_url($koor->ttd_asprak) . '" style="max-height: 80px">';
+              }
+              $koor = $koor->nama_asprak;
             } else {
-              $ttd_koor = '<img src="' . base_url($koor->ttd_asprak) . '" style="max-height: 80px">';
+              $ttd_koor = '<br><br><br><br><br>';
+              $koor     = '(&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;)';
             }
             ?>
             <span style="font-weight: bold;">Koordinator Asprak</span>
             <?= $ttd_koor ?><br>
-            <?= $koor->nama_asprak ?>
+            <?= $koor ?>
           </td>
         </tr>
       </table>
