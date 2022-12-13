@@ -235,12 +235,6 @@ class Asprak extends CI_Controller
 
   public function AddPresence()
   {
-    // $target = '2020-05-20';
-    // if (date('Y-m-d') <= $target) {
-    // $tanggal = '2020-05-22';
-    // $jam_awal = '14:00';
-    // $jam_selesai = '17:00';
-    // if (date('Y-m-d') == $tanggal && (date('H:i') >= $jam_awal && date('H:i') <= $jam_selesai)) {
     set_rules('jadwal_asprak', 'Schedule', 'required|trim');
     set_rules('tgl_asprak', 'Date', 'required|trim');
     set_rules('jam_masuk', 'Start', 'required|trim');
@@ -249,18 +243,18 @@ class Asprak extends CI_Controller
     if (validation_run() == false) {
       $data           = $this->data;
       $data['title']  = 'Add Presence | SIM Laboratorium';
-      $data['jadwal'] = $this->a->jadwalPresensiAsprak(userdata('nim'))->result();
+      // $data['jadwal'] = $this->a->jadwalPresensiAsprak(userdata('nim'))->result();
+      $data['jadwal'] = $this->a->jadwalKuliah()->result();
       view('asprak/header', $data);
       view('asprak/add_presence', $data);
       view('asprak/footer');
     } else {
       $honor_asprak     = $this->db->get('tarif')->row()->tarif_honor;
-      $jadwal_asprak    = input('jadwal_asprak');
+      $id_jadwal_lab    = input('jadwal_asprak');
       $tgl_asprak       = input('tgl_asprak');
       $jam_masuk        = input('jam_masuk');
       $jam_selesai      = input('jam_selesai');
       $modul_praktikum  = input('modul_praktikum');
-      // $link_youtube     = input('link_youtube');
       $tmp              = explode('/', $tgl_asprak);
       $urut_tanggal     = array($tmp[2], $tmp[0], $tmp[1]);
       $tanggal          = implode('-', $urut_tanggal);
@@ -293,52 +287,20 @@ class Asprak extends CI_Controller
         set_flashdata('msg', '<div class="alert alert-danger">You already presence on that day</div>');
         redirect('Asprak/Presence');
       } else {
-        $nama_hari        = date('l', strtotime($tanggal));
-        $id_jadwal_lab    = $this->db->get_where('jadwal_asprak', array('id_jadwal_asprak' => $jadwal_asprak))->row()->id_jadwal_lab;
-        $cek_jadwal_hari  = $this->db->select('hari_ke')->from('jadwal_lab')->where('id_jadwal_lab', $id_jadwal_lab)->get()->row()->hari_ke;
-        $cek_jam_masuk    = $this->db->select('date_format(jam_masuk, "%H:%i") masuk')->from('jadwal_lab')->where('id_jadwal_lab', $id_jadwal_lab)->get()->row()->masuk;
-        $cek_jam_selesai  = $this->db->select('date_format(jam_selesai, "%H:%i") selesai')->from('jadwal_lab')->where('id_jadwal_lab', $id_jadwal_lab)->get()->row()->selesai;
-        if ($nama_hari != hariInggris($cek_jadwal_hari) || $jam_masuk < $cek_jam_masuk || $jam_selesai > $cek_jam_selesai) {
-          echo 'Your presence is not according to the day of practicum or start time before the schedule or end time exceeded the schedule';
-          set_flashdata('msg', '<div class="alert alert-danger">Your presence is not according to the day of practicum or start time before the schedule or end time exceeded the schedule</div>');
-          redirect('Asprak/AddPresence');
-        }
         $input                = array(
           'asprak_masuk'      => $tanggal . ' ' . $jam_masuk,
           'asprak_selesai'    => $tanggal . ' ' . $jam_selesai,
           'durasi'            => $durasi,
           'honor'             => $honor,
           'modul'             => $modul_praktikum,
-          // 'video'             => $link_youtube,
-          'approve_absen'     => '1',
-          'id_jadwal_asprak'  => $jadwal_asprak,
           'nim_asprak'        => userdata('nim'),
           'id_jadwal_lab'     => $id_jadwal_lab
         );
-        $screenshot               = rand(10, 99) . '-' . str_replace(' ', '_', $_FILES['screenshot_praktikum']['name']);
-        $config['upload_path']    = 'assets/screenshot/';
-        $config['allowed_types']  = 'jpeg|jpg|png|gif';
-        $config['max_size']       = 1024 * 100;
-        $config['file_name']      = $screenshot;
-        $this->load->library('upload', $config);
-        if ($this->upload->do_upload('screenshot_praktikum')) {
-          $input['screenshot']     = $config['upload_path'] . '' . $screenshot;
-        }
-        if (!empty($_FILES['video_praktikum'])) {
-          $target_folder  = 'assets/video/';
-          $nama_file      = rand(10, 99) . '-' . str_replace(' ', '_', $_FILES['video_praktikum']['name']);
-          $upload_file    = $target_folder . $nama_file;
-          $input['video'] = $upload_file;
-          move_uploaded_file($_FILES['video_praktikum']['tmp_name'], $upload_file);
-        }
         $this->m->insertData('presensi_asprak', $input);
         set_flashdata('msg', '<div class="alert alert-success msg">Your presence successfully saved</div>');
         redirect('Asprak/Presence');
       }
     }
-    // } else {
-    //   redirect('Asprak/Presence');
-    // }
   }
 
   public function EditPresence($id)
@@ -444,7 +406,7 @@ class Asprak extends CI_Controller
     $namaBulan                  = $bulan_indo[$tmp[1]];
     $ambil_mk                   = $this->db->select('matakuliah.id_mk, matakuliah.kode_mk, matakuliah.nama_mk, prodi.strata, prodi.kode_prodi, prodi.nama_prodi')->from('daftar_mk')->join('prodi', 'daftar_mk.kode_prodi = prodi.kode_prodi')->join('matakuliah', 'daftar_mk.kode_mk = matakuliah.kode_mk')->where('daftar_mk.id_daftar_mk', $id_daftar_mk)->get()->row();
     $id_mk                      = $ambil_mk->id_mk;
-    $durasi                     = $this->db->select('sum(presensi_asprak.durasi) durasi')->from('presensi_asprak')->join('jadwal_asprak', 'presensi_asprak.id_jadwal_asprak = jadwal_asprak.id_jadwal_asprak')->join('jadwal_lab', 'jadwal_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk')->get()->row();
+    $durasi                     = $this->db->select('sum(presensi_asprak.durasi) durasi')->from('presensi_asprak')->join('jadwal_lab', 'presensi_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk')->get()->row();
     $kode_mk                    = $ambil_mk->kode_mk;
     $koordinator_mk             = $this->db->select('dosen.nama_dosen, dosen.ttd_dosen')->from('daftar_mk')->join('dosen', 'daftar_mk.koordinator_mk = dosen.id_dosen')->where('daftar_mk.kode_mk', $kode_mk)->get()->row();
     $output                     = '<table width="100%">
@@ -499,7 +461,7 @@ class Asprak extends CI_Controller
                                       <td width="10%">Tanda Tangan Dosen</td>
                                     </tr>';
     if ($bulan != '') {
-      $ambil_bap  = $this->db->select('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") tanggal, date_format(presensi_asprak.asprak_masuk, "%H:%i") jam_masuk, date_format(presensi_asprak.asprak_selesai, "%H:%i") jam_selesai, presensi_asprak.durasi, presensi_asprak.modul, jadwal_lab.kelas')->from('presensi_asprak')->join('jadwal_asprak', 'presensi_asprak.id_jadwal_asprak = jadwal_asprak.id_jadwal_asprak')->join('jadwal_lab', 'jadwal_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk', 'asc')->get()->result();
+      $ambil_bap  = $this->db->select('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") tanggal, date_format(presensi_asprak.asprak_masuk, "%H:%i") jam_masuk, date_format(presensi_asprak.asprak_selesai, "%H:%i") jam_selesai, presensi_asprak.durasi, presensi_asprak.modul, jadwal_lab.kelas')->from('presensi_asprak')->join('jadwal_lab', 'presensi_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk', 'asc')->get()->result();
     }
     $ttd          = $this->db->get_where('asprak', array('nim_asprak' => $nim_asprak))->row()->ttd_asprak;
     foreach ($ambil_bap as $a) {
@@ -559,9 +521,9 @@ class Asprak extends CI_Controller
     $ambil_mk                   = $this->db->select('matakuliah.id_mk, matakuliah.kode_mk, matakuliah.nama_mk, prodi.strata, prodi.kode_prodi, prodi.nama_prodi')->from('daftar_mk')->join('prodi', 'daftar_mk.kode_prodi = prodi.kode_prodi')->join('matakuliah', 'daftar_mk.kode_mk = matakuliah.kode_mk')->where('daftar_mk.id_daftar_mk', $id_daftar_mk)->get()->row();
     $data['ambil_mk']           = $ambil_mk;
     $id_mk                      = $ambil_mk->id_mk;
-    $data['durasi']             = $this->db->select('sum(presensi_asprak.durasi) durasi')->from('presensi_asprak')->join('jadwal_asprak', 'presensi_asprak.id_jadwal_asprak = jadwal_asprak.id_jadwal_asprak')->join('jadwal_lab', 'jadwal_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk')->get()->row();
+    $data['durasi']             = $this->db->select('sum(presensi_asprak.durasi) durasi')->from('presensi_asprak')->join('jadwal_lab', 'presensi_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk')->get()->row();
     if ($bulan != '') {
-      $data['ambil_bap']  = $this->db->select('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") tanggal, date_format(presensi_asprak.asprak_masuk, "%H:%i") jam_masuk, date_format(presensi_asprak.asprak_selesai, "%H:%i") jam_selesai, presensi_asprak.durasi, presensi_asprak.modul, jadwal_lab.kelas')->from('presensi_asprak')->join('jadwal_asprak', 'presensi_asprak.id_jadwal_asprak = jadwal_asprak.id_jadwal_asprak')->join('jadwal_lab', 'jadwal_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk', 'asc')->get()->result();
+      $data['ambil_bap']  = $this->db->select('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") tanggal, date_format(presensi_asprak.asprak_masuk, "%H:%i") jam_masuk, date_format(presensi_asprak.asprak_selesai, "%H:%i") jam_selesai, presensi_asprak.durasi, presensi_asprak.modul, jadwal_lab.kelas')->from('presensi_asprak')->join('jadwal_lab', 'presensi_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk', 'asc')->get()->result();
     }
     $data['ttd']          = $this->db->get_where('asprak', array('nim_asprak' => $nim_asprak))->row()->ttd_asprak;
     view('asprak/bap_print', $data);

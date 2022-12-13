@@ -334,4 +334,13 @@ class M_Asprak extends CI_Model
     $this->db->where('daftarasprak.posisi = "1"');
     return $this->db->get();
   }
+
+  function jadwalKuliah()
+  {
+    $this->db->select('jadwal_lab.id_jadwal_lab, substring(jadwal_lab.jam_masuk, 12, 5) masuk, substring(jadwal_lab.jam_selesai, 12, 5) selesai, jadwal_lab.kelas, jadwal_lab.kode_dosen, jadwal_lab.hari_ke, laboratorium.kodeRuang, matakuliah.kode_mk, matakuliah.nama_mk');
+    $this->db->from('jadwal_lab');
+    $this->db->join('laboratorium', 'jadwal_lab.id_lab = laboratorium.idLab');
+    $this->db->join('matakuliah', 'jadwal_lab.id_mk = matakuliah.id_mk');
+    return $this->db->get();
+  }
 }

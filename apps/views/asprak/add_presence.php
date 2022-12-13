@@ -23,7 +23,7 @@
                           <?php
                           foreach ($jadwal as $j) {
                           ?>
-                            <option value="<?= $j->id_jadwal_asprak ?>"><?= hariInggris($j->hari_ke) . ' ' . $j->masuk . ' - ' . $j->selesai . ', ' . $j->kode_mk . ' - ' . $j->nama_mk ?></option>
+                            <option value="<?= $j->id_jadwal_lab ?>"><?= hariInggris($j->hari_ke) . ' ' . $j->masuk . ' - ' . $j->selesai . ', ' . $j->kode_mk . ' - ' . $j->nama_mk . ' | ' . $j->kode_dosen ?></option>
                           <?php
                           }
                           ?>
