@@ -9,18 +9,18 @@
 
     .header {
       font-weight: bold;
-      font-size: 11pt;
+      font-size: 10pt;
     }
 
     .isi {
-      font-size: 9pt;
+      font-size: 8pt;
       vertical-align: top;
     }
 
     .table-isi {
       border-collapse: collapse;
       border: 1px solid black;
-      font-size: 9pt;
+      font-size: 8pt;
     }
 
     .thead-isi {
