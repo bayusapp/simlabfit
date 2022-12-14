@@ -1,7 +1,8 @@
 <html>
 
 <head>
-  <title>Surat Perjanjian Asprak</title>
+  <title><?=$title?></title>
+  <link rel="shortcut icon" type="image/png" href="<?= base_url('assets/img/favicon.png') ?>" />
   <!-- Normalize or reset CSS with your favorite library -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
   <!-- Load paper.css for happy printing -->

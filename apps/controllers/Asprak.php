@@ -700,7 +700,7 @@ class Asprak extends CI_Controller
     // set_rules('tmp_asprak', 'asprak', 'required|trim');
     if (validation_run() == false) {
       $data           = $this->data;
-      $data['title']  = 'Add BAPP | SIM Laboratorium';
+      $data['title']  = 'Edit BAPP | SIM Laboratorium';
       $data['prodi']  = $this->a->daftarProdi()->result();
       $data['dosen']  = $this->a->daftarDosen()->result();
       $data['mk']     = $this->a->daftarMK()->result();
@@ -786,6 +786,7 @@ class Asprak extends CI_Controller
     $id = uri('3');
     if ($id == true) {
       if ($this->a->detailBAPP($id)->row()) {
+        $data['title']  = 'View BAPP | SIM Laboratorium';
         $data['data'] = $this->a->detailBAPP($id)->row();
         view('asprak/view_bapp', $data);
       } else {
