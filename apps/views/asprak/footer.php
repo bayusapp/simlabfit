@@ -211,7 +211,14 @@ if (uri('2') == 'Presence') {
               type: 'success',
               showConfirmButton: false
             }, function() {
-              window.location.href = '<?= base_url('Asprak/DeletePresence/') ?>' + id;
+              $.ajax({
+                url: '<?= base_url('Asprak/DeletePresence') ?>',
+                method: 'post',
+                data: {
+                  id: id
+                },
+              });
+              window.location.href = '<?= base_url('Asprak/Presence') ?>';
             });
           });
         }

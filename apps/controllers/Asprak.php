@@ -333,11 +333,17 @@ class Asprak extends CI_Controller
     echo $hasil;
   }
 
-  public function DeletePresence($id)
+  public function DeletePresence()
   {
     if (userdata('login') == 'asprak') {
-      $this->db->where('substring(sha1(id_presensi_asprak), 8, 7) = "' . $id . '"')->delete('presensi_asprak');
-      redirect('Asprak/Presence');
+      set_rules('id', 'ID', 'required|trim');
+      if (validation_run() == false) {
+        redirect('Asprak/Presence');
+      } else {
+        $id = input('id');
+        $this->db->where('substring(sha1(id_presensi_asprak), 8, 7) = "' . $id . '"')->delete('presensi_asprak');
+        // redirect('Asprak/Presence');
+      }
     } else {
       redirect('Asprak/Presence');
     }
@@ -775,11 +781,16 @@ class Asprak extends CI_Controller
     }
   }
 
-  public function ViewBAPP($id)
+  public function ViewBAPP()
   {
-    if ($this->a->detailBAPP($id)->row()) {
-      $data['data'] = $this->a->detailBAPP($id)->row();
-      view('asprak/view_bapp', $data);
+    $id = uri('3');
+    if ($id == true) {
+      if ($this->a->detailBAPP($id)->row()) {
+        $data['data'] = $this->a->detailBAPP($id)->row();
+        view('asprak/view_bapp', $data);
+      } else {
+        redirect('Asprak/BAPP');
+      }
     } else {
       redirect('Asprak/BAPP');
     }
