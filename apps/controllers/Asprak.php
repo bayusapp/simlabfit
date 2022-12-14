@@ -235,71 +235,76 @@ class Asprak extends CI_Controller
 
   public function AddPresence()
   {
-    set_rules('jadwal_asprak', 'Schedule', 'required|trim');
-    set_rules('tgl_asprak', 'Date', 'required|trim');
-    set_rules('jam_masuk', 'Start', 'required|trim');
-    set_rules('jam_selesai', 'End', 'required|trim');
-    set_rules('modul_praktikum', 'Practicum Modul', 'required|trim');
-    if (validation_run() == false) {
-      $data           = $this->data;
-      $data['title']  = 'Add Presence | SIM Laboratorium';
-      // $data['jadwal'] = $this->a->jadwalPresensiAsprak(userdata('nim'))->result();
-      $data['jadwal'] = $this->a->jadwalKuliah()->result();
-      view('asprak/header', $data);
-      view('asprak/add_presence', $data);
-      view('asprak/footer');
-    } else {
-      $honor_asprak     = $this->db->get('tarif')->row()->tarif_honor;
-      $id_jadwal_lab    = input('jadwal_asprak');
-      $tgl_asprak       = input('tgl_asprak');
-      $jam_masuk        = input('jam_masuk');
-      $jam_selesai      = input('jam_selesai');
-      $modul_praktikum  = input('modul_praktikum');
-      $tmp              = explode('/', $tgl_asprak);
-      $urut_tanggal     = array($tmp[2], $tmp[0], $tmp[1]);
-      $tanggal          = implode('-', $urut_tanggal);
-      $tmp              = explode(':', $jam_masuk);
-      $jam_masuk_       = ($tmp[0] * 3600) + ($tmp[1] * 60);
-      $tmp              = explode(':', $jam_selesai);
-      $jam_selesai_     = ($tmp[0] * 3600) + ($tmp[1] * 60);
-      $selisih          = $jam_selesai_ - $jam_masuk_;
-      $hitung_durasi    = $selisih / 3600;
-      $hitung_durasi    = explode('.', $hitung_durasi);
-      $selisih_jam      = $hitung_durasi[0];
-      $selisih_menit    = ($selisih % 3600) / 60;
-      $honor            = $honor_asprak * $selisih_jam;
-      $durasi           = $selisih_jam;
-      if ($selisih_menit >= 20 && $selisih_menit <= 30) {
-        $honor          = $honor + ($honor_asprak / 2);
-        $durasi         = $selisih_jam + 0.5;
-      } elseif ($selisih_menit >= 40 && $selisih_menit <= 59) {
-        $honor          = $honor + $honor_asprak;
-        $durasi         = $selisih_jam + 1;
-      } elseif ($selisih_menit >= 1 && $selisih_menit < 20) {
-        $honor          = $honor;
-        $durasi         = $selisih_jam;
-      } elseif ($selisih_menit > 30 && $selisih_menit < 40) {
-        $honor          = $honor + ($honor_asprak / 2);
-        $durasi         = $selisih_jam + 0.5;
+    $org = check_org_ip();
+    if ($org == 'TELKOM UNIVERSITY') {
+      set_rules('jadwal_asprak', 'Schedule', 'required|trim');
+      set_rules('tgl_asprak', 'Date', 'required|trim');
+      set_rules('jam_masuk', 'Start', 'required|trim');
+      set_rules('jam_selesai', 'End', 'required|trim');
+      set_rules('modul_praktikum', 'Practicum Modul', 'required|trim');
+      if (validation_run() == false) {
+        $data           = $this->data;
+        $data['title']  = 'Add Presence | SIM Laboratorium';
+        // $data['jadwal'] = $this->a->jadwalPresensiAsprak(userdata('nim'))->result();
+        $data['jadwal'] = $this->a->jadwalKuliah()->result();
+        view('asprak/header', $data);
+        view('asprak/add_presence', $data);
+        view('asprak/footer');
+      } else {
+        $honor_asprak     = $this->db->get('tarif')->row()->tarif_honor;
+        $id_jadwal_lab    = input('jadwal_asprak');
+        $tgl_asprak       = input('tgl_asprak');
+        $jam_masuk        = input('jam_masuk');
+        $jam_selesai      = input('jam_selesai');
+        $modul_praktikum  = input('modul_praktikum');
+        $tmp              = explode('/', $tgl_asprak);
+        $urut_tanggal     = array($tmp[2], $tmp[0], $tmp[1]);
+        $tanggal          = implode('-', $urut_tanggal);
+        $tmp              = explode(':', $jam_masuk);
+        $jam_masuk_       = ($tmp[0] * 3600) + ($tmp[1] * 60);
+        $tmp              = explode(':', $jam_selesai);
+        $jam_selesai_     = ($tmp[0] * 3600) + ($tmp[1] * 60);
+        $selisih          = $jam_selesai_ - $jam_masuk_;
+        $hitung_durasi    = $selisih / 3600;
+        $hitung_durasi    = explode('.', $hitung_durasi);
+        $selisih_jam      = $hitung_durasi[0];
+        $selisih_menit    = ($selisih % 3600) / 60;
+        $honor            = $honor_asprak * $selisih_jam;
+        $durasi           = $selisih_jam;
+        if ($selisih_menit >= 20 && $selisih_menit <= 30) {
+          $honor          = $honor + ($honor_asprak / 2);
+          $durasi         = $selisih_jam + 0.5;
+        } elseif ($selisih_menit >= 40 && $selisih_menit <= 59) {
+          $honor          = $honor + $honor_asprak;
+          $durasi         = $selisih_jam + 1;
+        } elseif ($selisih_menit >= 1 && $selisih_menit < 20) {
+          $honor          = $honor;
+          $durasi         = $selisih_jam;
+        } elseif ($selisih_menit > 30 && $selisih_menit < 40) {
+          $honor          = $honor + ($honor_asprak / 2);
+          $durasi         = $selisih_jam + 0.5;
+        }
+        // $cek_presensi     = $this->db->where('date_format(asprak_masuk, "%Y-%m-%d") = "' . $tanggal . '"')->where('id_jadwal_asprak', $jadwal_asprak)->where('nim_asprak', userdata('nim'))->get('presensi_asprak')->row();
+        // if ($cek_presensi) {
+        //   set_flashdata('msg', '<div class="alert alert-danger">You already presence on that day</div>');
+        //   redirect('Asprak/Presence');
+        // } else {
+        $input                = array(
+          'asprak_masuk'      => $tanggal . ' ' . $jam_masuk,
+          'asprak_selesai'    => $tanggal . ' ' . $jam_selesai,
+          'durasi'            => $durasi,
+          'honor'             => $honor,
+          'modul'             => $modul_praktikum,
+          'nim_asprak'        => userdata('nim'),
+          'id_jadwal_lab'     => $id_jadwal_lab
+        );
+        $this->m->insertData('presensi_asprak', $input);
+        set_flashdata('msg', '<div class="alert alert-success msg">Your presence successfully saved</div>');
+        redirect('Asprak/Presence');
+        //}
       }
-      // $cek_presensi     = $this->db->where('date_format(asprak_masuk, "%Y-%m-%d") = "' . $tanggal . '"')->where('id_jadwal_asprak', $jadwal_asprak)->where('nim_asprak', userdata('nim'))->get('presensi_asprak')->row();
-      // if ($cek_presensi) {
-      //   set_flashdata('msg', '<div class="alert alert-danger">You already presence on that day</div>');
-      //   redirect('Asprak/Presence');
-      // } else {
-      $input                = array(
-        'asprak_masuk'      => $tanggal . ' ' . $jam_masuk,
-        'asprak_selesai'    => $tanggal . ' ' . $jam_selesai,
-        'durasi'            => $durasi,
-        'honor'             => $honor,
-        'modul'             => $modul_praktikum,
-        'nim_asprak'        => userdata('nim'),
-        'id_jadwal_lab'     => $id_jadwal_lab
-      );
-      $this->m->insertData('presensi_asprak', $input);
-      set_flashdata('msg', '<div class="alert alert-success msg">Your presence successfully saved</div>');
-      redirect('Asprak/Presence');
-      //}
+    } else {
+      redirect('Asprak/Dashboard');
     }
   }
 

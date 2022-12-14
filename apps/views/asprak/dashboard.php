@@ -97,19 +97,40 @@
             <?php
                   }
             ?> -->
-            <a href="<?= base_url('Asprak/AddPresence') ?>">
-              <div class="widget style1 navy-bg">
+            <?php
+            $org = check_org_ip();
+            if ($org == 'TELKOM UNIVERSITY') {
+            ?>
+              <a href="<?= base_url('Asprak/AddPresence') ?>">
+                <div class="widget style1 navy-bg">
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <i class="fa fa-calendar fa-3x"></i>
+                    </div>
+                    <div class="col-sm-10 text-right">
+                      <span>You Can Add Presence in Menu</span>
+                      <h4 class="font-bold">Presence</h4>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            <?php
+            } else {
+            ?>
+              <div class="widget style1 red-bg">
                 <div class="row">
                   <div class="col-sm-2">
-                    <i class="fa fa-calendar fa-3x"></i>
+                    <i class="fa fa-ban fa-3x"></i>
                   </div>
                   <div class="col-sm-10 text-right">
-                    <span>You Can Add Presence in Menu</span>
-                    <h4 class="font-bold">Presence</h4>
+                    <span>You are not connected to TUNE Network</span>
+                    <h4 class="font-bold">Please Connect to TUNE Network</h4>
                   </div>
                 </div>
               </div>
-            </a>
+            <?php
+            }
+            ?>
           </div>
           <div class="col-sm-12 col-md-6 col-lg-6">
             <div class="widget style1 white-bg">

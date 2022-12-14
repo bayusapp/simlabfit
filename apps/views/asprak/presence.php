@@ -13,10 +13,15 @@
             if (flashdata('msg')) {
               echo flashdata('msg');
             }
+            $org = check_org_ip();
+            if ($org == 'TELKOM UNIVERSITY') {
             ?>
-            <a href="<?= base_url('Asprak/AddPresence') ?>">
-              <button class="btn btn-sm btn-primary" style="margin-bottom: 10px;"><i class="fa fa-plus"></i> Add Presence</button>
-            </a>
+              <a href="<?= base_url('Asprak/AddPresence') ?>">
+                <button class="btn btn-sm btn-primary" style="margin-bottom: 10px;"><i class="fa fa-plus"></i> Add Presence</button>
+              </a>
+            <?php
+            }
+            ?>
             <div class="ibox">
               <div class="ibox-content">
                 <div class="table-responsive">
@@ -57,7 +62,7 @@
                               </span>
                             </span>
                             <span class="tooltip-demo">
-                              <button type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Remove your presence" onclick="hapus_presensi('<?=substr(sha1($d->id_presensi_asprak), 7, 7)?>')"><i class="fa fa-trash"></i></button>
+                              <button type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Remove your presence" onclick="hapus_presensi('<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>')"><i class="fa fa-trash"></i></button>
                             </span>
                           </td>
                           <div class="modal inmodal fade" id="<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>" tabindex="-1" role="dialog" aria-hidden="true">
