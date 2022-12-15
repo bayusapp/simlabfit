@@ -362,6 +362,7 @@ if (uri('2') == 'BAP') {
 }
 if (uri('2') == 'BAPP') {
 ?>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/sweetalert/sweetalert.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/datatables.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
   <script>
@@ -371,16 +372,51 @@ if (uri('2') == 'BAPP') {
       });
     }, 3500);
 
+    function hapus_bapp(id) {
+      $.ajax({
+        url: '<?= base_url('Asprak/AjaxBAPP') ?>',
+        method: 'post',
+        data: {
+          id: id
+        },
+        success: function(response) {
+          swal({
+            title: 'Are you sure?',
+            text: 'Do you want to delete your BAPP',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            closeOnConfirm: false
+          }, function() {
+            swal({
+              title: 'Deleted!',
+              text: 'Your BAPP has been deleted',
+              timer: 1500,
+              type: 'success',
+              showConfirmButton: false
+            }, function() {
+              $.ajax({
+                url: '<?= base_url('Asprak/DeleteBAPP') ?>',
+                method: 'post',
+                data: {
+                  id: id
+                },
+              });
+              window.location.href = '<?= base_url('Asprak/BAPP') ?>';
+            });
+          });
+        }
+      });
+    }
+
     $(document).ready(function() {
       $('.dataTables').DataTable({
         pageLength: 10,
         responsive: true,
         dom: '<"html5buttons"B>lTfgitp',
         buttons: []
-      });
-
-      $(".ta").select2({
-        placeholder: "Select Year"
       });
     });
   </script>

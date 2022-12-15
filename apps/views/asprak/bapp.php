@@ -48,13 +48,14 @@
                           <td><?= $b->nama_mk ?></td>
                           <td><?= $b->kode_dosen ?></td>
                           <td><?= $b->modul ?></td>
-                          <td>
+                          <td style="text-align: center;">
                             <a href="<?= base_url('Asprak/ViewBAPP/' . $id_bapp) ?>" target="_blank">
                               <button class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
                             </a>
                             <a href="<?= base_url('Asprak/EditBAPP/' . $id_bapp) ?>">
                               <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
                             </a>
+                            <button class="btn btn-sm btn-danger" onclick="hapus_bapp('<?=$id_bapp?>')"><i class="fa fa-trash"></i></button>
                           </td>
                         </tr>
                       <?php
