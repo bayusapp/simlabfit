@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
 class Asprak extends CI_Controller
 {
 
@@ -794,6 +793,37 @@ class Asprak extends CI_Controller
       }
     } else {
       redirect('Asprak/BAPP');
+    }
+  }
+
+  public function AjaxBAPP()
+  {
+    $hasil  = '';
+    $id     = input('id');
+    $cek    = $this->db->where('substring(sha1(id_bapp), 8, 5) = "' . $id . '"')->get('bapp')->row();
+    if ($cek == true) {
+      $hasil .= $cek->id_bapp;
+    } else {
+      $hasil .= 'kosong';
+    }
+    echo $hasil;
+  }
+
+  public function DeleteBAPP()
+  {
+    set_rules('id', 'id', 'required|trim');
+    if (validation_run() == false) {
+      redirect('Asprak/BAPP');
+    } else {
+      $id = input('id');
+      $cek_bapp = $this->db->where('substring(sha1(id_bapp), 8, 5) = "' . $id . '"')->get('bapp')->row();
+      if ($cek_bapp) {
+        $this->db->where('substring(sha1(id_bapp), 8, 5) = "' . $id . '"')->delete('bapp');
+        $this->db->where('id_bapp', $cek_bapp->id_bapp)->delete('bapp_asprak');
+        redirect('Asprak/BAPP');
+      } else {
+        redirect('Asprak/BAPP');
+      }
     }
   }
 
