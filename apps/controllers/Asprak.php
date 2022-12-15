@@ -589,7 +589,6 @@ class Asprak extends CI_Controller
     // set_rules('jam_pulang', 'Jam Pulang', 'required|trim');
     // set_rules('nim_km', 'NIM KM', 'required|trim');
     // set_rules('nama_km', 'Nama KM', 'required|trim');
-    // set_rules('tmp_asprak', 'asprak', 'required|trim');
     if (validation_run() == false) {
       $data           = $this->data;
       $data['title']  = 'Add BAPP | SIM Laboratorium';
@@ -628,7 +627,11 @@ class Asprak extends CI_Controller
       $convert            = substr(sha1(date('Y-m-d H:i:s')), 5, 9);
       $file_name          = $nim_km . '_' . $convert;
       $save_file          = 'assets/signature/km/' . $file_name . '.png';
-      file_put_contents($save_file, $image_data);
+      if ($image_data) {
+        file_put_contents($save_file, $image_data);
+      } else {
+        $save_file = null;
+      }
       if ($dosen_hadir == 0) {
         $jam_datang = null;
         $jam_pulang = null;
@@ -654,9 +657,7 @@ class Asprak extends CI_Controller
       );
       $this->db->insert('bapp', $input);
       $ambil_id_bapp = $this->db->get_where('bapp', $input)->row();
-      // print_r($ambil_id_bapp);
       foreach (input('asprak') as $a) {
-        // echo $a . ' ';
         $input = array(
           'nim_asprak'  => $a,
           'id_bapp'     => $ambil_id_bapp->id_bapp
@@ -696,7 +697,6 @@ class Asprak extends CI_Controller
     // set_rules('jam_pulang', 'Jam Pulang', 'required|trim');
     // set_rules('nim_km', 'NIM KM', 'required|trim');
     // set_rules('nama_km', 'Nama KM', 'required|trim');
-    // set_rules('tmp_asprak', 'asprak', 'required|trim');
     if (validation_run() == false) {
       $data           = $this->data;
       $data['title']  = 'Edit BAPP | SIM Laboratorium';
