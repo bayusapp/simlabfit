@@ -274,7 +274,6 @@ class Auth extends CI_Controller
     } else {
       $nip_laboran    = input('nip_laboran');
       $username_user  = input('username_user');
-      $email_user     = input('email_user');
       $password_user  = sha1(input('password_user'));
       $cek_nip        = $this->db->get_where('laboran', array('nip_laboran' => $nip_laboran))->row();
       $cek_akun       = $this->db->get_where('users', array('id_laboran' => $nip_laboran))->row();
@@ -283,30 +282,16 @@ class Auth extends CI_Controller
           set_flashdata('msg', '<div class="alert alert-danger msg">NIP already used to create account. You can login with your username and password.</div>');
           redirect();
         } else {
-
           $input          = array(
             'username'    => $username_user,
             'password'    => $password_user,
-            'id_laboran'  => $nip_laboran,
+            'id_laboran'  => $cek_nip->id_laboran,
             'jenisAkses'  => 'laboran',
             'jabatan'     => 'Staff Laboratory',
-            'status'      => '2'
+            'status'      => '1'
           );
           $this->auth->insertData('users', $input);
-          $input  = array('email_laboran' => $email_user);
-          $this->db->where('nip_laboran', $nip_laboran)->update('laboran', $input);
-          $token  = base64_encode(random_bytes(32));
-          $this->email_konfirm_akun($cek_nip->nama_laboran, $email_user, $username_user, $token);
-          $waktu  = date('Y-m-d H:i:s');
-          $input  = array(
-            'email'             => $email_user,
-            'username'          => $username_user,
-            'nama_user'         => $cek_nip->nama_laboran,
-            'token'             => $token,
-            'tanggal_pengajuan' => $waktu
-          );
-          $this->auth->insertData('forgot_password', $input);
-          set_flashdata('msg', '<div class="alert alert-success">Thank you for register. Please check your inbox/spam to active your account</div>');
+          set_flashdata('msg', '<div class="alert alert-success">Thank you for register. Now you can login using your account.</div>');
           redirect();
         }
       } else {

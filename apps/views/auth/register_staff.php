@@ -49,9 +49,6 @@
                 <p id="status_username" style="text-align: center"></p>
               </div>
               <div class="form-group">
-                <input type="text" name="email_user" id="email_user" class="form-control" placeholder="Input Your Email" required>
-              </div>
-              <div class="form-group">
                 <input type="password" name="password_user" id="password_user" class="form-control" placeholder="Password" required>
               </div>
               <button type="submit" name="submit" id="submit" class="btn btn-primary block full-width m-b">Register</button>
