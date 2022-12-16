@@ -108,9 +108,9 @@
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/dataTables/datatables.min.css" rel="stylesheet">
   <?php
   }
-  // if (uri('1') == 'Finance') {
+  if (uri('1') == 'Finance') {
   ?>
-  <!-- <link href="<?= base_url('assets/inspinia/') ?>css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/select2/select2.min.css" rel="stylesheet">
     <style>
       .select2-dropdown {
@@ -129,10 +129,10 @@
       /* .modal-body {
         overflow-x: auto;
       } */
-    </style> -->
-  <!-- <?php
-        // }
-        ?> -->
+    </style>
+  <?php
+  }
+  ?>
 </head>
 
 <body class="fixed-sidebar">
@@ -391,13 +391,13 @@
             <span class="nav-label">Complaint</span>
           </a>
           </li>
-          <!-- <?php
-                if (uri('1') == 'Finance') {
-                  echo '<li class="active">';
-                } else {
-                  echo '<li>';
-                }
-                ?>
+          <?php
+          if (uri('1') == 'Finance') {
+            echo '<li class="active">';
+          } else {
+            echo '<li>';
+          }
+          ?>
           <a href="#">
             <i class="fa fa-money"></i>
             <span class="nav-label">Finance</span>
@@ -414,7 +414,7 @@
             <a href="<?= base_url('Finance/Honor') ?>">Honor</a>
             </li>
           </ul>
-          </li> -->
+          </li>
           <?php
           if (uri('1') == 'Option') {
             echo '<li class="active">';
