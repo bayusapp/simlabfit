@@ -103,7 +103,7 @@
     }
 
     function onLocationError(e) {
-      alert(e.message);
+      // alert(e.message);
     }
 
     map.on('locationfound', onLocationFound);
