@@ -30,19 +30,11 @@
                       ?>
                         <tr>
                           <td><?= $no++ ?></td>
-                          <td><?= tanggalInggris($tanggal) . ' ' . $tmp[1] ?></td>
+                          <td><?= tanggal_inggris($tanggal) . ' ' . $tmp[1] ?></td>
                           <td><?= $d->ip ?></td>
                           <td><?= $d->browser ?></td>
                           <td><?= $d->platform ?></td>
-                          <td>
-                            <?php
-                            if ($d->geolocation == null) {
-                              echo $d->kota . ', ' . $d->provinsi;
-                            } else {
-                              echo '<a href="https://maps.google.com/?q=' . $d->geolocation . '" target="_blank" style="color: #676a6c">' . $d->geolocation . '</a>';
-                            }
-                            ?>
-                          </td>
+                          <td><?= $d->kota . ', ' . $d->provinsi ?></td>
                           <td><?= $d->organisasi ?></td>
                         </tr>
                       <?php

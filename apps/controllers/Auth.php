@@ -43,6 +43,7 @@ class Auth extends CI_Controller
         $lokasi   = preg_replace('/[^0-9-.,]/', '', $lokasi);
         $where    = array('username' => $username, 'password' => $password);
         $cekData  = $this->auth->cekUser($where)->row();
+        $maps     = $this->getAddress($lokasi)->address_components;
         $geolocation  = check_ip();
         if ($cekData) {
           if ($cekData->status == '1') {
@@ -52,8 +53,8 @@ class Auth extends CI_Controller
               'platform'      => $this->agent->platform(),
               'username'      => $username,
               'tanggal_login' => date('Y-m-d H:i:s'),
-              'kota'          => $geolocation['city'],
-              'provinsi'      => $geolocation['region'],
+              'kota'          => $maps[2]->short_name . ', ' . $maps[3]->short_name . ', ' . $maps[4]->short_name,
+              'provinsi'      => $maps[5]->short_name,
               'organisasi'    => check_org_ip(),
               'geolocation'   => $lokasi
             );
@@ -636,6 +637,18 @@ Bandung, 40257';
       }
     }
     return $org;
+  }
+
+  function getAddress($location)
+  {
+    //google map api url
+    $url = "https://maps.google.com/maps/api/geocode/json?latlng=$location&key=AIzaSyA-BQS8hr9-K1fOsgTpvWAFrh-ocZk3DcQ";
+
+    // send http request
+    $geocode = file_get_contents($url);
+    $json = json_decode($geocode);
+    $address = $json->results[0];
+    return $address;
   }
 
   public function Logout()
