@@ -25,7 +25,29 @@
 <script src="<?= base_url('assets/inspinia/') ?>js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="<?= base_url('assets/inspinia/') ?>js/plugins/toastr/toastr.min.js"></script>
 <?php
-if ($cek_aslab->norek == null && $cek_aslab->nama_rekening == null) {
+if ($cek_aslab->bank == null || $cek_aslab->norek == null || $cek_aslab->nama_rekening == null) {
+  $tmp = array();
+  if ($cek_aslab->bank == null) {
+    array_push($tmp, 'bank');
+  }
+  if ($cek_aslab->norek == null) {
+    array_push($tmp, 'bank account number');
+  }
+  if ($cek_aslab->nama_rekening == null) {
+    array_push($tmp, 'bank account name');
+  }
+  $show = '';
+  for ($i = 0; $i < count($tmp); $i++) {
+    if (count($tmp) == 1) {
+      $show .= $tmp[$i];
+    } else {
+      if ($i == count($tmp) - 1) {
+        $show .= 'and ' . $tmp[$i];
+      } else {
+        $show .= $tmp[$i] . ', ';
+      }
+    }
+  }
 ?>
   <script>
     $(function() {
@@ -48,7 +70,7 @@ if ($cek_aslab->norek == null && $cek_aslab->nama_rekening == null) {
       toastr.options.onclick = function() {
         window.location.href = '<?= base_url('Setting') ?>'
       }
-      toastr.warning("Please complete your personal information in Setting Menu");
+      toastr.warning("Please complete your <?= $show ?> in Setting Menu");
     });
   </script>
 <?php
@@ -342,6 +364,77 @@ if (uri('1') == 'Finance') {
         document.getElementById('tampil_surat_kuasa').style.display = 'none';
       }
     }
+  </script>
+<?php
+}
+if (uri('1') == 'Setting') {
+?>
+  <script src="<?= base_url('assets/inspinia/') ?>js/html2canvas.js"></script>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/digital-signature/numeric-1.2.6.min.js"></script>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/digital-signature/bezier.js"></script>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/digital-signature/jquery.signaturepad.js"></script>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/digital-signature/json2.min.js"></script>
+  <script src="<?= base_url('assets/inspinia/') ?>js/plugins/jasny/jasny-bootstrap.min.js"></script>
+  <script>
+    function norek(event) {
+      var angka = (event.which) ? event.which : event.keyCode
+      if (angka != 46 && angka > 31 && (angka < 48 || angka > 57))
+        return false;
+      return true;
+    }
+
+    function opsi_ttd() {
+      if (document.getElementById('draw').checked) {
+        document.getElementById('tampil_field_draw').style.display = 'block';
+        document.getElementById('tampil_field_upload').style.display = 'none';
+      } else {
+        document.getElementById('tampil_field_draw').style.display = 'none';
+        document.getElementById('tampil_field_upload').style.display = 'block';
+      }
+    }
+
+    $(document).ready(function() {
+      $('.custom-file-input').on('change', function() {
+        let fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+      });
+
+      $(".nama_bank").select2({
+        placeholder: "Select a Bank Name",
+      });
+
+      $('#signArea').signaturePad({
+        drawOnly: true,
+        drawBezierCurves: true,
+        lineTop: 90
+      });
+
+      $("#btnClearSign").click(function(e) {
+        $('#signArea').signaturePad().clearCanvas();
+      });
+    });
+
+    $("#btnSaveSign").click(function(e) {
+      html2canvas([document.getElementById('sign-pad')], {
+        onrendered: function(canvas) {
+          var canvas_img_data = canvas.toDataURL('image/png');
+          var img_data = canvas_img_data.replace(/^data:image\/(png|jpg);base64,/, "");
+          var nim_asprak = document.getElementById('nim_asprak').value;
+          $.ajax({
+            url: '<?= base_url('Asprak/SaveSignature') ?>',
+            data: {
+              img_data: img_data,
+              nim_asprak: nim_asprak
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function(response) {
+              window.location.href = "<?= base_url('Asprak/SaveSign') ?>";
+            }
+          });
+        }
+      });
+    });
   </script>
 <?php
 }

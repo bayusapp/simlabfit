@@ -23,6 +23,25 @@
   <link href="<?= base_url('assets/inspinia/') ?>css/plugins/toastr/toastr.min.css" rel="stylesheet">
   <link href="<?= base_url('assets/inspinia/') ?>css/animate.css" rel="stylesheet">
   <link href="<?= base_url('assets/inspinia/') ?>css/style.css" rel="stylesheet">
+  <?php
+  if (uri('1') == 'Setting') {
+  ?>
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/digital-signature/jquery.signaturepad.css" rel="stylesheet">
+    <style>
+      #signArea {
+        width: 304px;
+      }
+
+      .tag-ingo {
+        font-family: cursive;
+        font-size: 12px;
+        text-align: left;
+        font-style: oblique;
+      }
+    </style>
+  <?php
+  }
+  ?>
   <style>
     .select2-dropdown {
       z-index: 10060 !important;
