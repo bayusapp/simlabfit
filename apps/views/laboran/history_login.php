@@ -34,7 +34,15 @@
                           <td><?= $d->ip ?></td>
                           <td><?= $d->browser ?></td>
                           <td><?= $d->platform ?></td>
-                          <td><?= $d->kota . ', ' . $d->provinsi ?></td>
+                          <td>
+                            <?php
+                            if ($d->geolocation == null) {
+                              echo $d->kota . ', ' . $d->provinsi;
+                            } else {
+                              echo '<a href="https://maps.google.com/?q=' . $d->geolocation . '" target="_blank" style="color: #676a6c">' . $d->geolocation . '</a>';
+                            }
+                            ?>
+                          </td>
                           <td><?= $d->organisasi ?></td>
                         </tr>
                       <?php

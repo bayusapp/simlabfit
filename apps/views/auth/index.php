@@ -12,6 +12,7 @@
   <link href="<?= base_url('assets/inspinia/') ?>font-awesome/css/font-awesome.css" rel="stylesheet">
   <link href="<?= base_url('assets/inspinia/') ?>css/animate.css" rel="stylesheet">
   <link href="<?= base_url('assets/inspinia/') ?>css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
   <style>
     body {
       background: url('<?= base_url("assets/img/") ?>IMG_1602.jpg') no-repeat center center fixed;
@@ -42,6 +43,11 @@
             <div class="form-group">
               <input type="password" name="password_user" id="password_user" class="form-control" placeholder="Password" required>
             </div>
+            <div class="form-group">
+              <input type="text" name="location" id="location" class="form-control" readonly hidden>
+            </div>
+
+            <div id='map' hidden></div>
             <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
           </form>
           <a href="<?= base_url('Auth/ForgotPassword') ?>"><small>Forgot Password?</small></a>
@@ -77,12 +83,36 @@
     </div>
   </div>
   <script src="<?= base_url('assets/inspinia/') ?>js/jquery-3.1.1.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
   <script>
     window.setTimeout(function() {
       $(".msg").fadeTo(500, 0).slideUp(500, function() {
         $(this).remove();
       });
     }, 3500);
+
+    const map = L.map('map').fitWorld();
+
+    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    function onLocationFound(e) {
+      document.getElementById('location').value = e.latlng;
+    }
+
+    function onLocationError(e) {
+      alert(e.message);
+    }
+
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
+
+    map.locate({
+      setView: true,
+      maxZoom: 16
+    });
   </script>
 </body>
 
