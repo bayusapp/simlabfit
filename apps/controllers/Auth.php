@@ -586,18 +586,6 @@ Bandung, 40257';
     view('auth/email_reset_password', $data);
   }
 
-  private function cekIP()
-  {
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-      $ip_address = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else {
-      $ip_address = $_SERVER['REMOTE_ADDR'];
-    }
-    return $ip_address;
-  }
-
   private function cekUserAgent()
   {
     if ($this->agent->is_browser()) {
@@ -610,27 +598,6 @@ Bandung, 40257';
       $agent = 'Unidentified User Agent';
     }
     return $agent;
-  }
-
-  private function geolocation($ip)
-  {
-    $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
-    $details = json_decode($json, true);
-    return $details;
-  }
-
-  private function splitOrg($organization)
-  {
-    $tmp = explode(' ', $organization);
-    $org  = '';
-    for ($i = 1; $i < count($tmp); $i++) {
-      if ($i < (count($tmp) - 1)) {
-        $org .= $tmp[$i] . ' ';
-      } else {
-        $org .= $tmp[$i];
-      }
-    }
-    return $org;
   }
 
   function getAddress($location)
