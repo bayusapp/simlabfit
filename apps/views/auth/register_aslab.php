@@ -113,6 +113,12 @@
         return false;
       }
     }
+
+    $('#username_user').on('input', function(e) {
+      $(this).val(function(i, v) {
+        return v.replace(/[^\a-z]/gi, '');
+      });
+    });
   </script>
 </body>
 
