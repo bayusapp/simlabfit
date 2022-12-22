@@ -38,7 +38,7 @@
           </center>
           <form class="m-t" role="form" method="post" action="<?= base_url('Auth') ?>">
             <div class="form-group">
-              <input type="text" name="username_user" id="username_user" class="form-control" placeholder="Username" onkeypress="return /[a-zA-Z]/i.test(event.key)" required>
+              <input type="text" name="username_user" id="username_user" class="form-control" placeholder="Username" required>
             </div>
             <div class="form-group">
               <input type="password" name="password_user" id="password_user" class="form-control" placeholder="Password" required>
@@ -54,7 +54,7 @@
           <p class="text-muted text-center">
             <small>Do not have an account? Register Here as:</small>
           </p>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-sm-12 col-md-6" style="margin-bottom: 5px">
               <a href="#" style="color: inherit">
                 <button class="btn btn-sm btn-white btn-block">Staff Laboratory</button>
@@ -65,7 +65,7 @@
                 <button class="btn btn-sm btn-white btn-block">Lecturer</button>
               </a>
             </div>
-          </div>
+          </div> -->
           <div class="row">
             <div class="col-sm-12 col-md-6" style="margin-bottom: 5px">
               <a href="<?= base_url('Auth/RegisterAslab') ?>" style="color: inherit">
@@ -85,6 +85,12 @@
   <script src="<?= base_url('assets/inspinia/') ?>js/jquery-3.1.1.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
   <script>
+    $('#username_user').on('input', function(e) {
+      $(this).val(function(i, v) {
+        return v.replace(/[^\a-z]/gi, '');
+      });
+    });
+
     window.setTimeout(function() {
       $(".msg").fadeTo(500, 0).slideUp(500, function() {
         $(this).remove();
@@ -104,6 +110,7 @@
 
     function onLocationError(e) {
       // alert(e.message);
+      console.log(e.message);
     }
 
     map.on('locationfound', onLocationFound);
