@@ -33,8 +33,6 @@
   <?php
   }
   ?>
-  <link href="<?= base_url('assets/inspinia/') ?>css/animate.css" rel="stylesheet">
-  <link href="<?= base_url('assets/inspinia/') ?>css/style.css" rel="stylesheet">
   <?php
   if (uri('2') == 'PracticumAssistant') {
   ?>
@@ -46,6 +44,22 @@
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <style>
+      .popover {
+        z-index: 999999;
+      }
+
+      .select2-dropdown {
+        z-index: 10060 !important;
+        /*1051;*/
+      }
+
+      .select2 {
+        width: 100% !important;
+      }
+    </style>
   <?php
   }
   if (uri('2') == 'AddPresence' || uri('2') == 'EditPresence') {
@@ -58,6 +72,7 @@
   if (uri('2') == 'BAP') {
   ?>
     <link href="<?= base_url('assets/inspinia/') ?>css/plugins/select2/select2.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/inspinia/') ?>css/plugins/datapicker/datepicker3.css" rel="stylesheet">
   <?php
   }
   if (uri('2') == 'BAPP') {
@@ -135,6 +150,8 @@
   <?php
   }
   ?>
+  <link href="<?= base_url('assets/inspinia/') ?>css/animate.css" rel="stylesheet">
+  <link href="<?= base_url('assets/inspinia/') ?>css/style.css" rel="stylesheet">
 </head>
 
 <body class="fixed-sidebar">

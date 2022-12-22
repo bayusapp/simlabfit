@@ -208,6 +208,7 @@ class Asprak extends CI_Controller
       $data           = $this->data;
       $data['title']  = 'Presence | SIM Laboratorium';
       $data['data']   = $this->a->daftarPresensiAsprak(userdata('nim'))->result();
+      $data['jadwal'] = $this->a->jadwalKuliah()->result();
       view('asprak/header', $data);
       view('asprak/presence', $data);
       view('asprak/footer');
@@ -242,13 +243,14 @@ class Asprak extends CI_Controller
       set_rules('jam_selesai', 'End', 'required|trim');
       set_rules('modul_praktikum', 'Practicum Modul', 'required|trim');
       if (validation_run() == false) {
-        $data           = $this->data;
-        $data['title']  = 'Add Presence | SIM Laboratorium';
-        // $data['jadwal'] = $this->a->jadwalPresensiAsprak(userdata('nim'))->result();
-        $data['jadwal'] = $this->a->jadwalKuliah()->result();
-        view('asprak/header', $data);
-        view('asprak/add_presence', $data);
-        view('asprak/footer');
+        // $data           = $this->data;
+        // $data['title']  = 'Add Presence | SIM Laboratorium';
+        // // $data['jadwal'] = $this->a->jadwalPresensiAsprak(userdata('nim'))->result();
+        // $data['jadwal'] = $this->a->jadwalKuliah()->result();
+        // view('asprak/header', $data);
+        // view('asprak/add_presence', $data);
+        // view('asprak/footer');
+        redirect('Asprak/Presence');
       } else {
         $honor_asprak     = $this->db->get('tarif')->row()->tarif_honor;
         $id_jadwal_lab    = input('jadwal_asprak');
@@ -328,6 +330,7 @@ class Asprak extends CI_Controller
       $hasil .= $cek->asprak_masuk;
     } else {
       $hasil .= 'kosong';
+      redirect('Asprak/Presence');
     }
     echo $hasil;
   }
@@ -427,16 +430,23 @@ class Asprak extends CI_Controller
     $nim_asprak                 = userdata('nim');
     $bulan_indo                 = $bulan = array(1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
     $id_daftar_mk               = input('idMK');
-    $ambil                      = input('bulan');
-    $tmp                        = explode("|", $ambil);
-    // if ($ambil == true) {
-    //   if ($tmp[1] == '5') {
-    //     $bulan                  = '"2020-01-01" and "2020-07-01"';
-    //     $namaBulan              = $bulan_indo[$tmp[1]];
-    //   }
-    // }
-    $bulan                      = $tmp[0];
-    $namaBulan                  = $bulan_indo[$tmp[1]];
+    $awal   = input('awal');
+    $akhir  = input('akhir');
+    if ($awal == null || $akhir == null) {
+      $ambil  = "'" . date('Y') . "-12-06' and '" . date('Y', strtotime('+1 years')) . "-01-05'";
+      $angka_bulan = 1;
+    } else {
+      $ambil  = "'" . convert_tanggal($awal) . "' and '" . convert_tanggal($akhir) . "'";
+      $tmp    = explode('-', convert_tanggal($akhir));
+      $angka_bulan  = $tmp[1];
+      if ($angka_bulan < 10) {
+        $pisah = explode('0', $angka_bulan);
+        $angka_bulan = $pisah[1];
+      }
+    }
+    // // '2022-12-06' and '2023-01-05'|1|Januari
+    $bulan                      = $ambil;
+    $namaBulan                  = $bulan_indo[$angka_bulan];
     $ambil_mk                   = $this->db->select('matakuliah.id_mk, matakuliah.kode_mk, matakuliah.nama_mk, prodi.strata, prodi.kode_prodi, prodi.nama_prodi')->from('daftar_mk')->join('prodi', 'daftar_mk.kode_prodi = prodi.kode_prodi')->join('matakuliah', 'daftar_mk.kode_mk = matakuliah.kode_mk')->where('daftar_mk.id_daftar_mk', $id_daftar_mk)->get()->row();
     $id_mk                      = $ambil_mk->id_mk;
     $durasi                     = $this->db->select('sum(presensi_asprak.durasi) durasi')->from('presensi_asprak')->join('jadwal_lab', 'presensi_asprak.id_jadwal_lab = jadwal_lab.id_jadwal_lab')->where('jadwal_lab.id_mk', $id_mk)->where('date_format(presensi_asprak.asprak_masuk, "%Y-%m-%d") between ' . $bulan)->where('presensi_asprak.nim_asprak', $nim_asprak)->order_by('presensi_asprak.asprak_masuk')->get()->row();

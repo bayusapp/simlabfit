@@ -18,7 +18,27 @@
             ?>
               <form method="post" action="<?= base_url('Asprak/PrintBAP') ?>" target="_blank">
                 <div class="row">
-                  <div class="col-md-5 offset-md-1 col-sm-5" style="margin-bottom: 5px">
+                  <div class="col-sm-2 col-md-2 col-lg-2 offset-lg-1">
+                    <div class="form-group" id="date_picker">
+                      <div class="input-group date">
+                        <span class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" name="awal" id="awal" class="form-control" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2 col-md-2 col-lg-2">
+                    <div class="form-group" id="date_picker">
+                      <div class="input-group date">
+                        <span class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                        <input type="text" name="akhir" id="akhir" class="form-control" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-4" style="margin-bottom: 5px">
                     <select name="matapraktikum" id="matapraktikum" class="matapraktikum form-control">
                       <option></option>
                       <?php
@@ -30,7 +50,8 @@
                       ?>
                     </select>
                   </div>
-                  <div class="col-md-3 col-sm-3" style="margin-bottom: 5px">
+                  <input type="hidden" id="base_url" value="<?= base_url() ?>">
+                  <!-- <div class="col-md-3 col-sm-3" style="margin-bottom: 5px">
                     <select name="bulan" id="bulan" class="periode_bap form-control">
                       <option></option>
                       <?php
@@ -56,14 +77,13 @@
                       <option value="'<?= date('Y') ?>-10-06' and '<?= date('Y') ?>-11-05'|11|November">November</option>
                       <option value="'<?= date('Y') ?>-11-06' and '<?= date('Y') ?>-12-05'|12|Desember">December</option>
                     </select>
-                  </div>
+                  </div> -->
                   <div class="col-md-3 col-sm-3">
                     <button class="btn btn-primary btn-sm" type="submit" name="print" id="print"><i class="fa fa-print"></i> Print BAP</button>
                   </div>
                 </div>
               </form>
               <div class="ibox">
-                <input type="text" name="course" id="course" class="form-control" style="display: none;"><input type="text" name="month" id="month" class="form-control" style="display: none;">
                 <div class="ibox-content">
                   <div id="tampil"></div>
                 </div>
