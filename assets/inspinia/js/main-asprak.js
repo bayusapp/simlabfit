@@ -141,7 +141,7 @@ $(document).ready(function () {
   });
 
   $(".matapraktikum").select2({
-    placeholder: "Select Cource"
+    placeholder: "Select Course"
   });
 
   $("#awal").change(function () {
