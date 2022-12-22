@@ -71,7 +71,87 @@
   </div>
   <script src="<?= base_url('assets/inspinia/') ?>js/jquery-3.1.1.min.js"></script>
   <script src="<?= base_url('assets/inspinia/') ?>js/bootstrap.min.js"></script>
-  <script src="<?= base_url('assets/inspinia/') ?>js/main.js"></script>
+  <script>
+    var submit;
+
+    function cekNIM() {
+      var nim = document.getElementById('nim_user').value;
+      if (nim) {
+        $.ajax({
+          url: '<?= base_url() ?>Auth/ajaxCekNIM',
+          type: 'post',
+          data: {
+            nim: nim
+          },
+          success: function(response) {
+            if (response != 'register') {
+              document.getElementById('submit').disabled = false;
+              submit = 'false';
+              $('#status_nim').html('');
+              return true;
+            } else {
+              document.getElementById('submit').disabled = true;
+              submit = 'true';
+              var responnya = 'NIM Already Registered';
+              $('#status_nim').html(responnya);
+              $('#status_nim').css('color', '#ff0004', 'important');
+              return false;
+            }
+          }
+        });
+      }
+    }
+
+    function cekUsername() {
+      var username = document.getElementById('username_user').value;
+      if (username) {
+        $.ajax({
+          url: '<?= base_url() ?>Auth/ajaxCekUsername',
+          type: 'post',
+          data: {
+            username: username
+          },
+          success: function(response) {
+            if (response == 'null') {
+              document.getElementById('submit').disabled = false;
+              $('#status_username').html('');
+              if (submit == 'false') {
+                document.getElementById('submit').disabled = false;
+              } else if (submit == 'true') {
+                document.getElementById('submit').disabled = true;
+              }
+              return true;
+            } else {
+              document.getElementById('submit').disabled = true;
+              $('#status_username').html(response);
+              $('#status_username').css('color', '#ff0004', 'important');
+              if (submit == 'false') {
+                document.getElementById('submit').disabled = false;
+              } else if (submit == 'true') {
+                document.getElementById('submit').disabled = true;
+              }
+              return false;
+            }
+          }
+        });
+      } else {
+        $('#status_username').html('');
+        return false;
+      }
+    }
+
+    $('#nim_user').on('input', function(e) {
+      $(this).val(function(i, v) {
+        return v.replace(/[^\d]/gi, '');
+      });
+    });
+
+    $('#username_user').on('input', function(e) {
+      $(this).val(function(i, v) {
+        return v.replace(/[^\a-z]/gi, '');
+      });
+    });
+  </script>
 </body>
 
 </html>
