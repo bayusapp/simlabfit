@@ -123,7 +123,7 @@ if (last === 'PracticumAssistant' || last === 'Presence' || last === 'BAPP' || l
   });
 }
 
-if (last === 'Presence') {
+if (last === 'Presence' || last === 'AddBAPP') {
   $(document).ready(function () {
     $('#date_picker .input-group.date').datepicker({
       todayBtn: "linked",
@@ -248,7 +248,7 @@ $('#jam_datang, #jam_pulang, #jam_masuk, #jam_selesai').on('input', function (e)
   }
 });
 
-$('#tgl_asprak, #awal, #akhir').on('input', function (e) {
+$('#tgl_asprak, #awal, #akhir, #tanggal').on('input', function (e) {
   $(this).val(function (i, v) {
     return v.replace(/[^\d/]/gi, '');
   });
