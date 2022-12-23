@@ -1,5 +1,9 @@
 var base_url = 'http://localhost/simlabfit/'
 
+var url = window.location.pathname;
+var path = url.split('/');
+var last = path[path.length - 1];
+
 window.setTimeout(function () {
   $(".msg").fadeTo(500, 0).slideUp(500, function () {
     $(this).remove();
@@ -76,150 +80,164 @@ function opsi_kehadiran() {
   }
 }
 
-$(document).ready(function () {
-  var date = new Date();
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
+if (path[path.length - 1] === 'Schedule') {
+  $(document).ready(function () {
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
 
-  $('#calendar').fullCalendar({
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,agendaWeek,agendaDay'
-    },
-    editable: false,
-    droppable: false,
-    contentHeight: 400,
-    eventSources: [base_url + 'Asprak/ajaxJadwal'],
-    eventRender: function (event, element) {
-      $(element).tooltip({
-        title: event.title
-      });
-    },
-    axisFormat: 'H:mm',
-    timeFormat: {
-      agenda: 'H:mm'
-    }
-  });
-
-  $('#calendar').fullCalendar('changeView', 'agendaWeek');
-});
-
-$(document).ready(function () {
-  $('.dataTables').DataTable({
-    pageLength: 10,
-    responsive: true,
-    dom: '<"html5buttons"B>lTfgitp',
-    buttons: []
-  });
-
-  $('#date_picker .input-group.date').datepicker({
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    calendarWeeks: true,
-    autoclose: true
-  });
-
-  $('.clockpicker').clockpicker({
-    autoclose: true
-  });
-
-  $(".jadwal").select2({
-    placeholder: "Select Schedule"
-  });
-});
-
-$(document).ready(function () {
-  $('#date_picker .input-group.date').datepicker({
-    todayBtn: "linked",
-    keyboardNavigation: false,
-    forceParse: false,
-    calendarWeeks: true,
-    autoclose: true
-  });
-
-  $(".matapraktikum").select2({
-    placeholder: "Select Course"
-  });
-
-  $("#awal").change(function () {
-    var idMK = document.getElementById('matapraktikum').value;
-    var awal = $(this).val();
-    var akhir = document.getElementById('akhir').value;
-    if (idMK) {
-      $.ajax({
-        url: base_url + "Asprak/ajaxBAP",
-        method: "POST",
-        data: {
-          awal: awal,
-          akhir: akhir,
-          idMK: idMK
-        },
-        success: function (data) {
-          $('#tampil').html(data);
-        }
-      });
-    }
-  });
-
-  $("#akhir").change(function () {
-    var idMK = document.getElementById('matapraktikum').value;
-    var awal = document.getElementById('awal').value;
-    var akhir = $(this).val();
-    if (idMK) {
-      $.ajax({
-        url: base_url + "Asprak/ajaxBAP",
-        method: "POST",
-        data: {
-          awal: awal,
-          akhir: akhir,
-          idMK: idMK
-        },
-        success: function (data) {
-          $('#tampil').html(data);
-        }
-      });
-    }
-  });
-
-  $("#matapraktikum").change(function () {
-    var idMK = $(this).val();
-    var awal = document.getElementById('awal').value;
-    var akhir = document.getElementById('akhir').value;
-    $.ajax({
-      url: base_url + "Asprak/ajaxBAP",
-      method: "POST",
-      data: {
-        awal: awal,
-        akhir: akhir,
-        idMK: idMK
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
       },
-      success: function (data) {
-        $('#tampil').html(data);
+      editable: false,
+      droppable: false,
+      contentHeight: 400,
+      eventSources: [base_url + 'Asprak/ajaxJadwal'],
+      eventRender: function (event, element) {
+        $(element).tooltip({
+          title: event.title
+        });
+      },
+      axisFormat: 'H:mm',
+      timeFormat: {
+        agenda: 'H:mm'
       }
     });
-  });
 
-  $('.clockpicker').clockpicker();
-
-  $(".prodi").select2({
-    placeholder: "Select Major",
+    $('#calendar').fullCalendar('changeView', 'agendaWeek');
   });
+}
 
-  $(".mk").select2({
-    placeholder: "Select Courses",
+if (last === 'PracticumAssistant' || last === 'Presence' || last === 'BAPP' || last === 'HistoryLogin') {
+  $(document).ready(function () {
+    $('.dataTables').DataTable({
+      pageLength: 10,
+      responsive: true,
+      dom: '<"html5buttons"B>lTfgitp',
+      buttons: []
+    });
   });
+}
 
-  $(".lab").select2({
-    placeholder: "Select Laboratory",
-  });
+if (last === 'Presence') {
+  $(document).ready(function () {
+    $('#date_picker .input-group.date').datepicker({
+      todayBtn: "linked",
+      keyboardNavigation: false,
+      forceParse: false,
+      calendarWeeks: true,
+      autoclose: true
+    });
 
-  $(".dosen").select2({
-    placeholder: "Select Lecturer",
+    $('.clockpicker').clockpicker({
+      autoclose: true
+    });
+
+    $(".jadwal").select2({
+      placeholder: "Select Schedule"
+    });
   });
-});
+}
+
+if (last === 'BAP') {
+  $(document).ready(function () {
+    $('#date_picker .input-group.date').datepicker({
+      todayBtn: "linked",
+      keyboardNavigation: false,
+      forceParse: false,
+      calendarWeeks: true,
+      autoclose: true
+    });
+
+    $(".matapraktikum").select2({
+      placeholder: "Select Course"
+    });
+
+    $("#awal").change(function () {
+      var idMK = document.getElementById('matapraktikum').value;
+      var awal = $(this).val();
+      var akhir = document.getElementById('akhir').value;
+      if (idMK) {
+        $.ajax({
+          url: base_url + "Asprak/ajaxBAP",
+          method: "POST",
+          data: {
+            awal: awal,
+            akhir: akhir,
+            idMK: idMK
+          },
+          success: function (data) {
+            $('#tampil').html(data);
+          }
+        });
+      }
+    });
+
+    $("#akhir").change(function () {
+      var idMK = document.getElementById('matapraktikum').value;
+      var awal = document.getElementById('awal').value;
+      var akhir = $(this).val();
+      if (idMK) {
+        $.ajax({
+          url: base_url + "Asprak/ajaxBAP",
+          method: "POST",
+          data: {
+            awal: awal,
+            akhir: akhir,
+            idMK: idMK
+          },
+          success: function (data) {
+            $('#tampil').html(data);
+          }
+        });
+      }
+    });
+
+    $("#matapraktikum").change(function () {
+      var idMK = $(this).val();
+      var awal = document.getElementById('awal').value;
+      var akhir = document.getElementById('akhir').value;
+      $.ajax({
+        url: base_url + "Asprak/ajaxBAP",
+        method: "POST",
+        data: {
+          awal: awal,
+          akhir: akhir,
+          idMK: idMK
+        },
+        success: function (data) {
+          $('#tampil').html(data);
+        }
+      });
+    });
+  });
+}
+
+if (last === 'AddBAPP') {
+  $(document).ready(function () {
+    $('.clockpicker').clockpicker();
+
+    $(".prodi").select2({
+      placeholder: "Select Major",
+    });
+
+    $(".mk").select2({
+      placeholder: "Select Courses",
+    });
+
+    $(".lab").select2({
+      placeholder: "Select Laboratory",
+    });
+
+    $(".dosen").select2({
+      placeholder: "Select Lecturer",
+    });
+  });
+}
 
 $('#jam_datang, #jam_pulang, #jam_masuk, #jam_selesai').on('input', function (e) {
   $(this).val(function (i, v) {
