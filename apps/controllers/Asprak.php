@@ -556,10 +556,14 @@ class Asprak extends CI_Controller
     $data                       = $this->data;
     $nim_asprak                 = userdata('nim');
     $bulan_indo                 = $bulan = array(1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember');
+    $awal                       = convert_tanggal(input('awal'));
+    $akhir                      = convert_tanggal(input('akhir'));
+    $ambil_periode              = input('akhir');
+    $tmp                        = explode('-', $ambil_periode);
     $id_daftar_mk               = input('matapraktikum');
     $ambil                      = input('bulan');
-    $tmp                        = explode("|", $ambil);
-    $bulan                      = $tmp[0];
+    // $tmp                        = explode("|", $ambil);
+    $bulan                      = "'" . $awal . "' and '" . $akhir . "'";
     $data['nama_bulan']         = $bulan_indo[$tmp[1]];
     $ambil_mk                   = $this->db->select('matakuliah.id_mk, matakuliah.kode_mk, matakuliah.nama_mk, prodi.strata, prodi.kode_prodi, prodi.nama_prodi')->from('daftar_mk')->join('prodi', 'daftar_mk.kode_prodi = prodi.kode_prodi')->join('matakuliah', 'daftar_mk.kode_mk = matakuliah.kode_mk')->where('daftar_mk.id_daftar_mk', $id_daftar_mk)->get()->row();
     $data['ambil_mk']           = $ambil_mk;
