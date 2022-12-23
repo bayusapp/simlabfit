@@ -39,7 +39,7 @@
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-4" style="margin-bottom: 5px">
-                    <select name="matapraktikum" id="matapraktikum" class="matapraktikum form-control">
+                    <select name="matapraktikum" id="matapraktikum" class="matapraktikum form-control" required>
                       <option></option>
                       <?php
                       foreach ($mk as $mk) {
