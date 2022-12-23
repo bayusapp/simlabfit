@@ -243,4 +243,16 @@ $('#jam_datang, #jam_pulang, #jam_masuk, #jam_selesai').on('input', function (e)
   $(this).val(function (i, v) {
     return v.replace(/[^\d:]/gi, '');
   });
+  if ($(this).val().length > 5) {
+    return $(this).val($(this).val().substr(0, 5));
+  }
+});
+
+$('#tgl_asprak, #awal, #akhir').on('input', function (e) {
+  $(this).val(function (i, v) {
+    return v.replace(/[^\d/]/gi, '');
+  });
+  if ($(this).val().length > 10) {
+    return $(this).val($(this).val().substr(0, 10));
+  }
 });
