@@ -37,7 +37,7 @@
                                 <span class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
                                 </span>
-                                <input type="text" name="tgl_asprak" id="tgl_asprak" class="form-control" value="<?= date('m/d/Y') ?>">
+                                <input type="text" name="tgl_asprak" id="tgl_asprak" class="form-control" value="<?= date('m/d/Y') ?>" required>
                               </div>
                             </div>
                           </div>
@@ -45,7 +45,7 @@
                             <div class="form-group">
                               <label class="font-bold">Start</label>
                               <div class="input-group clockpicker" data-autoclose="true">
-                                <input type="text" name="jam_masuk" id="jam_masuk" class="form-control">
+                                <input type="text" name="jam_masuk" id="jam_masuk" class="form-control" placeholder="09:30" required>
                                 <span class="input-group-addon">
                                   <span class="fa fa-clock-o"></span>
                                 </span>
@@ -56,7 +56,7 @@
                             <div class="form-group">
                               <label class="font-bold">End</label>
                               <div class="input-group clockpicker" data-autoclose="true">
-                                <input type="text" name="jam_selesai" id="jam_selesai" class="form-control">
+                                <input type="text" name="jam_selesai" id="jam_selesai" class="form-control" placeholder="09:30" required>
                                 <span class="input-group-addon">
                                   <span class="fa fa-clock-o"></span>
                                 </span>
@@ -68,7 +68,7 @@
                           <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
                               <label class="font-bold">Schedule</label>
-                              <select name="jadwal_asprak" id="jadwal_asprak" class="form-control jadwal">
+                              <select name="jadwal_asprak" id="jadwal_asprak" class="form-control jadwal" required>
                                 <option></option>
                                 <?php
                                 foreach ($jadwal as $j) {
@@ -83,7 +83,7 @@
                           <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
                               <label class="font-bold">Practicum Modul</label>
-                              <input type="text" name="modul_praktikum" id="modul_praktikum" class="form-control">
+                              <input type="text" name="modul_praktikum" id="modul_praktikum" class="form-control" placeholder="Modul 1: Pengenalan Algoritma" required>
                             </div>
                           </div>
                         </div>
@@ -142,7 +142,7 @@
                               <button type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Remove your presence" onclick="hapus_presensi('<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>')"><i class="fa fa-trash"></i></button>
                             </span>
                           </td>
-                          <div class="modal inmodal fade" id="<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                          <div class="modal inmodal fade" id="<?= substr(sha1($d->id_presensi_asprak), 7, 7) ?>" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -153,16 +153,21 @@
                                   <div class="modal-body">
                                     <div class="row">
                                       <div class="col-sm-12 col-md-4 col-lg-4">
-                                        <div class="form-group">
+                                        <div class="form-group" id="date_picker">
                                           <label class="font-bold">Date</label>
-                                          <input type="text" class="form-control" value="<?= tanggal_inggris_pendek($d->tanggal) ?>" readonly>
+                                          <div class="input-group date">
+                                            <span class="input-group-addon">
+                                              <i class="fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" name="tgl_asprak" id="tgl_asprak" class="form-control" value="<?= convert_datepicker($d->tanggal) ?>" required>
+                                          </div>
                                         </div>
                                       </div>
                                       <div class="col-sm-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                           <label class="font-bold">Start</label>
                                           <div class="input-group clockpicker" data-autoclose="true">
-                                            <input type="text" name="jam_masuk" id="jam_masuk" class="form-control" value="<?= $d->masuk ?>">
+                                            <input type="text" value="<?= $d->masuk ?>" name="jam_masuk" id="jam_masuk" class="form-control" placeholder="09:30" required>
                                             <span class="input-group-addon">
                                               <span class="fa fa-clock-o"></span>
                                             </span>
@@ -173,7 +178,7 @@
                                         <div class="form-group">
                                           <label class="font-bold">End</label>
                                           <div class="input-group clockpicker" data-autoclose="true">
-                                            <input type="text" name="jam_selesai" id="jam_selesai" class="form-control" value="<?= $d->selesai ?>">
+                                            <input type="text" name="jam_selesai" id="jam_selesai" class="form-control" value="<?= $d->selesai ?>" placeholder="09:30" required>
                                             <span class="input-group-addon">
                                               <span class="fa fa-clock-o"></span>
                                             </span>
@@ -182,37 +187,38 @@
                                       </div>
                                     </div>
                                     <div class="row">
-                                      <div class="col-sm-12 col-md-4 col-lg-4">
+                                      <div class="col-sm-12 col-md-6 col-lg-6">
                                         <div class="form-group">
-                                          <label class="font-bold">Courses</label>
-                                          <input type="text" class="form-control" value="<?= $d->nama_mk ?>" readonly>
+                                          <label class="font-bold">Schedule</label>
+                                          <select name="jadwal_asprak" id="jadwal_asprak" class="form-control jadwal" required>
+                                            <option></option>
+                                            <?php
+                                            foreach ($jadwal as $j) {
+                                              if ($j->id_jadwal_lab == $d->id_jadwal_lab) {
+                                            ?>
+                                                <option value="<?= $j->id_jadwal_lab ?>" selected><?= hariInggris($j->hari_ke) . ' ' . $j->masuk . ' - ' . $j->selesai . ' | ' . $j->kodeRuang . ' | ' . $j->kode_mk . ' - ' . $j->nama_mk . ' | ' . $j->kode_dosen ?></option>
+                                              <?php
+                                              } else {
+                                              ?>
+                                                <option value="<?= $j->id_jadwal_lab ?>"><?= hariInggris($j->hari_ke) . ' ' . $j->masuk . ' - ' . $j->selesai . ' | ' . $j->kodeRuang . ' | ' . $j->kode_mk . ' - ' . $j->nama_mk . ' | ' . $j->kode_dosen ?></option>
+                                            <?php
+                                              }
+                                            }
+                                            ?>
+                                          </select>
                                         </div>
                                       </div>
-                                      <div class="col-sm-12 col-md-4 col-lg-4">
+                                      <div class="col-sm-12 col-md-6 col-lg-6">
                                         <div class="form-group">
-                                          <label class="font-bold">Class</label>
-                                          <input type="text" class="form-control" value="<?= $d->kelas ?>">
-                                        </div>
-                                      </div>
-                                      <div class="col-sm-12 col-md-4 col-lg-4">
-                                        <div class="form-group">
-                                          <label class="font-bold">Lecturer Code</label>
-                                          <input type="text" class="form-control" value="<?= $d->kode_dosen ?>" readonly>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="row">
-                                      <div class="col-sm-12 col-md-12 col-lg-12">
-                                        <div class="form-group">
-                                          <label class="font-bold">Modul</label>
-                                          <input type="text" name="modul" id="modul" class="form-control" value="<?= $d->modul ?>">
+                                          <label class="font-bold">Practicum Modul</label>
+                                          <input type="text" name="modul_praktikum" id="modul_praktikum" class="form-control" value="<?= $d->modul ?>" placeholder="Modul 1: Pengenalan Algoritma" required>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                   </div>
                                 </form>
                               </div>
