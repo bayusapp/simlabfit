@@ -365,6 +365,16 @@ if (!function_exists('convert_bulan_indo')) {
   }
 }
 
+if (!function_exists('convert_tanggal')) {
+  function convert_tanggal($tanggal)
+  {
+    $split_tanggal  = explode('/', $tanggal);
+    $urut_tanggal   = array($split_tanggal[2], $split_tanggal[0], $split_tanggal[1]);
+    $tanggal        = implode('-', $urut_tanggal);
+    return $tanggal;
+  }
+}
+
 if (!function_exists('check_ip')) {
   function check_ip()
   {
