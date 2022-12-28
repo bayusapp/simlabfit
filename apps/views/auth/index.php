@@ -85,11 +85,11 @@
   <script src="<?= base_url('assets/inspinia/') ?>js/jquery-3.1.1.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
   <script>
-    $('#username_user').on('input', function(e) {
-      $(this).val(function(i, v) {
-        return v.replace(/[^\a-z]/gi, '');
-      });
-    });
+    // $('#username_user').on('input', function(e) {
+    //   $(this).val(function(i, v) {
+    //     return v.replace(/[^\a-z]/gi, '');
+    //   });
+    // });
 
     window.setTimeout(function() {
       $(".msg").fadeTo(500, 0).slideUp(500, function() {
