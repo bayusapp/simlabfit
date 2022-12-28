@@ -28,11 +28,11 @@
                   <h2 class="no-margins"><?= $profil_aslab->namaLengkap ?></h2>
                   <h4><?= $profil_aslab->nim ?> | <i class="fa fa-phone-square"></i> <?= $profil_aslab->noTelp ?></h4>
                   <table>
-                    <tr>
+                    <tr style="vertical-align: top;">
                       <td style="padding-right: 20px" width="50%"><small>Aslab in Charge:</small></td>
                       <td><small>Laboran:</small></td>
                     </tr>
-                    <tr>
+                    <tr style="vertical-align: top;">
                       <td style="padding-right: 20px" width="50%"><small><?= $laboratorium ?></small></td>
                       <td><small><?= $profil_aslab->nama_laboran ?></small></td>
                     </tr>
