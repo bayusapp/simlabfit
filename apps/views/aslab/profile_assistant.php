@@ -30,11 +30,11 @@
                   <table>
                     <tr>
                       <td style="padding-right: 20px" width="50%"><small>Aslab in Charge:</small></td>
-                      <td><small>Specialist:</small></td>
+                      <td><small>Laboran:</small></td>
                     </tr>
                     <tr>
                       <td style="padding-right: 20px" width="50%"><small><?= $laboratorium ?></small></td>
-                      <td valign="top"><small><?= $profil_aslab->spesialisAslab ?></small></td>
+                      <td><small><?= $profil_aslab->nama_laboran ?></small></td>
                     </tr>
                   </table>
                 </div>
